@@ -16,11 +16,8 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-    <!-- Step 3 A: Firebase Storage for Gallery Upload -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-    <!-- 🔥 Step 1: Auth Script Joda - Tere hisab se -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <!-- 💳 Razorpay Checkout -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
       #emergencyTickerWrap marquee { scroll-behavior: smooth; }
@@ -105,7 +102,7 @@
     </div>
     <div id="trialBanner" style="display:none; background:linear-gradient(135deg, #001122, #003366); border:2px solid #00aaff; border-radius:12px; padding:10px; margin-bottom:12px; text-align:center; color:#00aaff; font-weight:bold; font-size:13px;">⏰ Aapke Trial me <span id="trialDaysLeft">0</span> din bache hain</div>
     
-    <!-- 🔊 VOICE SPEAKER BUTTON (ADMIN HIDE/SHOW CONTROLLED) -->
+    <!-- 🔊 VOICE SPEAKER BUTTON -->
     <div id="voiceSpeakerBox" style="background:linear-gradient(135deg,#001122,#003344); border:1px solid #00aaff; border-radius:10px; padding:8px; margin-bottom:12px; text-align:center;">
         <button onclick="speakMandiRates()" style="background:#00aaff; color:#000; border:none; padding:8px 16px; border-radius:20px; font-weight:bold; font-size:12px; width:100%; cursor:pointer;">🔊 Aaj Ke Mandi Bhav Bol Kar Suniye</button>
     </div>
@@ -121,7 +118,6 @@
             <div id="weatherTemp" style="font-size:18px; color:#fff; font-weight:bold;">--°C</div>
             <div id="weatherDesc" style="font-size:10px; color:#00ffcc;">Loading...</div>
             <div id="weatherEffect" style="font-size:20px; margin-top:2px;">☀️</div>
-            <!-- 🌾 WEATHER ADVISORY + LAST UPDATE TIME -->
             <div id="weatherAdvisoryBox" style="margin-top:8px; background: linear-gradient(135deg, rgba(0,255,204,0.12), rgba(255,215,0,0.08)); border: 1px dashed #ffd700; border-radius:6px; padding:6px; font-size:10px; color:#fff; text-align:left;">
                 <div style="font-weight:bold; color:#ffd700; font-size:10px; margin-bottom:2px;">🌾 MAUSAM SALAH:</div>
                 <div id="weatherAdvisoryText" style="color:#cbd5e1; line-height:1.3;">Mausam load ho raha hai...</div>
@@ -204,7 +200,6 @@
                 </div>
             </div>
             
-            <!-- 🛡️ FRAUD SAFETY CHECKBOX (Fixed ID: safetyTermsCheckCust) -->
             <div style="background:rgba(255,215,0,0.08); border:1px dashed #ffd700; padding:8px; border-radius:6px; margin-top:10px; font-size:10px; color:#ccc; text-align:left;">
                 <label style="display:flex; gap:6px; align-items:flex-start; cursor:pointer;"><input type="checkbox" id="safetyTermsCheckCust" style="margin-top:2px;"><span>Main samjhta hu: <b>KaamDhandha Direct sirf ad dikhane ka platform hai</b>. Kisi bhi fraud ya len-den ke liye Admin zimmedar nahi hai.</span></label>
             </div>
@@ -283,7 +278,6 @@
 <div id="devPanel" class="dev-panel">
         <h3 id="panelHeading">🏪 Dukandar / Business Add Jodein</h3>
 
-        <!-- ✅ ADVANCED ADMIN STATS & FILTER DROPDOWN - FIXED (Hidden by default) -->
         <div id="adminStatsBox" style="display:none; background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:8px; margin-bottom:10px;">
           <div style="font-size:11px;">📊 <b>Admin Stats:</b> Total: <span id="adminTotalCount" style="color:#ffd700;">0</span> | VIP: <span id="adminVipCount" style="color:#00ffcc;">0</span> | Urgent: <span id="adminUrgentCount" style="color:#ff0055;">0</span> | Expired: <span id="adminExpiredCount" style="color:#ff4444;">0</span></div>
           <select id="adminFilterDropdown" onchange="filterAdminAds(this.value)" style="width:100%; background:#000; color:#00ffcc; border:1px solid #00ffcc; padding:7px; border-radius:6px; font-size:12px; margin-top:8px;">
@@ -326,7 +320,6 @@
             <input type="text" id="newPhone" placeholder="WhatsApp Number: 9876543210" style="margin-top:6px;">
         </div>
 
-        <!-- ✅ 3. MULTIPLE PHOTO UPLOAD (3 Photos with Auto Compression < 498 KB) -->
         <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
             <div id="newImageUrlWrapper" style="display:block;">
                 <label style="color:#00ffcc;">Part 6: Photo Link (URL) Paste Karein:</label>
@@ -340,15 +333,12 @@
                 <div id="uploadStatus" style="color:#00ffcc; font-size:12px; display:none; margin-top:4px;">Optimizing photos... ⏳</div>
                 <input type="file" id="newImageFile" accept="image/*" style="display:none;">
             </div>
-        </div>
-
-        <!-- 🛡️ FRAUD SAFETY CHECKBOX (Fixed ID: safetyTermsCheckDev) -->
-        <div style="background:rgba(255,215,0,0.08); border:1px dashed #ffd700; padding:8px; border-radius:6px; margin-bottom:8px; font-size:10px; color:#ccc;">
+    </div>
+    <div style="background:rgba(255,215,0,0.08); border:1px dashed #ffd700; padding:8px; border-radius:6px; margin-bottom:8px; font-size:10px; color:#ccc;">
             <label style="display:flex; gap:6px; align-items:flex-start; cursor:pointer;"><input type="checkbox" id="safetyTermsCheckDev" style="margin-top:2px;"><span>Main samjhta hu: <b>KaamDhandha Direct sirf ad dikhane ka platform hai</b>. Kisi bhi fraud ya len-den ke liye Admin zimmedar nahi hai.</span></label>
         </div>
-        <div id="adminSettingsBox" style="display:none; background:rgba(255,215,0,0.05); border:1px dashed #ffd700; padding:10px; border-radius:6px; margin:10px 0;">
+<div id="adminSettingsBox" style="display:none; background:rgba(255,215,0,0.05); border:1px dashed #ffd700; padding:10px; border-radius:6px; margin:10px 0;">
           
-          <!-- 🎛️ ADMIN LIMITS & VOICE SPEAKER HIDE/SHOW CONTROL -->
           <div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-bottom:10px;">
                 <label style="color:#00ffcc; font-weight:bold;">⚙️ Admin Controls & Limits:</label>
                 <div style="margin-top:6px;">
@@ -365,7 +355,6 @@
                 </div>
           </div>
 
-          <!-- 🖼️ GALLERY ON/OFF TOGGLE (ADMIN) -->
           <div style="background:rgba(0,255,102,0.1); border:1px solid #00ff66; padding:8px; border-radius:6px; margin-bottom:10px;">
                 <label style="color:#00ff66; font-weight:bold;">🖼️ Gallery System Control (Admin):</label>
                 <select id="adminGalleryToggle" style="width:100%; background:#000; color:#fff; border:1px solid #fff; padding:6px; border-radius:4px; margin-top:6px;"><option value="off">❌ Gallery OFF (URL Mode)</option><option value="on">✅ Gallery ON (File Upload)</option></select>
@@ -481,7 +470,7 @@
                 <input type="number" id="customTrialDaysInput" placeholder="jaise: 30 ya 45 din" style="margin-bottom:4px;">
                 <button onclick="saveCustomTrialForListing()" style="background:#ff0055; color:#fff; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:12px;">💾 Save Custom Trial</button>
             </div>
-            <div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-top:10px;">
+<div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-top:10px;">
                 <label style="color:#00ffcc; font-weight:bold;">📞 Direct Call Monetization:</label>
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
                     <input type="checkbox" id="enableCustomerPayCheck" style="width:18px; height:18px; margin:0; cursor:pointer;">
@@ -522,7 +511,7 @@
     <div id="profileList"></div>
     <div id="noResult" class="no-result" style="display: none;">Koi add nahi mila! ❌</div>
     <style>
-        :root { --neon-color: #00ffcc; --neon-glow: rgba(0, 255, 204, 0.4); --bg-color: #050505; --card-bg: #0b0f19; }
+    :root { --neon-color: #00ffcc; --neon-glow: rgba(0, 255, 204, 0.4); --bg-color: #050505; --card-bg: #0b0f19; }
     body { background-color: var(--bg-color); color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 12px; width: 100vw; overflow-x: hidden; box-sizing: border-box; touch-action: pan-x pan-y; *, *::before, *::after { box-sizing: border-box; } }
     h1 { text-align: center; color: var(--neon-color); text-shadow: 0 0 12px var(--neon-color); margin-bottom: 5px; font-size: 22px; }
   .subtitle { text-align: center; color: var(--neon-color); opacity: 0.8; font-size: 13px; margin-bottom: 15px; letter-spacing: 1px; }
@@ -598,7 +587,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
 .report-btn { background: none; border: none; color: #ff4444; font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 4px; display: inline-block; font-weight: bold; }
 </style>
 <script>
-    const firebaseConfig = {
+const firebaseConfig = {
         apiKey: "AIzaSyBYUdDr7ngl99gv8hqt1lJ6rM-grfyLVEc",
         authDomain: "kaamdhandha-database.firebaseapp.com",
         projectId: "kaamdhandha-database",
@@ -639,71 +628,50 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
     let customerPayConfig = JSON.parse(localStorage.getItem("kaamDhandhaCustPayConfig")) || { enabled: false, amount: "₹10", msg: "Direct Call Access Pass" };
     let isCustomerUnlocked = localStorage.getItem("kaamDhandhaCustUnlocked") === "true";
     let pendingCallPhone = "";
-    let recognitionInstance = null;
     const SETTINGS_DOC = db.collection("kaam_settings").doc("global_banner");
 
-    // 🌟 NATURAL HINDI VOICE & UNIVERSAL NUMBER-TO-WORDS CONVERTER
     function convertNumbersToHindiWords(text) {
-        // Regex to find numbers and convert them to proper Hindi words
         return text.replace(/\d+/g, function(match) {
             let num = parseInt(match, 10);
             if (isNaN(num)) return match;
-            
-            if (num < 100) {
-                const units = ["shunya", "ek", "do", "teen", "chaar", "paanch", "chhe", "saat", "aath", "nau", "das", "gyarah", "barah", "terah", "chaudah", "pandraah", "solah", "satrah", "atharah", "unnis", "bees", "ikkis", "baais", "teis", "chaubis", "pachis", "chhabis", "sattais", "atthais", "unatis", "tees", "ikatis", "battis", "tetis", "chautis", "pantis", "chattis", "saintis", "artis", "untalis", "chalis", "ikatis", "bialis", "tetalis", "chawalis", "paintais", "chhiyalis", "saintalis", "adhtalis", "unachaas", "pachaas", "ikavan", "bavan", "trevan", "chauvan", "pachpan", "chhapan", "sattavan", "atthavan", "unsath", "sath", "iksath", "bhasath", "tresath", "chausath", "patsath", "chhiyasath", "satsath", "athsath", "unhattar", "sattar", "ikhattar", "bahattar", "tihattar", "chauhattar", "pachhattar", "chhihattar", "satahattar", "athhattar", "unasi", "assi", "ikasi", "byasi", "tiasi", "chausi", "pachasi", "chhiyasi", "satasi", "athasi", "nawasi", "nabbe", "ikyanbe", "biyanbe", "tranbe", "chaunbe", "pachanbe", "chhiyanbe", "satanbe", "athanbe", "unniyalis"];
-                // Simple lookup for common ones or direct mapping
-                if (num === 10) return "das";
-                if (num === 20) return "bees";
-                if (num === 30) return "tees";
-                if (num === 40) return "chalis";
-                if (num === 50) return "pachaas";
-                if (num === 60) return "saath";
-                if (num === 70) return "sattar";
-                if (num === 80) return "assi";
-                if (num === 90) return "nabbe";
-            }
-            
+            if (num === 10) return "das";
+            if (num === 20) return "bees";
+            if (num === 30) return "tees";
+            if (num === 40) return "chalis";
+            if (num === 50) return "pachaas";
+            if (num === 60) return "saath";
+            if (num === 70) return "sattar";
+            if (num === 80) return "assi";
+            if (num === 90) return "nabbe";
             if (num === 100) return "ek sau";
             if (num === 110) return "ek sau das";
             if (num === 120) return "ek sau bees";
             if (num === 150) return "ek sau pachaas";
             if (num === 200) return "do sau";
-            
-            return match; // Fallback
+            return match;
         });
     }
 
-    // 🔊 FREE NATURAL VOICE SPEAKER (NATURAL HINDI VOICE ENGINE)
     function speakMandiRates() {
         if (!('speechSynthesis' in window)) {
             alert("Aapka browser voice support nahi karta!");
             return;
         }
         window.speechSynthesis.cancel();
-        
         let rawText = `${currentMandiCity} mandi ke taaja rates. `;
         dynamicSabziList.forEach(i => {
             rawText += `${i.name} ka bhav ${i.rate} hai. `;
         });
-
-        // Convert numbers like 30, 110, 50 to Hindi words
         let spokenText = convertNumbersToHindiWords(rawText);
-
         let utterance = new SpeechSynthesisUtterance(spokenText);
-        
-        // Select natural Hindi / Indian voice if available
         let voices = window.speechSynthesis.getVoices();
         let hindiVoice = voices.find(v => v.lang === 'hi-IN' || v.lang.includes('hi') || v.lang.includes('IN'));
-        if (hindiVoice) {
-            utterance.voice = hindiVoice;
-        }
-        
+        if (hindiVoice) { utterance.voice = hindiVoice; }
         utterance.lang = 'hi-IN';
-        utterance.rate = 0.9; // Normal soothing speed
+        utterance.rate = 0.9;
         window.speechSynthesis.speak(utterance);
     }
 
-    // Ensure voices are loaded for browser compatibility
     if ('speechSynthesis' in window) {
         window.speechSynthesis.onvoiceschanged = function() {
             window.speechSynthesis.getVoices();
@@ -712,9 +680,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
 
     function updateVoiceSpeakerVisibility() {
         let box = document.getElementById('voiceSpeakerBox');
-        if(box) {
-            box.style.display = voiceSpeakerVisible ? 'block' : 'none';
-        }
+        if(box) { box.style.display = voiceSpeakerVisible ? 'block' : 'none'; }
     }
 
     function saveAdminAppSettings() {
@@ -730,7 +696,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         alert("✅ Admin Settings Successfully Save Ho Gayi!");
     }
 
-    // 🛡️ SMART ANTI-SPAM REPORT SYSTEM (10 UNIQUE REPORTS -> ADMIN WHATSAPP ALERT)
     function reportAdFraud(adId, adName, adPhone, adLoc) {
         let userIpKey = "reported_" + adId;
         if(localStorage.getItem(userIpKey)) {
@@ -745,10 +710,8 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                         localStorage.setItem(userIpKey, "true");
                         if(reports >= 10) {
                             db.collection("ads").doc(adId).update({ vipTier: 0, pinned: false, location: "[REPORTED & REMOVED]" });
-                            
                             let adminMsg = `🚨 *FRAUD AD ALERT (10 Reports)* 🚨\n\nEk ad par 10 genuine reports aayi hain aur use remove kar diya gaya hai:\n\n🏪 Dukaan: *${adName}*\n📱 Number: *${adPhone}*\n📍 Location: *${adLoc}*\n🆔 Ad ID: *${adId}*`;
                             window.open(`https://wa.me/916264917767?text=${encodeURIComponent(adminMsg)}`, '_blank');
-
                             alert("⚠️ Is ad ko 10 genuine reports milne par automatic remove kar diya gaya hai aur Admin ko WhatsApp alert bhej diya gaya hai.");
                         } else {
                             alert(`✅ Report darj ho gayi (${reports}/10 reports). Shukriya!`);
@@ -763,7 +726,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         let c = phone.replace(/[^0-9]/g,'');
         if(c.length === 12 && c.startsWith('91')) c = c.slice(2);
         if(c.length === 11 && c.startsWith('0')) c = c.slice(1);
-
         if (c.length!== 10) return true;
         let firstDigit = c[0];
         if (!['6', '7', '8', '9'].includes(firstDigit)) return true;
@@ -804,7 +766,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         autoDeleteCheck();
         setInterval(autoDeleteCheck, 60000);
 
-        // 📲 PWA SERVICE WORKER & INSTALL PROMPT REGISTRATION
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
         }
@@ -820,9 +781,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                     installBtn.style.display = 'none';
                     deferredPrompt.prompt();
                     deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        }
                         deferredPrompt = null;
                     });
                 };
@@ -830,71 +788,71 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         });
     };
     function checkMyTrialStatus(){
-      let phoneInput = document.getElementById('trialCheckPhone').value.trim().replace(/[^0-9]/g,'');
-      let resultEl = document.getElementById('trialCheckResult');
-      if(phoneInput.length < 10){
-        alert("Sahi 10 digit number daalo bhai!");
-        return;
-      }
-      resultEl.style.display = 'block';
-      resultEl.innerHTML = "⏳ Check kar raha hu...";
-      let now = Date.now();
-      let cleanInput = phoneInput.slice(-10);
-      let myAds = adsData.filter(ad => {
-        let clean = (ad.phone||'').replace(/[^0-9]/g,'').slice(-10);
-        return clean === cleanInput &&!ad.isCustomer24Hr;
-      });
-      if(myAds.length === 0){
-        resultEl.innerHTML = `❌ <b>${phoneInput}</b> se koi Dukandar Ad nahi mila.<br><span style="color:#aaa; font-size:10px;">Naya ad banane ke liye upar form bharo.</span>`;
-        return;
-      }
-      let html = `<div style="text-align:left;">`;
-      html += `<b>📱 ${phoneInput} - Total ${myAds.length} Ad(s)</b><br><br>`;
-      myAds.forEach((ad, i) => {
-        let created = ad.createdAt || now;
-        let expiry = ad.vipExpiry || 0;
-        let remaining = 0;
-        let status = "";
-        let color = "";
-        let showPayBtn = false;
-        if(expiry && expiry > now){
-            remaining = Math.ceil((expiry - now) / (1000*60*60*24));
-            status = `✅ ${ad.vipTier==2?'PINNED':'VIP'} ACTIVE - ${remaining} din bache`;
-            color = "#ffd700";
-        } else if(expiry && expiry <= now){
-            status = `🔴 EXPIRED - 30 din khatam, ab Normal me hai`;
-            color = "#ff0055";
-            showPayBtn = true;
-        } else if(ad.vipTier == 1 || ad.vipTier == 2 || ad.pinned){
-            status = `✅ VIP/PINNED ACTIVE (Expiry nahi set, renew kar lo)`;
-            color = "#ffd700";
-            showPayBtn = false;
-        } else {
-            let diffDays = Math.floor((now - created) / (1000 * 60 * 60 * 24));
-            let limit = ad.customTrialDays || defaultTrialDays;
-            remaining = Math.ceil(limit - diffDays);
-            if(remaining <= 0){
-                status = `🔴 Trial EXPIRED - ${Math.abs(remaining)} din pehle khatam`;
+        let phoneInput = document.getElementById('trialCheckPhone').value.trim().replace(/[^0-9]/g,'');
+        let resultEl = document.getElementById('trialCheckResult');
+        if(phoneInput.length < 10){
+            alert("Sahi 10 digit number daalo bhai!");
+            return;
+        }
+        resultEl.style.display = 'block';
+        resultEl.innerHTML = "⏳ Check kar raha hu...";
+        let now = Date.now();
+        let cleanInput = phoneInput.slice(-10);
+        let myAds = adsData.filter(ad => {
+            let clean = (ad.phone||'').replace(/[^0-9]/g,'').slice(-10);
+            return clean === cleanInput &&!ad.isCustomer24Hr;
+        });
+        if(myAds.length === 0){
+            resultEl.innerHTML = `❌ <b>${phoneInput}</b> se koi Dukandar Ad nahi mila.<br><span style="color:#aaa; font-size:10px;">Naya ad banane ke liye upar form bharo.</span>`;
+            return;
+        }
+        let html = `<div style="text-align:left;">`;
+        html += `<b>📱 ${phoneInput} - Total ${myAds.length} Ad(s)</b><br><br>`;
+        myAds.forEach((ad, i) => {
+            let created = ad.createdAt || now;
+            let expiry = ad.vipExpiry || 0;
+            let remaining = 0;
+            let status = "";
+            let color = "";
+            let showPayBtn = false;
+            if(expiry && expiry > now){
+                remaining = Math.ceil((expiry - now) / (1000*60*60*24));
+                status = `✅ ${ad.vipTier==2?'PINNED':'VIP'} ACTIVE - ${remaining} din bache`;
+                color = "#ffd700";
+            } else if(expiry && expiry <= now){
+                status = `🔴 EXPIRED - 30 din khatam, ab Normal me hai`;
                 color = "#ff0055";
                 showPayBtn = true;
-            } else if(remaining <= 3){
-                status = `⚠️ Sirf ${remaining} din bache hain!`;
-                color = "#ffaa00";
+            } else if(ad.vipTier == 1 || ad.vipTier == 2 || ad.pinned){
+                status = `✅ VIP/PINNED ACTIVE (Expiry nahi set, renew kar lo)`;
+                color = "#ffd700";
+                showPayBtn = false;
             } else {
-                status = `⏳ ${remaining} din bache (Total ${limit} din)`;
-                color = "#00ffcc";
+                let diffDays = Math.floor((now - created) / (1000 * 60 * 60 * 24));
+                let limit = ad.customTrialDays || defaultTrialDays;
+                remaining = Math.ceil(limit - diffDays);
+                if(remaining <= 0){
+                    status = `🔴 Trial EXPIRED - ${Math.abs(remaining)} din pehle khatam`;
+                    color = "#ff0055";
+                    showPayBtn = true;
+                } else if(remaining <= 3){
+                    status = `⚠️ Sirf ${remaining} din bache hain!`;
+                    color = "#ffaa00";
+                } else {
+                    status = `⏳ ${remaining} din bache (Total ${limit} din)`;
+                    color = "#00ffcc";
+                }
             }
-        }
-        html += `<div style="background:rgba(0,0,0,0.6); border:1px solid ${color}; padding:6px; border-radius:6px; margin-bottom:6px;">`;
-        html += `${i+1}. <b>${ad.name}</b><br><span style="color:${color}; font-size:11px; font-weight:bold;">${status}</span><br>`;
-        html += `<span style="font-size:10px; color:#888;">📍 ${ad.location} | ${ad.mandiCity||'Bodla'} | ${new Date(created).toLocaleDateString('hi-IN')}</span>`;
-        if(showPayBtn){
-            html += `<br><button onclick="openPayForSpecificAd('${ad.id}')" style="background:linear-gradient(135deg,#ffd700,#ffaa00); color:#000; border:none; padding:5px 10px; border-radius:12px; font-weight:bold; font-size:10px; margin-top:4px; cursor:pointer;">💰 Isi Ad Ko Renew Karo - Pay Karo</button>`;
-        }
+            html += `<div style="background:rgba(0,0,0,0.6); border:1px solid ${color}; padding:6px; border-radius:6px; margin-bottom:6px;">`;
+            html += `${i+1}. <b>${ad.name}</b><br><span style="color:${color}; font-size:11px; font-weight:bold;">${status}</span><br>`;
+            html += `<span style="font-size:10px; color:#888;">📍 ${ad.location} | ${ad.mandiCity||'Bodla'} | ${new Date(created).toLocaleDateString('hi-IN')}</span>`;
+            if(showPayBtn){
+                html += `<br><button onclick="openPayForSpecificAd('${ad.id}')" style="background:linear-gradient(135deg,#ffd700,#ffaa00); color:#000; border:none; padding:5px 10px; border-radius:12px; font-weight:bold; font-size:10px; margin-top:4px; cursor:pointer;">💰 Isi Ad Ko Renew Karo - Pay Karo</button>`;
+            }
+            html += `</div>`;
+        });
         html += `</div>`;
-      });
-      html += `</div>`;
-      resultEl.innerHTML = html;
+        resultEl.innerHTML = html;
     }
 
     function openPayForSpecificAd(adId){
@@ -946,11 +904,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         }
     }
 
-    function isVipExpired(ad){
-        if(!ad.vipExpiry) return false;
-        return Date.now() > ad.vipExpiry;
-    }
-
     function updateAdminTotalCount(){
         if(!isAdminLoggedIn) return;
         let totalEl = document.getElementById('adminTotalCount');
@@ -976,7 +929,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                     let canvas = document.createElement('canvas');
                     let MAX_WIDTH = 800, MAX_HEIGHT = 800;
                     let width = img.width, height = img.height;
-
                     if (width > height) {
                         if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
                     } else {
@@ -985,7 +937,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                     canvas.width = width; canvas.height = height;
                     let ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    
                     let dataUrl = canvas.toDataURL('image/jpeg', 0.7);
                     resolve(dataUrl);
                 }
@@ -1006,9 +957,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                     urls.push(url);
                 }
             }
-            if(urls.length>0){
-                return urls;
-            }
+            if(urls.length>0){ return urls; }
             return "";
         }
         let fileInput = document.getElementById(fileInputId);
@@ -1029,12 +978,10 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
 
     function openDigitalKhataLink(){
         let a = document.getElementById('dukandarSpecialLink');
-        if(a && a.href){
-            window.open(a.href, '_blank');
-        }
+        if(a && a.href){ window.open(a.href, '_blank'); }
     }
 
-    // 🎙️ UNIVERSAL VOICE SEARCH (ANY LANGUAGE / ACCENT SUPPORT + 100% TYPING FIX)
+    // 🎙️ FIXED VOICE SEARCH FUNCTION
     function startVoiceSearch(){
         if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
             alert("🎤 Voice support nahi hai, Chrome browser use karo bhai!");
@@ -1046,15 +993,14 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         let micBtn = document.getElementById('voiceSearchBtn');
 
         try {
-            if(recognitionInstance) { recognitionInstance.abort(); }
-
+            if(window.currentRecognition) { window.currentRecognition.abort(); }
             let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognitionInstance = new SpeechRecognition();
+            let recognition = new SpeechRecognition();
+            window.currentRecognition = recognition;
 
-            // Set language to dynamic auto/multi-support (Hindi + English mix)
-            recognitionInstance.lang = 'hi-IN';
-            recognitionInstance.continuous = false;
-            recognitionInstance.interimResults = true;
+            recognition.lang = 'hi-IN';
+            recognition.continuous = false;
+            recognition.interimResults = true;
 
             if(micBtn) micBtn.classList.add('listening');
             if(modal) modal.style.display = 'flex';
@@ -1063,51 +1009,40 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                 modalText.style.color = '#00ffcc';
             }
 
-            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
-                navigator.mediaDevices.getUserMedia({audio:true}).catch(()=>{});
-            }
-
-            recognitionInstance.onresult = function(e){
+            recognition.onresult = function(e){
                 let transcript = '';
                 for (let i = e.resultIndex; i < e.results.length; ++i) {
                     transcript += e.results[i][0].transcript;
                 }
-                
                 if(input) {
                     input.value = transcript;
-                    // Trigger input event so instant filter works seamlessly
                     input.dispatchEvent(new Event('input', { bubbles: true }));
                 }
-
                 if(modalText) modalText.innerText = '✅ Suna: ' + transcript;
-
                 filterProfiles();
                 checkLocationInSearch(transcript);
-
                 setTimeout(() => {
                     if(modal) modal.style.display = 'none';
                     if(micBtn) micBtn.classList.remove('listening');
                 }, 800);
             };
 
-            recognitionInstance.onerror = function(ev){
-                if(modalText) modalText.innerText = '❌ Awaz saaf nahi aayi, dobara boliye...';
+            recognition.onerror = function(ev){
+                if(modalText) modalText.innerText = '❌ Awaz nahi aayi, dobara boliye...';
                 setTimeout(() => {
                     if(modal) modal.style.display = 'none';
                     if(micBtn) micBtn.classList.remove('listening');
                 }, 1200);
             };
 
-            recognitionInstance.onend = function(){
+            recognition.onend = function(){
                 if(micBtn) micBtn.classList.remove('listening');
                 setTimeout(() => {
-                    if(modal && modal.style.display === 'flex') {
-                        modal.style.display = 'none';
-                    }
+                    if(modal && modal.style.display === 'flex') { modal.style.display = 'none'; }
                 }, 400);
             };
 
-            recognitionInstance.start();
+            recognition.start();
         } catch(err) {
             alert("Voice error: " + err.message);
             if(modal) modal.style.display = 'none';
@@ -1134,6 +1069,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             }
         });
     }
+
     async function clearAllBanners(){
         if(!confirm("Banner hatane hain?")) return;
         await SETTINGS_DOC.set({ tickerText: "", sponsorTitle: "", sponsorOffer: "", sponsorImg: "", sponsorLink: "", dukaanSpecialVisibility: "hide", topLocationVisibility: "show", locationWeatherVisibility: "show" }, {merge:true});
@@ -1217,7 +1153,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             }
         } catch(e) { console.log(e); }
     }
-
     async function saveGallerySetting(){
         let val = document.getElementById("adminGalleryToggle").value;
         await SETTINGS_DOC.set({ gallerySystem: val }, {merge:true});
@@ -1331,16 +1266,14 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             document.getElementById('weatherDesc').innerText = "Error";
         }
     }
+
     async function loadMandiCities(){
         try{
             let snap = await db.collection("mandi_cities").get();
             let cities = [];
             snap.forEach(doc => cities.push(doc.id));
-            if(cities.length > 0){
-                customLocations = cities;
-            } else {
-                customLocations = ["Bodla"];
-            }
+            if(cities.length > 0){ customLocations = cities; }
+            else { customLocations = ["Bodla"]; }
         }catch(e){
             customLocations = JSON.parse(localStorage.getItem("customMandiLocations")) || ["Bodla","Kawardha","Bilaspur","Raipur","Pandariya"];
         }
@@ -1419,21 +1352,18 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         alert("✅ Dukandar Special Save!");
         loadAllBannersAndWeatherSettings();
     }
-
     async function saveBannerSettings(){
-      const ticker = document.getElementById("adminTickerInput").value.trim();
-      const sTitle = document.getElementById("adminSponsorTitle").value.trim();
-      const sOffer = document.getElementById("adminSponsorOffer").value.trim();
-      const sImg = document.getElementById("adminSponsorImg").value.trim();
-      const sLink = document.getElementById("adminSponsorLink").value.trim();
-      const locVis = document.getElementById("adminLocationVisibility").value;
-      const topLocVis = document.getElementById("adminTopLocationVisibility")? document.getElementById("adminTopLocationVisibility").value : "show";
-      const defCity = document.getElementById("adminDefaultWeatherCity").value.trim();
-      await SETTINGS_DOC.set({ tickerText: ticker, sponsorTitle: sTitle, sponsorOffer: sOffer, sponsorImg: sImg, sponsorLink: sLink, locationWeatherVisibility: locVis, topLocationVisibility: topLocVis, defaultWeatherCity: defCity }, {merge:true});
-      alert("✅ Save Ho Gaya!"); loadAllBannersAndWeatherSettings(); if(defCity) fetchWeather(defCity);
+        const ticker = document.getElementById("adminTickerInput").value.trim();
+        const sTitle = document.getElementById("adminSponsorTitle").value.trim();
+        const sOffer = document.getElementById("adminSponsorOffer").value.trim();
+        const sImg = document.getElementById("adminSponsorImg").value.trim();
+        const sLink = document.getElementById("adminSponsorLink").value.trim();
+        const locVis = document.getElementById("adminLocationVisibility").value;
+        const topLocVis = document.getElementById("adminTopLocationVisibility")? document.getElementById("adminTopLocationVisibility").value : "show";
+        const defCity = document.getElementById("adminDefaultWeatherCity").value.trim();
+        await SETTINGS_DOC.set({ tickerText: ticker, sponsorTitle: sTitle, sponsorOffer: sOffer, sponsorImg: sImg, sponsorLink: sLink, locationWeatherVisibility: locVis, topLocationVisibility: topLocVis, defaultWeatherCity: defCity }, {merge:true});
+        alert("✅ Save Ho Gaya!"); loadAllBannersAndWeatherSettings(); if(defCity) fetchWeather(defCity);
     }
-
-    function searchAnyWeather(){ return; }
 
     function shareKaamDhandhaApp(){
         let appLink = window.location.href;
@@ -1492,13 +1422,12 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             marquee.innerText = `🔴 ${currentMandiCity} LIVE: ${dynamicSabziList.map(i=>`${i.name} ${i.rate}`).join(' | ')}`;
         }
     }
+
     function startRotation(){
         if(rotationTimer) clearInterval(rotationTimer);
-
         let pinnedAds = adsData.filter(a => a.vipTier == 2 || a.pinned);
         let normalVipAds = adsData.filter(a => a.vipTier == 1);
         let allRotationAds = [...pinnedAds,...pinnedAds,...normalVipAds];
-
         if(allRotationAds.length > 0){
             rotationIndex = Math.floor(Math.random() * allRotationAds.length);
             let ad = allRotationAds[rotationIndex];
@@ -1513,12 +1442,10 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                 `;
             }
         }
-
         rotationTimer = setInterval(()=>{
             let pAds = adsData.filter(a => a.vipTier == 2 || a.pinned);
             let vAds = adsData.filter(a => a.vipTier == 1);
             let pool = [...pAds,...pAds,...vAds];
-
             if(pool.length === 0){
                 document.getElementById('adBox').innerHTML = "⭐ VIP & Pinned Ads yahan tezi se rotate honge";
                 return;
@@ -1527,7 +1454,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             let ad = pool[rotationIndex];
             let badgeText = (ad.vipTier == 2 || ad.pinned)? '🌟 SUPER FAST PINNED (₹499/mo)' : '👑 VIP (₹249/mo)';
             let glowColor = (ad.vipTier == 2 || ad.pinned)? '#ffaa00' : 'gold';
-
             document.getElementById('adBox').innerHTML = `
                 <div style="font-weight:bold; color:${glowColor};">${badgeText}</div>
                 <div style="font-size:13px; color:#fff; font-weight:bold; margin-top:2px;">${ad.name} - <span style="color:#00ffcc;">${ad.price}</span></div>
@@ -1546,17 +1472,13 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             let trialLimit = ad.customTrialDays || defaultTrialDays;
             if(ad.vipExpiry && now > ad.vipExpiry){
                 if(ad.vipTier != 0 || ad.pinned){
-                    db.collection("ads").doc(ad.id).update({
-                        vipTier: 0,
-                        pinned: false,
-                    }).catch(()=>{});
+                    db.collection("ads").doc(ad.id).update({ vipTier: 0, pinned: false }).catch(()=>{});
                 }
                 return;
             }
             if(ad.isCustomer24Hr && diffHours > urgentAdHoursLimit) {
                 db.collection("ads").doc(ad.id).delete();
-            }
-            else if(!ad.isCustomer24Hr && (!ad.vipTier || ad.vipTier == 0) && diffDays > (trialLimit + 2)) {
+            } else if(!ad.isCustomer24Hr && (!ad.vipTier || ad.vipTier == 0) && diffDays > (trialLimit + 2)) {
                 db.collection("ads").doc(ad.id).delete();
             }
         });
@@ -1609,7 +1531,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         updateClock();
         setInterval(updateClock, 1000);
     }
-
     function renderDynamicSabziUI() {
         let container = document.getElementById('sabziGridContainer');
         if (!container) return;
@@ -1679,6 +1600,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
 
     function openCustomerModal() { document.getElementById('customerModal').style.display = 'flex'; }
     function closeCustomerModal() { document.getElementById('customerModal').style.display = 'none'; }
+
     async function publishCustomer24HrAd() {
         let name = document.getElementById('custName').value.trim();
         let price = document.getElementById('custPrice').value.trim() || "₹500";
@@ -1687,7 +1609,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         let phone = document.getElementById('custPhone').value.trim();
         let showPhone = true;
         if(!name ||!phone) { alert("Bhai, Samaan ka Naam aur WhatsApp Number zaroor bharein!"); return; }
-        if(typeof isFakeOrSpamNumber === 'function' && isFakeOrSpamNumber(phone)){
+        if(isFakeOrSpamNumber(phone)){
             alert("⚠️ Sahi WhatsApp Number daalo! Yeh number fake / spam / galat pattern hai.");
             return;
         }
@@ -1748,9 +1670,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                 alert("✅ Admin Login Successful!");
                 toggleDevPanel();
             })
-            .catch((error) => {
-                alert("❌ Galat Email ya Password!");
-            });
+            .catch((error) => { alert("❌ Galat Email ya Password!"); });
     }
 
     auth.onAuthStateChanged((user) => {
@@ -1761,7 +1681,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             if(document.getElementById('adminSettingsBox')) document.getElementById('adminSettingsBox').style.display = 'block';
             if(document.getElementById('themeColorBtn')) document.getElementById('themeColorBtn').style.display = 'inline-block';
             if(document.getElementById('adminStatsBox')) document.getElementById('adminStatsBox').style.display = 'block';
-
             renderAds();
             setTimeout(()=>{ updateAdminTotalCount(); loadAdminExpiredAdsList(); }, 600);
         } else {
@@ -1812,7 +1731,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             alert("⚠️ Razorpay load nahi hua! Internet check karein.");
             return;
         }
-
         let amountNum = customerPayConfig.amount.replace(/[^0-9]/g, '') || "10";
         let options = {
             key: RAZORPAY_KEY_ID,
@@ -1855,6 +1773,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             if(isAdminLoggedIn) loadAdminExpiredAdsList();
         }, (error) => { console.error("Error: ", error); });
     }
+
     function openColorModal() { document.getElementById('colorModal').style.display = 'flex'; }
     function closeColorModal() { document.getElementById('colorModal').style.display = 'none'; }
     function openPayModal() { document.getElementById('payModal').style.display = 'flex'; }
@@ -1865,17 +1784,14 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             alert("⚠️ Razorpay load nahi hua! Internet check karein.");
             return;
         }
-
         let sName = document.getElementById('payShopName').value.trim();
         let oPhone = document.getElementById('payOwnerPhone').value.trim();
-        
         let selectedAdId = document.getElementById('payAdSelect') ? document.getElementById('payAdSelect').value : "";
         if(!selectedAdId) {
             let cleanPhone = oPhone.replace(/[^0-9]/g,'').slice(-10);
             let userAds = adsData.filter(a => (a.phone||'').replace(/[^0-9]/g,'').slice(-10) === cleanPhone);
             if(userAds.length > 0) selectedAdId = userAds[0].id;
         }
-
         if(!sName ||!oPhone) { alert("Naam aur WhatsApp Number zaroor bharein!"); return; }
         if(!selectedAdId && adsData.filter(a=> (a.phone||'').replace(/[^0-9]/g,'').slice(-10)===oPhone.replace(/[^0-9]/g,'').slice(-10)).length>0){
             alert("⚠️ Neeche dropdown se kaunsa Ad renew karna hai wo select karo!");
@@ -1883,7 +1799,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         }
         let ad = adsData.find(a=>a.id===selectedAdId);
         let adName = ad ? ad.name : sName;
-        
         let options = {
             key: RAZORPAY_KEY_ID,
             amount: parseInt(amount) * 100,
@@ -1921,7 +1836,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         });
         rzp.open();
     }
-
     function setThemeColor(colorHex) {
         currentListingThemeColor = colorHex;
         localStorage.setItem("kaamDhandhaThemeColor", colorHex);
@@ -1932,9 +1846,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
     function toggleDevPanel() {
         let panel = document.getElementById('devPanel');
         panel.style.display = (panel.style.display === 'block')? 'none' : 'block';
-        if(panel.style.display === 'block'){
-            setTimeout(updateAdminTotalCount, 300);
-        }
+        if(panel.style.display === 'block'){ setTimeout(updateAdminTotalCount, 300); }
     }
 
     function getEmbedVideoHtml(url) {
@@ -1956,7 +1868,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
     }
     </script>
     <script>
-        function renderAds() {
+    function renderAds() {
         let listContainer = document.getElementById('profileList');
         listContainer.innerHTML = '';
         let now = new Date().getTime();
@@ -1965,10 +1877,8 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         let sortedAds = [...adsData].sort((a, b) => {
             let aExpired = a.vipExpiry && now > a.vipExpiry;
             let bExpired = b.vipExpiry && now > b.vipExpiry;
-            
             let tierA = aExpired ? 99 : (a.vipTier !== undefined && a.vipTier !== null ? a.vipTier : 99);
             let tierB = bExpired ? 99 : (b.vipTier !== undefined && b.vipTier !== null ? b.vipTier : 99);
-
             let isCustA = a.isCustomer24Hr? 1 : 0;
             let isCustB = b.isCustomer24Hr? 1 : 0;
             let timeA = a.createdAt || now;
@@ -1981,8 +1891,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             if (a.pinned &&!aExpired && b.pinned &&!bExpired) return 0;
             if (a.pinned &&!aExpired && (!b.pinned || bExpired)) return -1;
             if (!a.pinned && b.pinned &&!bExpired) return 1;
-            if (tierA === 99) tierA = 99;
-            if (tierB === 99) tierB = 99;
             return tierA - tierB;
         });
 
@@ -1996,9 +1904,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                 let searchString = `${ad.name} ${ad.price} ${ad.category} ${ad.work} ${ad.location} ${ad.mandiCity||''}`.toLowerCase();
                 return searchWords.every(word => searchString.includes(word));
             });
-            if(document.getElementById('loadMoreBtn')) {
-                document.getElementById('loadMoreBtn').style.display = 'none';
-            }
+            if(document.getElementById('loadMoreBtn')) { document.getElementById('loadMoreBtn').style.display = 'none'; }
             document.getElementById('noResult').style.display = (adsToDisplay.length === 0) ? "block" : "none";
         } else {
             adsToDisplay = sortedAds.slice(0, adsDisplayLimit);
@@ -2020,9 +1926,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             let isVipExpired = ad.vipExpiry && now > ad.vipExpiry;
             let isExpired = isCustExpired || (!isCust24 && diffDays > specificTrialLimit && (!ad.vipTier || ad.vipTier === 0 || isVipExpired));
             
-            if (!isAdminLoggedIn && isExpired) {
-                return; 
-            }
+            if (!isAdminLoggedIn && isExpired) { return; }
 
             let tier = isVipExpired? 0 : (ad.vipTier || 0);
             let cardColor = currentListingThemeColor;
@@ -2032,11 +1936,11 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             let entityBadge = "🏪 ";
             if(isCust24) { entityBadge = "⚡🚲 "; }
             else if(catLower.includes('cycle') || titleLower.includes('cycle')) { entityBadge = "🚲 "; }
-            else if(catLower.includes('sabzi') || catLower.includes('mandi') || titleLower.includes('tamatar') || titleLower.includes('baigan')) { entityBadge = "🛒🥦 "; }
-            else if(catLower.includes('dj') || titleLower.includes('dj') || catLower.includes('sound')) { entityBadge = "🎶🔊 "; }
-            else if(catLower.includes('labor') || catLower.includes('mistri') || catLower.includes('majdoor') || catLower.includes('worker') || catLower.includes('kaamgar')) { entityBadge = "👷🛠️ "; }
-            else if(catLower.includes('showroom') || catLower.includes('dukaan') || catLower.includes('store')) { entityBadge = "🏢✨ "; }
-            else if(catLower.includes('rent') || catLower.includes('gaadi') || catLower.includes('car') || catLower.includes('bike') || catLower.includes('bus')) { entityBadge = "🚗🚌 "; }
+            else if(catLower.includes('sabzi') || catLower.includes('mandi') || titleLower.includes('tamatar')) { entityBadge = "🛒🥦 "; }
+            else if(catLower.includes('dj') || titleLower.includes('dj')) { entityBadge = "🎶🔊 "; }
+            else if(catLower.includes('labor') || catLower.includes('mistri') || catLower.includes('majdoor')) { entityBadge = "👷🛠️ "; }
+            else if(catLower.includes('showroom') || catLower.includes('dukaan')) { entityBadge = "🏢✨ "; }
+            else if(catLower.includes('rent') || catLower.includes('gaadi')) { entityBadge = "🚗🚌 "; }
 
             let blueTick = (tier === 1 || tier === 2)? ' ✓' : '';
             let displayName = `${entityBadge}${ad.name}${blueTick}`;
@@ -2051,20 +1955,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             let daysOld = Math.floor(diffDays);
             let clicks = ad.clicks || 0;
             let badgeTitle = "⭐ Trusted Seller";
-            if(catLower.includes('labor') || catLower.includes('mistri') || catLower.includes('majdoor') || catLower.includes('worker') || catLower.includes('kaamgar')){
-                badgeTitle = "👷 Trusted Pro Worker";
-            } else if(catLower.includes('dj') || titleLower.includes('dj') || catLower.includes('sound')){
-                badgeTitle = "🎶 Trusted DJ & Sound Pro";
-            } else if(catLower.includes('showroom') || catLower.includes('store') || catLower.includes('dukaan')){
-                badgeTitle = "🏢 Trusted Showroom Partner";
-            } else if(catLower.includes('rent') || catLower.includes('gaadi') || catLower.includes('car') || catLower.includes('bike')){
-                badgeTitle = "🚗 Verified Rental Partner";
-            } else if(catLower.includes('bus') || catLower.includes('transport')){
-                badgeTitle = "🚌 Trusted Transport Provider";
-            }
-
             let goldBadgeHtml = (daysOld >= 30 || clicks >= 20 || isAdminLoggedIn) ? `<span class="gold-trust-badge">${badgeTitle}</span>` : '';
-
             let displayTitle = displayName + goldBadgeHtml;
             let displayMedia = '';
             let trialBadgeHtml = '';
@@ -2094,12 +1985,8 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                     displayMedia = `<div class="card-media-container"><div class="media-badge">▶ HD VIDEO</div>${getEmbedVideoHtml(ad.video)}</div>`;
                 } else {
                     let images = [];
-                    if(Array.isArray(ad.images) && ad.images.length > 0) {
-                        images = ad.images;
-                    } else if(ad.image && typeof ad.image === 'string' && ad.image.trim() !== '') {
-                        images = [ad.image];
-                    }
-
+                    if(Array.isArray(ad.images) && ad.images.length > 0) { images = ad.images; }
+                    else if(ad.image && typeof ad.image === 'string' && ad.image.trim() !== '') { images = [ad.image]; }
                     if(images.length>0){
                         if(images.length===1){
                             displayMedia = `<div class="card-media-container" onclick="openImageModal('${images[0]}')"><div class="media-badge">📷 PHOTO 1/1</div><img src="${images[0]}" alt="${ad.name}" onerror="this.style.display='none'"><div class="zoom-hint">🔍 Tap to Zoom</div></div>`;
@@ -2114,13 +2001,14 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                     trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,0,85,0.12); color: #ff0055; border: 1px solid #ff0055;">⚡ Urgent Add: ${hoursLeft} hours remaining</div>`;
                 } else if (ad.vipExpiry && !isVipExpired) {
                     let vDays = Math.ceil((ad.vipExpiry - now)/(1000*60*60*24));
-                    trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700;">⭐ ${tier==2?'Pinned':'VIP'} Active: ${vDays} din bache (Exp: ${new Date(ad.vipExpiry).toLocaleDateString('hi-IN')})</div>`;
+                    trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700;">⭐ ${tier==2?'Pinned':'VIP'} Active: ${vDays} din bache</div>`;
                 } else if (!tier || tier === 0) {
                     if (daysRemaining > 0) {
-                        trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(0,255,204,0.1); color: #00ffcc; border: 1px dashed #00ffcc;">⏳ Free Trial: ${daysRemaining} din bache (Total ${specificTrialLimit}d)</div>`;
+                        trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(0,255,204,0.1); color: #00ffcc; border: 1px dashed #00ffcc;">⏳ Free Trial: ${daysRemaining} din bache</div>`;
                     }
                 }
-        }
+            }
+
             let glowColor = cardColor + '44';
             let searchString = `${ad.name} ${ad.price} ${ad.category} ${ad.work} ${ad.location} ${ad.mandiCity||''}`.toLowerCase();
             let card = document.createElement('div');
@@ -2138,13 +2026,12 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             if((isExpired || isCustExpired) && !isAdminLoggedIn && !isVipExpired){
                 whatsappActionBtn = `<div style="text-align:center; color:#777; font-size:12px; margin-top:10px; font-weight:bold;">🔒 Locked - Plan lein</div>`;
             } else if(isPhoneHidden && !isAdminLoggedIn){
-                whatsappActionBtn = `<div style="text-align:center; background:rgba(255,255,255,0.05); border:1px dashed #888; padding:8px; border-radius:6px; margin-top:10px; color:#aaa; font-size:12px;">🔒 Owner ne Number Private rakha hai<br><span style="font-size:10px;">Sirf Admin contact kar sakta hai</span></div>`;
+                whatsappActionBtn = `<div style="text-align:center; background:rgba(255,255,255,0.05); border:1px dashed #888; padding:8px; border-radius:6px; margin-top:10px; color:#aaa; font-size:12px;">🔒 Owner ne Number Private rakha hai</div>`;
             } else {
                 whatsappActionBtn = `<a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(chatMessage)}" class="whatsapp-btn" style="color: ${cardColor}; border-color: ${cardColor}; background: ${glowColor}15;" target="_blank" onclick="trackClick('${ad.id}')">💬 WhatsApp Chat Karein (FREE)</a>`;
                 callActionBtn = `<a href="javascript:void(0);" class="call-btn" onclick="triggerDirectCall('${ad.phone}', '${ad.id}')">📞 Direct Call Now (${customerPayConfig.enabled &&!isCustomerUnlocked &&!isAdminLoggedIn? customerPayConfig.amount + ' Pass' : 'FREE'})</a>`;
             }
             let upgradeBtnHtml = isCust24? '' : `<button class="upgrade-btn" onclick="openPayForSpecificAd('${ad.id}')">⭐ Plan Lein / Renew (VIP ₹249 / Pinned ₹499 - 30 Din)</button>`;
-            
             let reportBtnHtml = `<div style="text-align:right; margin-top:6px;"><button class="report-btn" onclick="reportAdFraud('${ad.id}', '${ad.name}', '${ad.phone}', '${ad.location}')">⚠️ Report Fraud / Scam</button></div>`;
 
             card.innerHTML = `
@@ -2206,9 +2093,8 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         let img = document.getElementById('modalFullImg');
         if (!isZoomed) { img.style.transform = "scale(2.5)"; isZoomed = true; }
         else { img.style.transform = "scale(1)"; isZoomed = false; }
-    }
-
-    async function saveProfile() {
+        }
+        async function saveProfile() {
         let name = document.getElementById('newName').value.trim();
         let price = document.getElementById('newPrice').value.trim() || "Rate On Call";
         let category = document.getElementById('newCategory').value.trim() || "DUKAAN";
@@ -2231,7 +2117,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
 
         let safetyChecked = document.getElementById('safetyTermsCheckDev')?.checked;
         if(!safetyChecked && !isAdminLoggedIn){
-            alert("⚠️ Bhai pehle Safety Terms accept karo - bina iske Ad publish nahi hoga! Fraud se bachein, advance payment mat karo 🙏");
+            alert("⚠️ Bhai pehle Safety Terms accept karo - bina iske Ad publish nahi hoga!");
             let sc = document.getElementById('safetyTermsCheckDev');
             if(sc){ sc.focus(); sc.style.outline = "2px solid #ff0055"; }
             return;
@@ -2257,7 +2143,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             ).length;
             if(existingAds >= maxAdsPerPhoneLimit && !isAdminLoggedIn) {
                 document.getElementById('adLimitMsg').style.display = 'block';
-                alert(`❌ Is number se ${maxAdsPerPhoneLimit} ad already hain. Naya ad nahi bana sakte.`);
+                alert(`❌ Is number se ${maxAdsPerPhoneLimit} ad already hain.`);
                 return;
             } else {
                 document.getElementById('adLimitMsg').style.display = 'none';
@@ -2274,29 +2160,22 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             adObj.views = 0;
             adObj.clicks = 0;
             db.collection("ads").add(adObj).then(() => {
-                let expMsg = vipExpiry? ` 30 din tak VIP active (${new Date(vipExpiry).toLocaleDateString('hi-IN')} tak)` : '';
-                alert(`✅ Dukandar Add publish ho gaya! City: ${mandiCity}${expMsg}`);
+                alert(`✅ Dukandar Add publish ho gaya! City: ${mandiCity}`);
                 clearForm();
-                if(document.getElementById('newImageFile')) document.getElementById('newImageFile').value = "";
-                for(let i=1; i<=3; i++){ let el=document.getElementById('multiImg'+i); if(el) el.value=""; }
                 document.getElementById('devPanel').style.display = 'none';
             }).catch((error) => { alert("Error: " + error); });
         } else {
             if (!isAdminLoggedIn) return;
-            if(vipExpiry){
-                adObj.vipExpiry = vipExpiry;
-                adObj.lastRenewedAt = Date.now();
-            }
+            if(vipExpiry){ adObj.vipExpiry = vipExpiry; adObj.lastRenewedAt = Date.now(); }
             db.collection("ads").doc(editId).update(adObj).then(() => {
-                alert(`✅ Add Update ho gaya! ${vipExpiry?'30 din expiry set':''}`);
+                alert(`✅ Add Update ho gaya!`);
                 cancelEdit();
-                if(document.getElementById('newImageFile')) document.getElementById('newImageFile').value = "";
-                for(let i=1; i<=3; i++){ let el=document.getElementById('multiImg'+i); if(el) el.value=""; }
                 document.getElementById('devPanel').style.display = 'none';
             }).catch((error) => { alert("Error: " + error); });
         }
-        }
-        function cancelEdit() {
+    }
+
+    function cancelEdit() {
         clearForm();
         document.getElementById('editId').value = "";
         document.getElementById('individualTrialBox').style.display = 'none';
@@ -2331,78 +2210,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         if(confirm("Kya aap is ad ko delete karna chahte hain?")) {
             db.collection("ads").doc(id).delete().catch((error) => { alert("Error: " + error); });
         }
-    }
-
-    function updateAdminStats(){
-        if(!adsData) return;
-        let box = document.getElementById('adminStatsBox');
-        let expBox = document.getElementById('adminExpiredBox');
-        if(isAdminLoggedIn){
-            if(box) box.style.display = 'block';
-            if(expBox) expBox.style.display = 'block';
-        } else {
-            if(box) box.style.display = 'none';
-            if(expBox) expBox.style.display = 'none';
-            return;
-        }
-        document.getElementById('adminTotalCount').innerText = adsData.length;
-        document.getElementById('adminVipCount').innerText = adsData.filter(p => p.vipTier > 0 || p.pinned).length;
-        document.getElementById('adminUrgentCount').innerText = adsData.filter(p => p.isCustomer24Hr).length;
-        let expired = adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired || (p.location||'').includes('Expired'));
-        document.getElementById('adminExpiredCount').innerText = expired.length;
-        renderAdminExpiredList();
-    }
-
-    function renderAdminExpiredList(){
-        let box = document.getElementById('adminExpiredListContainer');
-        if(!box) return;
-        let expired = adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired || (p.location||'').includes('Expired'));
-        if(expired.length === 0){
-            box.innerHTML = '<div style="color:#aaa; font-size:11px; text-align:center;">✅ Koi expired nahi</div>';
-            return;
-        }
-        box.innerHTML = expired.map(p => `
-            <div style="display:flex; justify-content:space-between; align-items:center; background:#000; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid #333;">
-                <div style="font-size:12px;"><b style="color:#fff;">${p.name}</b> <span style="color:#aaa;">(${p.phone})</span><br><span style="color:#ff4444; font-size:10px;">${p.location} | Expired</span></div>
-                <div style="display:flex; gap:5px;">
-                    <button onclick="sendSingleReminder('${p.phone}','${p.name}')" style="background:#25D366; color:#fff; border:none; padding:6px 10px; border-radius:20px; font-size:11px; font-weight:bold; cursor:pointer;">WhatsApp</button>
-                    <button onclick="deleteAd('${p.id}')" style="background:#ff0055; color:#fff; border:none; padding:6px 8px; border-radius:12px; font-size:11px; cursor:pointer;">🗑️</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function sendSingleReminder(phone, name){
-        let msg = `🙏 Namaste ${name} Ji 🙏\n\nAapka ad *KaamDhandha Direct - Bodla* me laga tha, uska time khatam ho gaya hai.\n\nIsliye ab aapki dukaan customer ko upar nahi dikh rahi hai.\n\nWapas Top par lana hai to plan dekh lijiye:\n\n🔄 Normal - ₹99 / 30 Din (List me active)\n👑 VIP Rotation - ₹249 / 30 Din (Upar ghumega)\n📌 Top Speed - ₹499 / 30 Din (Sabse Top par)\n\n7 din me renew nahi hua to ad automatic delete ho jayega.\n\nKonsa plan karna hai? Bas likh ke bhej dijiye - 99 / 249 / 499\n\n- Raaj | KaamDhandha Direct`;
-        let cleanPhone = String(phone).replace(/[^0-9]/g, '').slice(-10);
-        window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    function filterAdminAds(type){
-        if(type === 'all') {
-            renderAds();
-        } else if(type === 'vip') {
-            renderAds(adsData.filter(p => p.vipTier > 0 || p.pinned));
-        } else if(type === 'urgent') {
-            renderAds(adsData.filter(p => p.isCustomer24Hr));
-        } else if(type === 'expired') {
-            renderAds(adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired));
-        } else if(type === 'active') {
-            renderAds(adsData.filter(p => !p.trialExpired && (!p.vipExpiry || p.vipExpiry > Date.now())));
-        }
-    }
-
-    function sendBulkExpiryReminder(){
-        let expired = adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired);
-        if(expired.length === 0){
-            alert('Koi expired nahi');
-            return;
-        }
-        expired.forEach((p, i) => {
-            setTimeout(() => {
-                sendSingleReminder(p.phone, p.name);
-            }, i * 1000);
-        });
     }
 
     function filterProfiles() {
