@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KaamDhandha Direct - Bodla Live Mandi & Customer 24Hr Ad Directory</title>
+
+    <!-- Step 1: WhatsApp Share Preview -->
+    <meta property="og:title" content="KaamDhandha Direct - Live Bodla Mandi & Ads">
+    <meta property="og:description" content="Check live Sabzi rates, weather, and local business ads directly from your phone.">
+    <meta property="og:image" content="https://via.placeholder.com/512x512.png?text=KaamDhandha">
+    <meta property="og:type" content="website">
+
+    <!-- Step 2: App Install -->
+    <link rel="manifest" href="manifest.json">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <!-- Step 3 A: Firebase Storage for Gallery Upload -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+    <!-- 🔥 Step 1: Auth Script Joda - Tere hisab se -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <!-- 💳 Razorpay Checkout -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+      #emergencyTickerWrap marquee { scroll-behavior: smooth; }
+      #emergencyTickerWrap { display: block!important; }
+      @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,0,85,0.7)}70%{box-shadow:0 0 0 20px rgba(255,0,85,0)}100%{box-shadow:0 0 0 0 rgba(255,0,85,0)}}
+      .mic-pulse{animation:pulse 1.2s infinite}
+      .listening{animation:pulse 0.8s infinite!important; border-color:#00ff66!important;}
+    </style>
+</head>
+<body>
+<!-- 🛡️ SAFETY SHIELD POPUP - APP KHULTE HI AAYEGA -->
+<div id="safetyPopup" style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,0.88); backdrop-filter:blur(5px); justify-content:center; align-items:center; padding:15px;">
+  <div style="background:#1a1a1a; border:2px solid #ffd700; border-radius:16px; max-width:380px; width:100%; padding:20px; text-align:center; color:white; box-shadow:0 0 30px rgba(255,215,0,0.4);">
+    <div style="font-size:42px;">🛡️</div>
+    <div style="color:#ffd700; font-weight:bold; font-size:18px; margin:10px 0;">Safety Shield - Dhyaan Dein</div>
+    <div style="font-size:13px; line-height:1.6; color:#ddd; text-align:left; background:rgba(255,255,255,0.05); padding:12px; border-radius:10px; margin:12px 0;">
+      ⚠️ <b>KaamDhandha Direct</b> sirf ad dikhane ka platform hai.<br><br>
+      1. Kisi ko bhi <b style="color:#ff5252;">Advance Payment mat karo</b><br>
+      2. Saman khud jaake check karo<br>
+      3. Fraud / Len-den ke liye Admin zimmedar nahi hai
+    </div>
+    <button onclick="closeSafetyPopup()" style="width:100%; background:linear-gradient(90deg,#ffd700,#ff9800); color:#000; font-weight:bold; border:none; padding:12px; border-radius:10px; font-size:14px; cursor:pointer;">✅ Samajh Gaya, Safe Rahunga</button>
+  </div>
+</div>
+<script>
+  window.addEventListener('load', function(){ 
+    setTimeout(function(){
+      if(!localStorage.getItem('safetyAccepted')){
+        document.getElementById('safetyPopup').style.display='flex';
+      }
+    }, 800);
+  });
+  function closeSafetyPopup(){
+    document.getElementById('safetyPopup').style.display='none';
+    localStorage.setItem('safetyAccepted','yes');
+  }
+</script>
+
+<div id="voiceSearchModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
+    <div id="voiceModalText" style="font-size:24px; color:#00ffcc; margin-bottom:30px; font-weight:bold;">Kripya Boliye...</div>
+    <div class="mic-pulse" style="background:linear-gradient(135deg,#ff0055,#ff6600); border-radius:50%; width:90px; height:90px; display:flex; justify-content:center; align-items:center; font-size:45px; box-shadow:0 0 20px #ff0055; margin-bottom:40px;">🎤</div>
+    <button onclick="document.getElementById('voiceSearchModal').style.display='none'" style="background:#444; color:#fff; border:2px solid #fff; padding:10px 25px; border-radius:25px; font-weight:bold; font-size:16px;">Cancel</button>
+</div>
+    <div id="topLocationBar" style="background:#111; border-bottom:2px solid #ff0055; padding:6px 12px; display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:bold; color:#ff0055; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+        <div>🚨 Emergency: Police (112) | 🚒 Fire Brigade (101) | Ambulance (108) | ⚡ Bijli: <span id="topBijliNum" style="color:#ffd700;">9876543210</span></div>
+        <div style="color:#00ffcc;" id="topLocationDisplay">📍 Bodla Live Mandi / All India</div>
+    </div>
+    <div id="emergencyTickerWrap" style="display:block; background:linear-gradient(90deg,#ff0000,#ff6600); border:2px solid #ffff00; border-radius:20px; padding:5px 10px; margin-bottom:10px; overflow:hidden; white-space:nowrap; font-size:12px; font-weight:bold; color:#fff; box-shadow:0 0 15px rgba(255,0,0,0.6);">
+        <marquee id="emergencyTickerText" scrollamount="5" scrolldelay="30" behavior="scroll" direction="left">⛽ Diesel / Petrol Rate Live - Bodla</marquee>
+    </div>
+    <div id="mandiBanner" style="background:#000; border:1px solid #ffd700; border-radius:20px; padding:5px 10px; margin-bottom:10px; overflow:hidden; white-space:nowrap; font-size:12px; font-weight:bold; color:#ffd700;">
+        <marquee id="mandiBannerText" scrollamount="3">🔴 Loading Aaj ka Mandi Bhaav...</marquee>
+    </div>
+
+    <!-- 🏪 TOP BANNER - CLICK PE LINK KHULEGA -->
+    <div id="dukandarSpecialBanner" onclick="openDigitalKhataLink()" style="display:block; background:linear-gradient(135deg,#001100,#002200); border:2px solid #00ff66; border-radius:12px; padding:14px; margin-bottom:12px; text-align:center; box-shadow:0 0 20px rgba(0,255,102,0.5); cursor:pointer;">
+        <div style="font-size:13px; color:#00ff66; font-weight:bold; margin-bottom:6px;">🏪 DUKANDAR SPECIAL</div>
+        <div id="dukandarSpecialTitle" style="font-size:15px; font-weight:bold; color:#ffd700; margin-bottom:10px;">🏪 Dukandar Special: Free Digital Dukaan + Udhaar Khata Banayein</div>
+        <button type="button" id="dukandarSpecialBtn" style="background:linear-gradient(135deg,#00ff66,#00cc44); color:#000; border:none; padding:10px 22px; border-radius:25px; font-weight:bold; font-size:13px; box-shadow:0 0 15px rgba(0,255,102,0.7); cursor:pointer;">⭐ Free Me Banayein - Click Karein</button>
+        <div style="margin-top:10px; background:rgba(0,0,0,0.6); border:1px dashed #00ff66; padding:6px 8px; border-radius:6px; font-size:10px; color:#fff; word-break:break-all;">
+            🔗 Link: <span id="dukandarSpecialLinkDisplay" style="color:#00ffcc; font-weight:bold;">https://wa.me/916264917767?text=Free%20Digital%20Dukaan%20Chahiye</span>
+        </div>
+        <div style="font-size:9px; color:#888; margin-top:5px;">👆 Touch karte hi direct khul jayega</div>
+        <a id="dukandarSpecialLink" href="https://wa.me/916264917767?text=Free%20Digital%20Dukaan%20Chahiye" target="_blank" style="display:none;"></a>
+    </div>
+
+    <div id="sponsorBannerWrap" style="display:none; background:linear-gradient(135deg,#1a0033,#330066); border:2px solid gold; border-radius:12px; padding:10px; margin-bottom:12px; text-align:center; box-shadow:0 0 20px rgba(255,215,0,0.5);">
+        <div style="font-size:11px; color:gold; font-weight:bold;">🏪 MONTHLY PREMIUM SPONSOR</div>
+        <div style="display:flex; align-items:center; gap:10px; margin-top:6px; text-align:left;">
+            <img id="sponsorBannerImg" src="" style="width:60px; height:60px; border-radius:8px; object-fit:cover; border:2px solid gold; display:none;">
+            <div style="flex:1;">
+                <div id="sponsorBannerTitle" style="font-size:15px; font-weight:bold; color:#fff;"></div>
+                <div id="sponsorBannerOffer" style="font-size:12px; color:#00ffcc; font-weight:bold; margin-top:2px;"></div>
+                <a id="sponsorBannerLink" href="#" target="_blank" style="display:none; background:#25D366; color:#fff; padding:4px 10px; border-radius:12px; font-size:11px; text-decoration:none; font-weight:bold; margin-top:5px;">💬 WhatsApp Sponsor</a>
+            </div>
+        </div>
+    </div>
+    <div id="trialBanner" style="display:none; background:linear-gradient(135deg, #001122, #003366); border:2px solid #00aaff; border-radius:12px; padding:10px; margin-bottom:12px; text-align:center; color:#00aaff; font-weight:bold; font-size:13px;">⏰ Aapke Trial me <span id="trialDaysLeft">0</span> din bache hain</div>
+    
+    <!-- 🔊 VOICE SPEAKER BUTTON (ADMIN HIDE/SHOW CONTROLLED) -->
+    <div id="voiceSpeakerBox" style="background:linear-gradient(135deg,#001122,#003344); border:1px solid #00aaff; border-radius:10px; padding:8px; margin-bottom:12px; text-align:center;">
+        <button onclick="speakMandiRates()" style="background:#00aaff; color:#000; border:none; padding:8px 16px; border-radius:20px; font-weight:bold; font-size:12px; width:100%; cursor:pointer;">🔊 Aaj Ke Mandi Bhav Bol Kar Suniye</button>
+    </div>
+
+    <div id="locationWeatherWrapper" style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:12px;">
+        <div id="locationSelectorBox" style="background:#0b0f19; border:2px solid #ffd700; border-radius:10px; padding:8px;">
+            <div style="font-size:11px; color:#ffd700; font-weight:bold; margin-bottom:4px;">📍 Location Chunein</div>
+            <select id="mandiLocationSelect" onchange="onLocationChange()" style="width:100%; background:#000; color:#ffd700; border:1px solid #ffd700; padding:6px; border-radius:6px; font-size:12px;"></select>
+        </div>
+        <div id="weatherWidget" style="background:linear-gradient(135deg, #001122, #002200); border:2px solid #00aaff; border-radius:10px; padding:8px; text-align:center; position:relative; overflow:hidden;">
+            <div style="font-size:11px; color:#00aaff; font-weight:bold;">🌦️ Live Mausam</div>
+            <div id="weatherCity" style="font-size:12px; color:#ffd700; font-weight:bold;">Bodla</div>
+            <div id="weatherTemp" style="font-size:18px; color:#fff; font-weight:bold;">--°C</div>
+            <div id="weatherDesc" style="font-size:10px; color:#00ffcc;">Loading...</div>
+            <div id="weatherEffect" style="font-size:20px; margin-top:2px;">☀️</div>
+            <!-- 🌾 WEATHER ADVISORY + LAST UPDATE TIME -->
+            <div id="weatherAdvisoryBox" style="margin-top:8px; background: linear-gradient(135deg, rgba(0,255,204,0.12), rgba(255,215,0,0.08)); border: 1px dashed #ffd700; border-radius:6px; padding:6px; font-size:10px; color:#fff; text-align:left;">
+                <div style="font-weight:bold; color:#ffd700; font-size:10px; margin-bottom:2px;">🌾 MAUSAM SALAH:</div>
+                <div id="weatherAdvisoryText" style="color:#cbd5e1; line-height:1.3;">Mausam load ho raha hai...</div>
+                <div id="weatherUpdateTime" style="color:#888; font-size:8px; margin-top:4px; text-align:right;">🔄 Updated: --:--</div>
+            </div>
+        </div>
+    </div>
+    <div id="adBox" style="border:2px dashed gold; padding:10px; border-radius:12px; background:rgba(255,215,0,0.08); text-align:center; min-height:90px; margin-bottom:12px; font-size:13px;">🔄 VIP Ads yahan har 4 sec me rotate honge...</div>
+    <div style="background:linear-gradient(135deg, #002211, #001122); border:1px solid #25D366; border-radius:10px; padding:8px; margin-bottom:12px; text-align:center;">
+        <button onclick="shareKaamDhandhaApp()" style="background:#25D366; color:#fff; border:none; padding:8px 16px; border-radius:20px; font-weight:bold; font-size:12px; width:100%;">📤 App Ko WhatsApp Pe Share Karo</button>
+    </div>
+    <div style="background: linear-gradient(135deg, #0b0f19, #002211); border: 2px solid #00ffcc; border-radius: 12px; padding: 12px; margin-bottom: 15px;">
+        <div style="background: rgba(0,0,0,0.7); border: 1px solid #ffd700; border-radius: 8px; padding: 8px; text-align: center; margin-bottom: 10px;">
+            <div style="font-size: 14px; font-weight: bold; color: #ff0055; margin-bottom: 4px;">🔴 <span id="mandiTitleCity">BODLA</span> LIVE SABZI MANDI DIRECT</div>
+            <div style="font-size: 12px; font-weight: bold; color: #ffd700;" id="realtimeDisplay">Loading...</div>
+            <div id="mandiUpdateTime" style="font-size:11px; color:#00ffcc; margin-top:5px; border-top:1px dashed #00ffcc; padding-top:4px;">🔄 Last Updated: Loading...</div>
+        </div>
+        <div style="font-size: 13px; font-weight: bold; color: #00ffcc; margin-bottom: 8px; text-align: center;">🛒🥦 Aaj ke Taaza Mandi Rates (<span id="currentMandiLocationLabel">Bodla</span>)</div>
+        <div id="sabziGridContainer" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 11px;"></div>
+    </div>
+    <h1>KAAMDHANDHA DIRECT</h1>
+    <div class="subtitle" ondblclick="secretAdminTrigger()">CUSTOMER 24-HR URGENT ADS & DUKANDAR DIRECTORY</div>
+
+    <div class="owner-banner">
+        <div class="owner-title">👑 App Owner & Founder</div>
+        <div class="owner-name">❥. Ʀᴀ፝֟ᴀᴊ 𝐌𝐞𝐫𝐚𝐯𝐢 ࿐</div>
+        <div style="font-size: 11px; color: #ffd700; margin-bottom: 8px;">📲 Paid VIP Ad ya Top Pinning ke liye संपर्क करें</div>
+        <a href="https://wa.me/916264917767?text=Hi%20Admin%20Help%20Chahiye%20KaamDhandha%20App%20Me" class="owner-whatsapp-btn" target="_blank">💬 Admin Help & Support Se Baat Karein</a>
+    </div>
+
+    <div class="search-container">
+        <div class="search-title">🔍 Cycle, Samaan, Sabzi ya Dukandar Dhoondhein (Location likhne se SIRF Mausam badlega) 🎤</div>
+        <div style="display:flex; gap:6px; align-items:center;">
+            <input type="text" id="searchInput" class="search-box" placeholder="Taregaon, Bodla, Tamatar, Cycle... bolo ya likho" onkeyup="filterProfiles(); checkLocationInSearch(this.value)" style="flex:1;">
+            <button type="button" id="voiceSearchBtn" onclick="startVoiceSearch()" ontouchstart="startVoiceSearch()" style="background:linear-gradient(135deg,#ff0055,#ff6600); border:2px solid #ffd700; color:#fff; padding:10px 16px; border-radius:8px; font-weight:bold; font-size:18px; box-shadow:0 0 10px rgba(255,0,85,0.5); touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor:pointer;">🎤</button>
+        </div>
+        <div id="voiceStatus" style="font-size:11px; color:#00ffcc; margin-top:6px; display:none; font-weight:bold; background:rgba(0,255,102,0.1); padding:5px 8px; border-radius:4px; border:1px dashed #00ffcc;">🎙️ Sun raha hu... bolo</div>
+    </div>
+<div id="myTrialCheckBox" style="background: linear-gradient(135deg, #001a33, #000d1a); border: 2px solid #00aaff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 0 15px rgba(0,170,255,0.3);">
+        <div style="font-size: 13px; color: #00aaff; font-weight: bold; margin-bottom: 2px; text-align: center;">📱 Apna Trial Days Dekhein</div>
+        <div style="font-size: 10px; color: #aaa; text-align: center; margin-bottom: 8px;">Apna WhatsApp Number daalein, bache hue din + Pay ka option turant</div>
+        <div style="display:flex; gap:6px; align-items:center;">
+            <input type="tel" id="trialCheckPhone" placeholder="Apna WhatsApp No. 9876543210" style="flex:1; padding:9px 12px; border-radius:20px; border:1px solid #00aaff; background:#000; color:#fff; font-size:12px; text-align:center;">
+            <button onclick="checkMyTrialStatus()" style="background:linear-gradient(135deg,#00aaff,#0066ff); color:#fff; border:none; padding:9px 18px; border-radius:20px; font-weight:bold; font-size:12px; cursor:pointer; white-space:nowrap;">Check ⏳</button>
+        </div>
+        <div id="trialCheckResult" style="margin-top:10px; font-size:12px; color:#fff; display:none; background:rgba(0,0,0,0.5); border-radius:8px; padding:8px;"></div>
+    </div>
+
+    <div class="section-header-bar">
+        <div class="section-header">📋 Sabhi Listings (Customer 24-Hr Urgent Upar & Dukandar Niche)</div>
+        <div class="btn-group">
+            <button class="dev-toggle-btn" onclick="openCustomerModal()" style="background:#ff0055; color:#fff; border-color:#ff0055; font-size:13px; flex:1;">⚡ Customer 24-Hr Urgent Add Dalein</button>
+            <button class="dev-toggle-btn" onclick="toggleDevPanel()" style="background:#00ffcc; color:#000; flex:1;">🏪 Dukandar / Business Add Dalein</button>
+            <button id="themeColorBtn" class="dev-toggle-btn" style="border-color:#ff00ff; color:#ff00ff; display:none;" onclick="openColorModal()">🎨 Theme</button>
+        </div>
+    </div>
+    <div id="customerModal" class="customer-pay-modal" style="display:none;">
+        <div class="customer-pay-content" style="border-color:#ff0055; width:340px;">
+            <h3 style="color:#ff0055; margin-top:0; font-size:16px;">⚡ Customer 24-Hr Urgent Add</h3>
+            <p style="font-size:11px; color:#ccc; margin:4px 0;">Cycle, Cooler ya koi bhi purana saamaan bechne ke liye yahan bharein. Ye <b>24 ghante</b> tak sabse upar dikhega!</p>
+            <div style="text-align:left; margin-top:8px;">
+                <label style="color:#ff0055; font-size:11px; font-weight:bold;">1. Kya bechna hai? (Naam):</label>
+                <input type="text" id="custName" placeholder="jaise: Purani Hero Cycle" style="width:100%; padding:7px; margin-top:2px; background:#000; border:1px solid #ff0055; color:#fff; border-radius:6px; font-size:12px;">
+                <label style="color:#ff0055; font-size:11px; font-weight:bold; margin-top:6px; display:block;">2. Daam / Price:</label>
+                <input type="text" id="custPrice" placeholder="jaise: ₹1500" style="width:100%; padding:7px; margin-top:2px; background:#000; border:1px solid #ff0055; color:#fff; border-radius:6px; font-size:12px;">
+                <label style="color:#ff0055; font-size:11px; font-weight:bold; margin-top:6px; display:block;">3. Samaan ki Details / Halat:</label>
+                <input type="text" id="custWork" placeholder="jaise: Acchi condition me hai" style="width:100%; padding:7px; margin-top:2px; background:#000; border:1px solid #ff0055; color:#fff; border-radius:6px; font-size:12px;">
+                <label style="color:#ff0055; font-size:11px; font-weight:bold; margin-top:6px; display:block;">4. Location aur WhatsApp Number:</label>
+                <input type="text" id="custLocation" placeholder="jaise: Bodla Chowk" style="width:100%; padding:7px; margin-top:2px; background:#000; border:1px solid #ff0055; color:#fff; border-radius:6px; font-size:12px;">
+                <input type="text" id="custPhone" placeholder="WhatsApp Number: 9876543210" style="width:100%; padding:7px; margin-top:6px; background:#000; border:1px solid #ff0055; color:#fff; border-radius:6px; font-size:12px;">
+                
+                <div id="custImageUrlWrapper" style="display:block;">
+                    <label style="color:#ffd700; font-size:11px; font-weight:bold; margin-top:8px; display:block;">📸 Photo Link (URL) Paste Karein:</label>
+                    <input type="text" id="custImage" placeholder="jaise: https://... (Optional)" style="width:100%; padding:7px; background:#000; border:1px solid #ffd700; color:#fff; border-radius:6px; font-size:12px;">
+                </div>
+                <div id="custImageFileWrapper" style="display:none;">
+                    <label style="color:#ffd700; font-size:11px; font-weight:bold; margin-top:8px; display:block;">📸 Photo Select Karein (Gallery Se - Auto < 498KB):</label>
+                    <input type="file" id="custImageFile" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #ffd700; border-radius:6px; font-size:12px;">
+                    <div id="custUploadStatus" style="color:#00ffcc; font-size:11px; display:none; margin-top:4px;">Uploading...</div>
+                </div>
+            </div>
+            
+            <!-- 🛡️ FRAUD SAFETY CHECKBOX (Fixed ID: safetyTermsCheckCust) -->
+            <div style="background:rgba(255,215,0,0.08); border:1px dashed #ffd700; padding:8px; border-radius:6px; margin-top:10px; font-size:10px; color:#ccc; text-align:left;">
+                <label style="display:flex; gap:6px; align-items:flex-start; cursor:pointer;"><input type="checkbox" id="safetyTermsCheckCust" style="margin-top:2px;"><span>Main samjhta hu: <b>KaamDhandha Direct sirf ad dikhane ka platform hai</b>. Kisi bhi fraud ya len-den ke liye Admin zimmedar nahi hai.</span></label>
+            </div>
+
+            <button onclick="publishCustomer24HrAd()" style="background:#ff0055; color:#fff; border:none; padding:9px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; width:100%; margin-top:12px;">🚀 24 Ghante ke liye Upar Publish Karein</button>
+            <button onclick="closeCustomerModal()" style="margin-top:8px; background:#444; color:#fff; border:none; padding:6px; border-radius:6px; cursor:pointer; font-size:11px; width:100%;">Cancel</button>
+        </div>
+    </div>
+<div id="colorModal" class="color-modal">
+        <div class="color-modal-content">
+            <h3 style="color:#fff; margin-top:0;">Select Listing Theme Color</h3>
+            <div class="color-grid">
+                <div class="color-box" style="background:#ff0033;" onclick="setThemeColor('#ff0033')"></div>
+                <div class="color-box" style="background:#00ffff;" onclick="setThemeColor('#00ffff')"></div>
+                <div class="color-box" style="background:#0044ff;" onclick="setThemeColor('#0044ff')"></div>
+                <div class="color-box" style="background:#00ff66;" onclick="setThemeColor('#00ff66')"></div>
+                <div class="color-box" style="background:#ff00ff;" onclick="setThemeColor('#ff00ff')"></div>
+                <div class="color-box" style="background:#ff6600;" onclick="setThemeColor('#ff6600')"></div>
+                <div class="color-box" style="background:#8844ff;" onclick="setThemeColor('#8844ff')"></div>
+                <div class="color-box" style="background:#ffffff;" onclick="setThemeColor('#ffffff')"></div>
+            </div>
+            <button onclick="closeColorModal()" style="margin-top:15px; background:#444; color:#fff; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold;">Close</button>
+        </div>
+    </div>
+    <div id="payModal" class="pay-modal">
+        <div class="pay-modal-content">
+            <h3 style="color:#ffd700; margin-top:0; font-size:16px;">⭐ Monthly Plan Upgrade (30 Din Valid)</h3>
+            <p style="font-size:11px; color:#ccc; margin:4px 0;">Apna WhatsApp Number daalte hi aapke saare ads neeche list me aa jayenge, usi ko select karke renew karo:</p>
+            <input type="text" id="payShopName" placeholder="Dukaan ka Naam" style="width:100%; padding:8px; margin-top:6px; background:#000; border:1px solid #ffd700; color:#fff; border-radius:6px; font-size:12px;">
+            <input type="text" id="payOwnerPhone" placeholder="WhatsApp Number" oninput="autoLoadAdsForPay(this.value)" style="width:100%; padding:8px; margin-top:6px; background:#000; border:1px solid #ffd700; color:#fff; border-radius:6px; font-size:12px;">
+            
+            <div id="payAdListBox" style="display:none; margin-top:8px; background:rgba(0,0,0,0.6); border:1px dashed #00aaff; border-radius:6px; padding:6px;">
+                <div style="font-size:11px; color:#00aaff; font-weight:bold; margin-bottom:4px;">📋 Aapke Ads (Select Karo Jise Renew Karna Hai):</div>
+                <select id="payAdSelect" style="width:100%; background:#000; color:#fff; border:1px solid #00aaff; padding:6px; border-radius:6px; font-size:11px;"></select>
+                <div id="payAdExpiryInfo" style="font-size:10px; color:#ffd700; margin-top:4px;"></div>
+            </div>
+
+            <div style="background:#fff; padding:6px; border-radius:8px; display:inline-block; margin:8px 0;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=6264917767-2@ybl&pn=RaajMeravi&cu=INR" alt="PhonePe QR" style="width:140px; height:140px; object-fit:contain;">
+            </div>
+            <div style="font-size:12px; color:#00ffcc; font-weight:bold; margin-bottom:4px;">UPI ID 1: 6264917767-2@ybl</div>
+            <div style="font-size:11px; color:#ff00ff; font-weight:bold; margin-bottom:4px;">UPI ID 2: <span id="displayUpi2">your_second_upi@ybl</span></div>
+            <div style="font-size:10px; color:#aaa; margin-bottom:8px;">💬 Payment ke baad screenshot Admin Help & Support par bhejein</div>
+            
+            <div class="plan-option-box">
+                <div style="font-weight:bold; color:#00ffcc; font-size:13px;">👑 VIP Plan (₹249 / 30 Din) - Rotation me ayega</div>
+                <div style="font-size:10px; color:#aaa;">30 din baad auto normal, phir renew kar sakte ho</div>
+                <button onclick="payViaWhatsApp('VIP (₹249/30d)', '249')" style="background:#00ffcc; color:#000; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer; width:100%; margin-top:4px;">₹249 Pay - 30 Din VIP</button>
+            </div>
+            <div class="plan-option-box" style="border-color:#ffd700; background:rgba(255,215,0,0.05);">
+                <div style="font-weight:bold; color:#ffd700; font-size:13px;">📌 Pinned Ad Plan (₹499 / 30 Din) - Top Rotation</div>
+                <div style="font-size:10px; color:#aaa;">30 din baad auto normal, phir renew kar sakte ho</div>
+                <button onclick="payViaWhatsApp('Pinned Ad (₹499/30d)', '499')" style="background:#ffd700; color:#000; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer; width:100%; margin-top:4px;">₹499 Pay - 30 Din Pinned</button>
+            </div>
+            <div class="plan-option-box" style="border-color:#ff0055; background:rgba(255,0,85,0.05);">
+                <div style="font-weight:bold; color:#ff0055; font-size:13px;">🔄 Normal Renew (₹99 / 30 Din) - Trial Renew</div>
+                <button onclick="payViaWhatsApp('Normal Renew (₹99/30d)', '99')" style="background:#ff0055; color:#fff; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer; width:100%; margin-top:4px;">₹99 Pay - 30 Din Renew</button>
+            </div>
+            <button onclick="closePayModal()" style="margin-top:8px; background:#444; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold; width:100%; font-size:12px;">Close</button>
+        </div>
+    </div>
+
+    <div id="customerPayModal" class="customer-pay-modal">
+        <div class="customer-pay-content">
+            <h3 id="custModalTitle" style="color:#00ffcc; margin-top:0; font-size:16px;">📞 Direct Call Access Pass</h3>
+            <p id="custModalDesc" style="font-size:11px; color:#ccc; margin:6px 0;">Seedha Call lagane ke liye chhota sa pass lein (WhatsApp chat bilkul FREE hai):</p>
+            <div style="font-size:22px; font-weight:bold; color:#ffd700; margin:10px 0;" id="custPassPriceDisplay">₹10</div>
+            <div style="background:#fff; padding:6px; border-radius:8px; display:inline-block; margin:8px 0;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=6264917767-2@ybl&pn=RaajMeravi&cu=INR" alt="UPI QR" style="width:130px; height:130px; object-fit:contain;">
+            </div>
+            <div style="font-size:11px; color:#00ffcc; font-weight:bold; margin-bottom:6px;">UPI ID 1: 6264917767-2@ybl</div>
+            <button onclick="unlockCustomerAccess()" style="background:#00ffcc; color:#000; border:none; padding:8px 12px; border-radius:6px; font-weight:bold; font-size:12px; cursor:pointer; width:100%; margin-top:6px;">✅ Payment Ho Gaya, Call Unlock Karein</button>
+            <button onclick="closeCustomerPayModal()" style="margin-top:6px; background:#444; color:#fff; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; font-size:11px; width:100%;">Baad Mein (WhatsApp Free)</button>
+        </div>
+    </div>
+<div id="devPanel" class="dev-panel">
+        <h3 id="panelHeading">🏪 Dukandar / Business Add Jodein</h3>
+
+        <!-- ✅ ADVANCED ADMIN STATS & FILTER DROPDOWN - FIXED (Hidden by default) -->
+        <div id="adminStatsBox" style="display:none; background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:8px; margin-bottom:10px;">
+          <div style="font-size:11px;">📊 <b>Admin Stats:</b> Total: <span id="adminTotalCount" style="color:#ffd700;">0</span> | VIP: <span id="adminVipCount" style="color:#00ffcc;">0</span> | Urgent: <span id="adminUrgentCount" style="color:#ff0055;">0</span> | Expired: <span id="adminExpiredCount" style="color:#ff4444;">0</span></div>
+          <select id="adminFilterDropdown" onchange="filterAdminAds(this.value)" style="width:100%; background:#000; color:#00ffcc; border:1px solid #00ffcc; padding:7px; border-radius:6px; font-size:12px; margin-top:8px;">
+            <option value="all">📋 Sabhi Ads Dekho</option>
+            <option value="vip">⭐ VIP / Pinned (₹249/₹499)</option>
+            <option value="urgent">⚡ Urgent 24-Hr</option>
+            <option value="expired">⚠️ Expired Only</option>
+            <option value="active">✅ Active Only</option>
+          </select>
+        </div>
+<div id="adminExpiredBox" style="display:none; background:rgba(255,0,85,0.12); border:1px solid #ff0055; padding:8px; border-radius:8px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:12px; color:#ff0055; font-weight:bold;">⚠️ Expired Ads</div>
+            <button onclick="sendBulkExpiryReminder()" style="background:#25D366; color:#fff; border:none; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:bold; cursor:pointer;">📤 Sabko WhatsApp Bhejo</button>
+          </div>
+          <div id="adminExpiredListContainer" style="max-height:150px; overflow-y:auto; margin-top:8px;"></div>
+        </div>
+
+        <div id="adLimitMsg" style="display:none; background:#ff0055; color:#fff; padding:8px; border-radius:6px; margin-bottom:10px; font-size:12px; font-weight:bold;">⚠️ Is number se limit poori ho chuki hai.</div>
+        <input type="hidden" id="editId" value="">
+        <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
+            <label style="color:#00ffcc;">Part 1: Dukaan ya Business ka Naam:</label>
+            <input type="text" id="newName" placeholder="jaise: Lucky Mill / Verma General Store...">
+        </div>
+        <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
+            <label style="color:#00ffcc;">Part 2: Rate / Special Offer:</label>
+            <input type="text" id="newPrice" placeholder="jaise: Contact for Rates...">
+        </div>
+        <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
+            <label style="color:#00ffcc;">Part 3: Category:</label>
+            <input type="text" id="newCategory" placeholder="jaise: DUKAAN / DJ SOUND / SHOWROOM / RENT GAADI / LABOR">
+        </div>
+<div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
+            <label style="color:#00ffcc;">Part 4: Services Details:</label>
+            <input type="text" id="newWork" placeholder="jaise: Yahan sabhi kaam hote hain">
+        </div>
+        <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
+            <label style="color:#00ffcc;">Part 5: Location aur WhatsApp Number:</label>
+            <input type="text" id="newLocation" placeholder="jaise: Lakshmi Chowk">
+            <input type="text" id="newPhone" placeholder="WhatsApp Number: 9876543210" style="margin-top:6px;">
+        </div>
+
+        <!-- ✅ 3. MULTIPLE PHOTO UPLOAD (3 Photos with Auto Compression < 498 KB) -->
+        <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
+            <div id="newImageUrlWrapper" style="display:block;">
+                <label style="color:#00ffcc;">Part 6: Photo Link (URL) Paste Karein:</label>
+                <input type="text" id="newImage" placeholder="jaise: https://..." style="width:100%; padding:8px; background:#000; border:1px solid #00ffcc; color:#fff; border-radius:6px;">
+            </div>
+            <div id="newImageFileWrapper" style="display:none;">
+                <label style="color:#00ffcc; font-weight:bold;">📸 3 Photos Select Karein (Auto Compressed < 498 KB):</label>
+                <input type="file" id="multiImg1" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #00ffcc; border-radius:6px; margin-top:6px;">
+                <input type="file" id="multiImg2" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #00ffcc; border-radius:6px; margin-top:6px;">
+                <input type="file" id="multiImg3" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #00ffcc; border-radius:6px; margin-top:6px;">
+                <div id="uploadStatus" style="color:#00ffcc; font-size:12px; display:none; margin-top:4px;">Optimizing photos... ⏳</div>
+                <input type="file" id="newImageFile" accept="image/*" style="display:none;">
+            </div>
+        </div>
+
+        <!-- 🛡️ FRAUD SAFETY CHECKBOX (Fixed ID: safetyTermsCheckDev) -->
+        <div style="background:rgba(255,215,0,0.08); border:1px dashed #ffd700; padding:8px; border-radius:6px; margin-bottom:8px; font-size:10px; color:#ccc;">
+            <label style="display:flex; gap:6px; align-items:flex-start; cursor:pointer;"><input type="checkbox" id="safetyTermsCheckDev" style="margin-top:2px;"><span>Main samjhta hu: <b>KaamDhandha Direct sirf ad dikhane ka platform hai</b>. Kisi bhi fraud ya len-den ke liye Admin zimmedar nahi hai.</span></label>
+        </div>
+        <div id="adminSettingsBox" style="display:none; background:rgba(255,215,0,0.05); border:1px dashed #ffd700; padding:10px; border-radius:6px; margin:10px 0;">
+          
+          <!-- 🎛️ ADMIN LIMITS & VOICE SPEAKER HIDE/SHOW CONTROL -->
+          <div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#00ffcc; font-weight:bold;">⚙️ Admin Controls & Limits:</label>
+                <div style="margin-top:6px;">
+                    <label style="font-size:10px; color:#ccc;">Max Ads Per Phone (2, 3, or 4):</label>
+                    <input type="number" id="adminMaxAdsPerPhone" value="2" style="background:#000; color:#fff; border:1px solid #00ffcc; padding:5px; border-radius:4px; font-size:11px; margin-bottom:6px;">
+                    
+                    <label style="font-size:10px; color:#ccc;">🔊 Voice Speaker Button Visibility:</label>
+                    <select id="adminVoiceSpeakerToggle" style="width:100%; background:#000; color:#fff; border:1px solid #00ffcc; padding:5px; border-radius:4px; font-size:11px; margin-bottom:6px;">
+                        <option value="show">✅ SHOW - Dikhao</option>
+                        <option value="hide">❌ HIDE - Chupao</option>
+                    </select>
+
+                    <button onclick="saveAdminAppSettings()" style="background:#00ffcc; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; width:100%; font-size:11px; cursor:pointer;">💾 Save Admin Settings</button>
+                </div>
+          </div>
+
+          <!-- 🖼️ GALLERY ON/OFF TOGGLE (ADMIN) -->
+          <div style="background:rgba(0,255,102,0.1); border:1px solid #00ff66; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#00ff66; font-weight:bold;">🖼️ Gallery System Control (Admin):</label>
+                <select id="adminGalleryToggle" style="width:100%; background:#000; color:#fff; border:1px solid #fff; padding:6px; border-radius:4px; margin-top:6px;"><option value="off">❌ Gallery OFF (URL Mode)</option><option value="on">✅ Gallery ON (File Upload)</option></select>
+                <button onclick="saveGallerySetting()" style="background:#00ff66; color:#000; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; width:100%; margin-top:6px;">Save Gallery Setting</button>
+          </div>
+<div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#00ffcc; font-weight:bold;">🔝 Top Location Bar (📍 Bodla Live...):</label>
+                <div style="display:flex; gap:6px; margin-top:6px;">
+                    <select id="adminTopLocationVisibility" style="flex:1; background:#000; color:#00ffcc; border:1px solid #00ffcc; padding:6px; border-radius:4px; font-size:12px;">
+                        <option value="show">✅ SHOW - Dikhao</option>
+                        <option value="hide">❌ HIDE - Chupao</option>
+                    </select>
+                    <button onclick="saveTopLocationVisibility()" style="background:#00ffcc; color:#000; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; font-size:12px;">Save</button>
+                </div>
+            </div>
+<div style="background:rgba(255,255,255,0.08); border:1px solid #fff; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#fff; font-weight:bold;">📍 Mandi Location Manager (Sirf Admin):</label>
+                <div style="display:flex; gap:6px; margin-top:6px;">
+                    <input type="text" id="adminNewLocationInput" placeholder="Naya Sahar likhein" style="flex:1; margin:0; font-size:12px;">
+                    <button onclick="adminAddLocation()" style="background:#00ffcc; color:#000; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; font-size:12px;">+ Add</button>
+                </div>
+                <div style="display:flex; gap:6px; margin-top:8px;">
+                    <select id="adminDeleteLocationSelect" style="flex:1; background:#000; color:#ff4444; border:1px solid #ff4444; padding:6px; border-radius:4px; font-size:12px;"></select>
+                    <button onclick="adminDeleteLocation()" style="background:#ff4444; color:#fff; border:none; padding:6px 10px; border-radius:4px; font-weight:bold; font-size:12px;">🗑️ Delete</button>
+                </div>
+            </div>
+<label style="color:#ffd700;">⚙️ Admin Settings & 10 Sabzi Dynamic Rates Editor:</label>
+
+            <div style="background:linear-gradient(135deg,#001100,#003300); border:2px solid #00ff66; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#00ff66; font-weight:bold;">🏪 Dukandar Special Banner - Link Admin:</label>
+                <input type="text" id="adminDukaanSpecialTitle" value="🏪 Dukandar Special: Free Digital Dukaan + Udhaar Khata Banayein" style="margin-top:4px;">
+                <input type="text" id="adminDukaanSpecialLink" placeholder="Tera Link/Video Yahan - jaise https://youtube.com/..." style="margin-top:4px;">
+                <input type="text" id="adminDukaanSpecialBtnText" value="Free Me Banayein" style="margin-top:4px;">
+                <div style="display:flex; gap:6px; margin-top:6px;">
+                    <select id="adminDukaanSpecialVisibility" style="flex:1; background:#000; color:#00ff66; border:1px solid #00ff66; padding:6px; border-radius:4px;">
+                        <option value="show">Banner SHOW</option>
+                        <option value="hide">Banner HIDE</option>
+                    </select>
+                    <button onclick="saveDukaanSpecialBanner()" style="background:#00ff66; color:#000; border:none; padding:6px 12px; border-radius:4px; font-weight:bold;">Save</button>
+                </div>
+            </div>
+
+            <div style="background:rgba(255,0,0,0.08); border:1px solid #ff4444; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#ff4444; font-weight:bold;">⛽ Emergency Diesel/Petrol Ticker (Khali = Auto Hide):</label>
+                <input type="text" id="adminTickerInput" placeholder="jaise: ⛽ Aaj Diesel ₹94.50 | Petrol ₹108 - Raaj Fuel Center" style="margin-top:4px;">
+            </div>
+
+            <div style="background:rgba(255,215,0,0.08); border:1px solid gold; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:gold; font-weight:bold;">🏪 Monthly Sponsor Banner ₹20K (Title Khali = Auto Hide):</label>
+                <input type="text" id="adminSponsorTitle" placeholder="Sponsor Dukaan Naam" style="margin-top:4px;">
+                <input type="text" id="adminSponsorOffer" placeholder="Offer - jaise: 10% OFF Aaj" style="margin-top:4px;">
+                <input type="text" id="adminSponsorImg" placeholder="Sponsor Photo Link" style="margin-top:4px;">
+                <input type="text" id="adminSponsorLink" placeholder="Sponsor WhatsApp Number" style="margin-top:4px;">
+            </div>
+
+            <div style="background:rgba(0,170,255,0.08); border:1px solid #00aaff; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#00aaff; font-weight:bold;">📍🌦️ Location + Mausam Admin Control:</label>
+                <div style="display:flex; gap:6px; margin-top:6px;">
+                    <select id="adminLocationVisibility" style="flex:1; background:#000; color:#00aaff; border:1px solid #00aaff; padding:6px; border-radius:4px;">
+                        <option value="show">📍 Location Box SHOW</option>
+                        <option value="hide">📍 Location Box HIDE</option>
+                    </select>
+                    <button onclick="saveLocationVisibility()" style="background:#00aaff; color:#fff; border:none; padding:6px 10px; border-radius:4px; font-weight:bold;">Save</button>
+                </div>
+                <div style="display:flex; gap:6px; margin-top:6px;">
+                    <input type="text" id="adminDefaultWeatherCity" placeholder="Default Mausam City - jaise Bodla" style="margin:0;">
+                    <button onclick="saveDefaultWeatherCity()" style="background:#00aaff; color:#fff; border:none; padding:6px 10px; border-radius:4px; font-weight:bold;">Set</button>
+                </div>
+                <div style="display:flex; gap:6px; margin-top:8px;">
+                    <button onclick="saveBannerSettings()" style="background:gold; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; flex:1;">💾 Save ALL Banners</button>
+                    <button onclick="clearAllBanners()" style="background:#ff4444; color:#fff; border:none; padding:6px; border-radius:4px; font-weight:bold; flex:1;">❌ Hide ALL</button>
+                </div>
+            </div>
+
+            <div style="background:rgba(0,255,204,0.05); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-bottom:10px;">
+                <label style="color:#00ffcc; font-size:12px; margin-bottom:6px;">🛒 10 Sabzi Items & Rates Update Karein - <span id="adminMandiCityLabel" style="color:#ffd700;">Bodla</span> ke liye:</label>
+                <textarea id="sabziBulkEditor" rows="4" style="width:100%; background:#000; color:#fff; border:1px solid #00ffcc; border-radius:4px; padding:6px; font-size:11px;" placeholder="Tamatar:₹30/kg, Aalu:₹25/kg"></textarea>
+                <div style="display:flex; gap:6px; margin-top:8px;">
+                    <button onclick="saveDynamicSabziRates()" style="background:#00ffcc; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; flex:1; font-size:12px;">💾 Save <span class="citySaveLabel">Bodla</span> Rates</button>
+                    <button onclick="autoDetectMandiTrend()" style="background:#ffd700; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; flex:1; font-size:12px;">📢 Auto Banner Banao</button>
+                </div>
+            </div>
+            <label style="font-size:11px; color:#ccc; margin-top:6px;">⚡ Bijli Vibhag ka Number:</label>
+            <div style="display:flex; gap:6px; margin-bottom:8px;">
+                <input type="text" id="newBijliInput" placeholder="jaise: 9876543210" style="margin:0;">
+                <button onclick="updateBijliNumber()" style="background:#ffd700; color:#000; border:none; padding:0 12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">Save Bijli No.</button>
+            </div>
+
+            <label style="font-size:11px; color:#ccc; margin-top:6px;">Change UPI 2:</label>
+            <div style="display:flex; gap:6px; margin-bottom:8px;">
+                <input type="text" id="newUpi2Input" placeholder="upi@ybl" style="margin:0;">
+                <button onclick="updateUpi2()" style="background:#00ffcc; color:#000; border:none; padding:0 12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">Save UPI 2</button>
+            </div>
+
+            <label style="font-size:11px; color:#ccc;">Default Trial Days:</label>
+            <input type="number" id="trialDaysInput" value="15" style="margin-bottom:6px;">
+            <button onclick="updateGlobalTrial()" style="background:#ffd700; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; margin-bottom:8px; font-size:12px;">💾 Save Default Trial Days</button>
+
+            <label style="font-size:11px; color:#ccc;">⚡ 24-Hr Urgent Add Duration (Hours):</label>
+            <div style="display:flex; gap:6px; margin-bottom:8px;">
+                <input type="number" id="adminUrgentHoursInput" value="24" style="margin:0;" placeholder="Default 24">
+                <button onclick="updateUrgentHours()" style="background:#ff0055; color:#fff; border:none; padding:0 12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">Save Hours</button>
+            </div>
+
+            <label style="font-size:11px; color:#ccc;">⚡ Max 24-Hr Ads Allowed at Once:</label>
+            <div style="display:flex; gap:6px; margin-bottom:8px;">
+                <input type="number" id="adminMaxUrgentCountInput" value="3" style="margin:0;" placeholder="Default Max 3">
+                <button onclick="updateMaxUrgentCount()" style="background:#ff0055; color:#fff; border:none; padding:0 12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">Save Max Limit</button>
+            </div>
+
+            <div id="individualTrialBox" style="background:rgba(255,0,85,0.08); border:1px solid #ff0055; padding:8px; border-radius:6px; margin-top:10px; display:none;">
+                <label style="color:#ff0055; font-weight:bold;">⏳ Is Listing ka Custom Trial Days:</label>
+                <input type="number" id="customTrialDaysInput" placeholder="jaise: 30 ya 45 din" style="margin-bottom:4px;">
+                <button onclick="saveCustomTrialForListing()" style="background:#ff0055; color:#fff; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:12px;">💾 Save Custom Trial</button>
+            </div>
+<div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-top:10px;">
+                <label style="color:#00ffcc; font-weight:bold;">📞 Direct Call Monetization:</label>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                    <input type="checkbox" id="enableCustomerPayCheck" style="width:18px; height:18px; margin:0; cursor:pointer;">
+                    <label for="enableCustomerPayCheck" style="color:#fff; margin:0; cursor:pointer; font-size:12px;">Calls par charge enable karein?</label>
+                </div>
+                <input type="text" id="custPayAmountInput" placeholder="Amount (jaise: ₹10)" style="margin-bottom:4px;">
+                <input type="text" id="custPayMsgInput" placeholder="Reason" style="margin-bottom:0;">
+                <button onclick="saveCustomerPaySettings()" style="background:#00ffcc; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; margin-top:6px; font-size:12px;">💾 Save Setting</button>
+            </div>
+        </div>
+
+        <div id="adminMediaFields" style="display: none; border-top: 1px dashed var(--neon-color); padding-top: 10px; margin-top: 10px;">
+            <label style="color:#ffd700;">🎬 Video Link (Sirf Admin):</label>
+            <input type="text" id="newVideo" placeholder="YouTube/MP4 link">
+        </div>
+
+        <div id="vipContainer" style="display: none; background: rgba(0,255,204,0.05); padding: 10px; border-radius: 6px; border: 1px dashed var(--neon-color); margin-top: 10px; margin-bottom: 10px;">
+            <label style="color:var(--neon-color); margin-bottom: 6px;">⭐ VIP Package Level & Pinning:</label>
+            <select id="vipTierSelect" style="margin-bottom: 8px;">
+                <option value="0">Normal Ad</option>
+                <option value="1">👑 Super VIP (₹249/mo) - Rotation</option>
+                <option value="2">📌 Pinned Ad (₹499/mo) - Rotation</option>
+            </select>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
+                <input type="checkbox" id="pinToTopCheck" style="width: 18px; height: 18px; margin: 0; cursor: pointer;">
+                <label for="pinToTopCheck" style="color: var(--neon-color); margin: 0; cursor: pointer; font-weight: bold;">Pin to Absolute #1 Top</label>
+            </div>
+        </div>
+        <button class="add-btn" id="saveBtn" onclick="saveProfile()">🚀 Publish Karein</button>
+        <button class="add-btn" style="background:#00aa88; color:#000; margin-top:8px; display:none;" onclick="cancelEdit()" id="cancelBtn">❌ Cancel</button>
+    </div>
+
+    <div id="imgModal" class="img-modal">
+        <span class="close-img-modal" onclick="closeImageModal()">&times;</span>
+        <img id="modalFullImg" src="" alt="Zoomable Photo" onclick="toggleZoom(event)">
+    </div>
+
+    <div id="profileList"></div>
+    <div id="noResult" class="no-result" style="display: none;">Koi add nahi mila! ❌</div>
+    <style>
+      :root { --neon-color: #00ffcc; --neon-glow: rgba(0, 255, 204, 0.4); --bg-color: #050505; --card-bg: #0b0f19; }
+    body { background-color: var(--bg-color); color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 12px; width: 100vw; overflow-x: hidden; box-sizing: border-box; touch-action: pan-x pan-y; *, *::before, *::after { box-sizing: border-box; } }
+    h1 { text-align: center; color: var(--neon-color); text-shadow: 0 0 12px var(--neon-color); margin-bottom: 5px; font-size: 22px; }
+  .subtitle { text-align: center; color: var(--neon-color); opacity: 0.8; font-size: 13px; margin-bottom: 15px; letter-spacing: 1px; }
+  .owner-banner { background: linear-gradient(135deg, var(--card-bg), #222200); border: 2px solid #ffd700; border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 15px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+  .owner-title { font-size: 13px; color: #ccbb88; margin-bottom: 3px; }
+  .owner-name { font-size: 17px; font-weight: bold; color: #ffd700; text-shadow: 0 0 12px #ffd700; margin-bottom: 8px; }
+  .owner-whatsapp-btn { display: inline-block; background: #ffd700; color: #000; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 12px; text-decoration: none; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+  .search-container { background: var(--card-bg); border: 2px solid var(--neon-color); border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 0 0 10px var(--neon-glow); }
+  .search-title { color: var(--neon-color); font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+  .search-box { width: 100%; padding: 10px; background: #000000; border: 1px solid var(--neon-color); border-radius: 8px; color: var(--neon-color); font-size: 14px; outline: none; box-shadow: 0 0 8px var(--neon-glow); }
+  .section-header-bar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+  .section-header { font-size: 14px; font-weight: bold; color: var(--neon-color); }
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .dev-toggle-btn { background: var(--card-bg); border: 1px solid var(--neon-color); color: var(--neon-color); padding: 9px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; box-shadow: 0 0 8px var(--neon-glow); }
+  .dev-panel { background: var(--card-bg); border: 2px dashed var(--neon-color); padding: 15px; border-radius: 12px; margin-bottom: 20px; display: none; box-shadow: 0 0 15px var(--neon-glow); }
+  .dev-panel h3 { color: var(--neon-color); margin-top: 0; font-size: 15px; margin-bottom: 10px; }
+  .dev-panel input,.dev-panel select,.dev-panel textarea { width: 100%; padding: 8px; background: #000000; border: 1px solid var(--neon-color); color: #fff; border-radius: 6px; margin-bottom: 8px; font-size: 13px; }
+  .dev-panel label { font-size: 12px; color: #88ccbb; display: block; margin-bottom: 4px; font-weight: bold; }
+  .add-btn { background: var(--neon-color); color: #000000; border: none; width: 100%; padding: 9px; font-weight: bold; font-size: 14px; border-radius: 6px; cursor: pointer; box-shadow: 0 0 10px var(--neon-glow); }
+  .color-modal,.pay-modal,.customer-pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 3000; }
+  .color-modal-content,.pay-modal-content,.customer-pay-content { background: #111; border: 2px solid var(--neon-color); padding: 20px; border-radius: 16px; width: 330px; box-shadow: 0 0 25px var(--neon-glow); text-align: center; max-height: 90vh; overflow-y: auto; }
+  .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 15px 0; }
+  .color-box { width: 50px; height: 50px; border-radius: 8px; cursor: pointer; border: 2px solid #444; margin: auto; }
+  .card { background: var(--card-bg); border-radius: 12px; padding: 14px; margin-bottom: 14px; position: relative; border: 2px solid var(--card-neon, var(--neon-color)); box-shadow: 0 0 12px var(--card-glow, var(--neon-glow)); }
+  .card.urgent-customer-card { background: linear-gradient(135deg, #19050d, #220011); border: 2px solid #ff0055; box-shadow: 0 0 20px rgba(255, 0, 85, 0.6); }
+  .card.pinned-vip-card { background: linear-gradient(135deg, #0b0f19, #201a00); border: 2px solid #ffaa00; box-shadow: 0 0 20px rgba(255, 170, 0, 0.6); }
+  .card-media-container { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; margin-bottom: 10px; border: 1px solid var(--card-neon, var(--neon-color)); background: #000; position: relative; cursor: pointer; }
+  .card-media-container img,.card-media-container video,.card-media-container iframe { width: 100%; height: 100%; object-fit: cover; border: none; }
+  .media-badge { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.85); color: var(--card-neon, var(--neon-color)); font-size: 10px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--card-neon, var(--neon-color)); font-weight: bold; z-index: 5; }
+  .zoom-hint { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--card-neon, var(--neon-color)); font-size: 11px; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--card-neon, var(--neon-color)); z-index: 5; }
+  .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .card-title { font-size: 17px; font-weight: bold; color: var(--card-neon, var(--neon-color)); margin-bottom: 4px; }
+  .price-badge { background: var(--card-neon, var(--neon-color)); color: #000; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 13px; white-space: nowrap; }
+  .card-category { font-size: 12px; color: var(--card-neon, var(--neon-color)); opacity: 0.9; text-transform: uppercase; margin-bottom: 6px; font-weight: bold; }
+  .card-info { font-size: 13px; color: #cbd5e1; margin-bottom: 8px; }
+  .card-stats { font-size: 11px; color: #ffd700; margin-top: 5px; background: rgba(255,215,0,0.08); padding: 4px 8px; border-radius: 4px; border: 1px dashed rgba(255,215,0,0.3); }
+  .trial-status-badge { font-size: 11px; margin-top: 6px; padding: 5px 8px; border-radius: 6px; font-weight: bold; text-align: center; }
+  .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; font-size: 13px; }
+  .location-badge { color: #fff; background: rgba(255, 255, 255, 0.08); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.2); font-weight: bold; }
+  .whatsapp-btn { display: block; text-align: center; text-decoration: none; font-weight: bold; font-size: 14px; color: var(--card-neon, var(--neon-color)); background: rgba(0, 255, 204, 0.08); border: 1px dashed var(--card-neon, var(--neon-color)); padding: 9px; border-radius: 6px; margin-top: 10px; }
+  .call-btn { display: block; text-align: center; text-decoration: none; font-weight: bold; font-size: 14px; color: #00ff66; background: rgba(0, 255, 102, 0.08); border: 1px dashed #00ff66; padding: 9px; border-radius: 6px; margin-top: 6px; }
+  .upgrade-btn { display: block; text-align: center; text-decoration: none; font-weight: bold; font-size: 13px; color: #000; background: linear-gradient(135deg, #ffd700, #ffaa00); border: none; padding: 9px; border-radius: 6px; margin-top: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(255,215,0,0.6); animation: pulseGlow 1.5s infinite alternate; }
+    @keyframes pulseGlow { 0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,215,0,0.4); } 100% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,215,0,0.8); } }
+  .card-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 10; }
+  .edit-card-btn { background: #00aa88; color: #000; border: none; padding: 3px 7px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+  .delete-btn { background: #ef4444; color: #fff; border: none; padding: 3px 7px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+  .no-result { text-align: center; color: #6b7280; margin-top: 25px; font-size: 14px; }
+  .img-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 4000; }
+  .img-modal img { max-width: 90%; max-height: 90%; object-fit: contain; transition: transform 0.25s ease; cursor: zoom-in; }
+  .close-img-modal { position: fixed; top: 15px; right: 20px; background: #ff0055; color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; cursor: pointer; z-index: 4100; }
+  .plan-option-box { background: rgba(0,255,204,0.05); border: 1px dashed var(--neon-color); padding: 10px; border-radius: 8px; margin: 8px 0; text-align: left; }
+    @keyframes rainAnim { 0%{transform:translateY(-10px)} 100%{transform:translateY(10px)} }
+    @keyframes sunAnim { 0%{transform:rotate(0deg) scale(1)} 100%{transform:rotate(180deg) scale(1.2)} }
+  .weather-rain { background: linear-gradient(180deg, #001122, #003366)!important; border-color:#00aaff!important; }
+  .weather-sunny { background: linear-gradient(180deg, #332200, #664400)!important; border-color:#ffaa00!important; }
+  .weather-cloudy { background: linear-gradient(180deg, #111, #333)!important; border-color:#888!important; }
+    #adBox { transition: all 0.5s ease; animation: adFade 0.5s; }
+    @keyframes adFade { from{opacity:0; transform:scale(0.95)} to{opacity:1; transform:scale(1)} }
+    #mandiBanner { animation: bannerGlow 2s infinite alternate; }
+    @keyframes bannerGlow { 0%{box-shadow:0 0 5px #ffd700} 100%{box-shadow:0 0 15px #ffd700} }
+    #emergencyTickerWrap { display: block!important; opacity: 1!important; visibility: visible!important; }
+    #weatherCustomSearch { display: none!important; }
+    #voiceSearchBtn.listening { animation: voicePulse 0.8s infinite; background:#00ff66!important; border-color:#fff!important; }
+    @keyframes voicePulse { 0%{transform:scale(1); box-shadow:0 0 5px #00ff66} 50%{transform:scale(1.15); box-shadow:0 0 20px #00ff66} 100%{transform:scale(1); box-shadow:0 0 5px #00ff66} }
+@keyframes pulseMicModal { 
+    0% { transform: scale(1); box-shadow: 0 0 15px #ff0055; } 
+    50% { transform: scale(1.2); box-shadow: 0 0 40px #ff0055; } 
+    100% { transform: scale(1); box-shadow: 0 0 15px #ff0055; } 
+}
+mic-pulse { animation: pulseMicModal 1s infinite; }
+.gold-trust-badge { background: linear-gradient(135deg, #ffd700, #ffaa00); color: #000; border: 1px solid #fff; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: bold; margin-left: 6px; box-shadow: 0 0 10px rgba(255,215,0,0.8); animation: goldPulse 1.5s infinite alternate; }
+@keyframes goldPulse { 0% { transform: scale(1); box-shadow: 0 0 5px rgba(255,215,0,0.6); } 100% { transform: scale(1.05); box-shadow: 0 0 15px rgba(255,215,0,1); } }
+.report-btn { background: none; border: none; color: #ff4444; font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 4px; display: inline-block; font-weight: bold; }
+</style>
+<script>
+  const firebaseConfig = {
+        apiKey: "AIzaSyBYUdDr7ngl99gv8hqt1lJ6rM-grfyLVEc",
+        authDomain: "kaamdhandha-database.firebaseapp.com",
+        projectId: "kaamdhandha-database",
+        storageBucket: "kaamdhandha-database.firebasestorage.app",
+        messagingSenderId: "279432728965",
+        appId: "1:279432728965:web:838cb6c9b528197d0df4ec"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+    const auth = firebase.auth();
+    const UPI_1 = "6264917767-2@ybl";
+    const RAZORPAY_KEY_ID = "rzp_live_TZrkN0Hd4YHnwY";
+    let UPI_2 = localStorage.getItem("kaamDhandhaUpi2") || "your_second_upi@ybl";
+    let bijliNumber = localStorage.getItem("kaamDhandhaBijliNo") || "9876543210";
+    let defaultTrialDays = parseInt(localStorage.getItem("kaamDhandhaTrialDays")) || 15;
+    let urgentAdHoursLimit = parseInt(localStorage.getItem("kaamDhandhaUrgentHours")) || 24;
+    let maxUrgentAdsAllowed = parseInt(localStorage.getItem("kaamDhandhaMaxUrgentCount")) || 3;
+    let maxAdsPerPhoneLimit = parseInt(localStorage.getItem("maxAdsPerPhoneLimit")) || 2;
+    let voiceSpeakerVisible = localStorage.getItem("voiceSpeakerVisible") !== "hide";
+    let isAdminLoggedIn = false;
+    let isZoomed = false;
+    let adsData = [];
+    let adsDisplayLimit = 15;
+    let currentListingThemeColor = localStorage.getItem("kaamDhandhaThemeColor") || "#00ffcc";
+    let currentUserPhone = "";
+    const WEATHER_API_KEY = "d822ccd9b7b360afa663ffe7698f131a";
+    let currentMandiCity = localStorage.getItem("currentMandiCity") || "Bodla";
+    let rotationIndex = 0;
+    let rotationTimer = null;
+    let customLocations = JSON.parse(localStorage.getItem("customMandiLocations")) || ["Bodla","Kawardha","Bilaspur","Raipur","Pandariya"];
+    let dynamicSabziList = JSON.parse(localStorage.getItem("kaamDhandha10SabziList")) || [
+        {name: "Tamatar", rate: "₹30/kg"}, {name: "Aalu", rate: "₹25/kg"}, {name: "Baigan", rate: "₹25/kg"},
+        {name: "Pyaaz", rate: "₹40/kg"}, {name: "Gobhi", rate: "₹35/kg"}, {name: "Bhindi", rate: "₹40/kg"},
+        {name: "Lauki", rate: "₹20/kg"}, {name: "Hari Mirch", rate: "₹60/kg"}, {name: "Nimbu", rate: "₹50/kg"},
+        {name: "Dhania", rate: "₹80/kg"}
+    ];
+    let customerPayConfig = JSON.parse(localStorage.getItem("kaamDhandhaCustPayConfig")) || { enabled: false, amount: "₹10", msg: "Direct Call Access Pass" };
+    let isCustomerUnlocked = localStorage.getItem("kaamDhandhaCustUnlocked") === "true";
+    let pendingCallPhone = "";
+    let recognitionInstance = null; // Fix #6: Global variable for recognition instance
+    const SETTINGS_DOC = db.collection("kaam_settings").doc("global_banner");
+
+    // 📸 IMAGE AUTO COMPRESSION (< 498 KB) & UNIVERSAL URL SUPPORT
+    async function compressImageToLimit(file) {
+        return new Promise((resolve) => {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(event) {
+                let img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    let canvas = document.createElement('canvas');
+                    let MAX_WIDTH = 800, MAX_HEIGHT = 800;
+                    let width = img.width, height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                    } else {
+                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                    }
+                    canvas.width = width; canvas.height = height;
+                    let ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    let dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    resolve(dataUrl);
+                }
+            }
+        });
+    }
+
+    // 🔊 FREE VOICE SPEAKER (WEB SPEECH API) WITH ADMIN HIDE/SHOW
+    function speakMandiRates() {
+        if (!('speechSynthesis' in window)) {
+            alert("Aapka browser voice support nahi karta!");
+            return;
+        }
+        window.speechSynthesis.cancel(); // Fix #2: Purani awaz turant rokne ke liye
+        let text = `${currentMandiCity} mandi ke taaja rates. `;
+        dynamicSabziList.forEach(i => {
+            text += `${i.name} ka bhav ${i.rate} hai. `;
+        });
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'hi-IN';
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function updateVoiceSpeakerVisibility() {
+        let box = document.getElementById('voiceSpeakerBox');
+        if(box) {
+            box.style.display = voiceSpeakerVisible ? 'block' : 'none';
+        }
+    }
+
+    function saveAdminAppSettings() {
+        let maxAds = parseInt(document.getElementById('adminMaxAdsPerPhone').value);
+        let speakerVis = document.getElementById('adminVoiceSpeakerToggle').value;
+        if(!isNaN(maxAds)) {
+            maxAdsPerPhoneLimit = maxAds;
+            localStorage.setItem("maxAdsPerPhoneLimit", maxAds);
+        }
+        voiceSpeakerVisible = (speakerVis === 'show');
+        localStorage.setItem("voiceSpeakerVisible", voiceSpeakerVisible ? 'show' : 'hide');
+        updateVoiceSpeakerVisibility();
+        alert("✅ Admin Settings Successfully Save Ho Gayi!");
+    }
+
+    // 🛡️ SMART ANTI-SPAM REPORT SYSTEM (10 UNIQUE REPORTS -> ADMIN WHATSAPP ALERT)
+    function reportAdFraud(adId, adName, adPhone, adLoc) {
+        let userIpKey = "reported_" + adId;
+        if(localStorage.getItem(userIpKey)) {
+            alert("⚠️ Aap pehle hi is ad ko report kar chuke hain!");
+            return;
+        }
+        if(confirm("Kya aap is ad ko fraudulent ya galat report karna chahte hain?")) {
+            db.collection("ads").doc(adId).get().then(doc => {
+                if(doc.exists) {
+                    let reports = (doc.data().reportCount || 0) + 1;
+                    db.collection("ads").doc(adId).update({ reportCount: reports }).then(() => {
+                        localStorage.setItem(userIpKey, "true");
+                        if(reports >= 10) {
+                            db.collection("ads").doc(adId).update({ vipTier: 0, pinned: false, location: "[REPORTED & REMOVED]" });
+                            
+                            // Send WhatsApp alert to Admin (Raaj Meravi - 6264917767)
+                            let adminMsg = `🚨 *FRAUD AD ALERT (10 Reports)* 🚨\n\nEk ad par 10 genuine reports aayi hain aur use remove kar diya gaya hai:\n\n🏪 Dukaan: *${adName}*\n📱 Number: *${adPhone}*\n📍 Location: *${adLoc}*\n🆔 Ad ID: *${adId}*`;
+                            window.open(`https://wa.me/916264917767?text=${encodeURIComponent(adminMsg)}`, '_blank');
+
+                            alert("⚠️ Is ad ko 10 genuine reports milne par automatic remove kar diya gaya hai aur Admin ko WhatsApp alert bhej diya gaya hai.");
+                        } else {
+                            alert(`✅ Report darj ho gayi (${reports}/10 reports). Shukriya!`);
+                        }
+                    });
+                }
+            });
+        }
+    }
+// 🛡️ Ultimate & Bulletproof Anti-Spam Guard for Phone Numbers
+    function isFakeOrSpamNumber(phone) {
+        // Fix #4: Trim country code before checking
+        let c = phone.replace(/[^0-9]/g,'');
+        if(c.length === 12 && c.startsWith('91')) c = c.slice(2);
+        if(c.length === 11 && c.startsWith('0')) c = c.slice(1);
+
+        if (c.length!== 10) return true;
+        let firstDigit = c[0];
+        if (!['6', '7', '8', '9'].includes(firstDigit)) return true;
+        if (/^(\d)\1{9}$/.test(c)) return true;
+        let part1 = c.substring(0, 2);
+        let part2 = c.substring(2, 4);
+        let part3 = c.substring(4, 6);
+        let part4 = c.substring(6, 8);
+        if (part1 === part2 && part2 === part3 && part3 === part4) return true;
+        if ("123456789098765432100123456789".includes(c)) return true;
+        if (c.substring(0, 5) === c.substring(5, 10)) return true;
+        return false;
+    }
+
+    window.onload = function() {
+        document.getElementById('trialDaysInput').value = defaultTrialDays;
+        document.getElementById('adminUrgentHoursInput').value = urgentAdHoursLimit;
+        document.getElementById('adminMaxUrgentCountInput').value = maxUrgentAdsAllowed;
+        document.getElementById('adminMaxAdsPerPhone').value = maxAdsPerPhoneLimit;
+        document.getElementById('adminVoiceSpeakerToggle').value = voiceSpeakerVisible ? 'show' : 'hide';
+        updateVoiceSpeakerVisibility();
+
+        document.getElementById('enableCustomerPayCheck').checked = customerPayConfig.enabled;
+        document.getElementById('custPayAmountInput').value = customerPayConfig.amount;
+        document.getElementById('custPayMsgInput').value = customerPayConfig.msg;
+        document.getElementById('displayUpi2').innerText = UPI_2;
+        document.getElementById('newUpi2Input').value = UPI_2;
+        document.getElementById('topBijliNum').innerText = bijliNumber;
+        document.getElementById('newBijliInput').value = bijliNumber;
+        loadMandiCities();
+        onLocationChange(currentMandiCity);
+        fetchWeather(currentMandiCity);
+        loadMandiFromFirebase(currentMandiCity);
+        loadAllBannersAndWeatherSettings();
+        renderDynamicSabziUI();
+        startRealtimeClock();
+        fetchAdsFromFirebase();
+        autoDeleteCheck();
+        setInterval(autoDeleteCheck, 60000);
+    };
+  function checkMyTrialStatus(){
+      let phoneInput = document.getElementById('trialCheckPhone').value.trim().replace(/[^0-9]/g,'');
+      let resultEl = document.getElementById('trialCheckResult');
+      if(phoneInput.length < 10){
+        alert("Sahi 10 digit number daalo bhai!");
+        return;
+      }
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = "⏳ Check kar raha hu...";
+      let now = Date.now();
+      let cleanInput = phoneInput.slice(-10);
+      let myAds = adsData.filter(ad => {
+        let clean = (ad.phone||'').replace(/[^0-9]/g,'').slice(-10);
+        return clean === cleanInput &&!ad.isCustomer24Hr;
+      });
+      if(myAds.length === 0){
+        resultEl.innerHTML = `❌ <b>${phoneInput}</b> se koi Dukandar Ad nahi mila.<br><span style="color:#aaa; font-size:10px;">Naya ad banane ke liye upar form bharo.</span>`;
+        return;
+      }
+      let html = `<div style="text-align:left;">`;
+      html += `<b>📱 ${phoneInput} - Total ${myAds.length} Ad(s)</b><br><br>`;
+      myAds.forEach((ad, i) => {
+        let created = ad.createdAt || now;
+        let expiry = ad.vipExpiry || 0;
+        let remaining = 0;
+        let status = "";
+        let color = "";
+        let showPayBtn = false;
+        if(expiry && expiry > now){
+            remaining = Math.ceil((expiry - now) / (1000*60*60*24));
+            status = `✅ ${ad.vipTier==2?'PINNED':'VIP'} ACTIVE - ${remaining} din bache`;
+            color = "#ffd700";
+        } else if(expiry && expiry <= now){
+            status = `🔴 EXPIRED - 30 din khatam, ab Normal me hai`;
+            color = "#ff0055";
+            showPayBtn = true;
+        } else if(ad.vipTier == 1 || ad.vipTier == 2 || ad.pinned){
+            status = `✅ VIP/PINNED ACTIVE (Expiry nahi set, renew kar lo)`;
+            color = "#ffd700";
+            showPayBtn = false;
+        } else {
+            // Fix #10: Math.floor se round off kar le
+            let diffDays = Math.floor((now - created) / (1000 * 60 * 60 * 24));
+            let limit = ad.customTrialDays || defaultTrialDays;
+            remaining = Math.ceil(limit - diffDays);
+            if(remaining <= 0){
+                status = `🔴 Trial EXPIRED - ${Math.abs(remaining)} din pehle khatam`;
+                color = "#ff0055";
+                showPayBtn = true;
+            } else if(remaining <= 3){
+                status = `⚠️ Sirf ${remaining} din bache hain!`;
+                color = "#ffaa00";
+            } else {
+                status = `⏳ ${remaining} din bache (Total ${limit} din)`;
+                color = "#00ffcc";
+            }
+        }
+        html += `<div style="background:rgba(0,0,0,0.6); border:1px solid ${color}; padding:6px; border-radius:6px; margin-bottom:6px;">`;
+        html += `${i+1}. <b>${ad.name}</b><br><span style="color:${color}; font-size:11px; font-weight:bold;">${status}</span><br>`;
+        html += `<span style="font-size:10px; color:#888;">📍 ${ad.location} | ${ad.mandiCity||'Bodla'} | ${new Date(created).toLocaleDateString('hi-IN')}</span>`;
+        if(showPayBtn){
+            html += `<br><button onclick="openPayForSpecificAd('${ad.id}')" style="background:linear-gradient(135deg,#ffd700,#ffaa00); color:#000; border:none; padding:5px 10px; border-radius:12px; font-weight:bold; font-size:10px; margin-top:4px; cursor:pointer;">💰 Isi Ad Ko Renew Karo - Pay Karo</button>`;
+        }
+        html += `</div>`;
+      });
+      html += `</div>`;
+      resultEl.innerHTML = html;
+    }
+    function openPayForSpecificAd(adId){
+        let ad = adsData.find(a=>a.id===adId);
+        if(!ad) return;
+        document.getElementById('payShopName').value = ad.name;
+        document.getElementById('payOwnerPhone').value = ad.phone;
+        autoLoadAdsForPay(ad.phone);
+        setTimeout(()=>{
+            let sel = document.getElementById('payAdSelect');
+            if(sel) sel.value = adId;
+            updatePayExpiryInfo();
+        },500);
+        document.getElementById('payModal').style.display='flex';
+    }
+    function autoLoadAdsForPay(phone){
+        let clean = phone.replace(/[^0-9]/g,'').slice(-10);
+        if(clean.length<10) return;
+        let list = adsData.filter(a=> (a.phone||'').replace(/[^0-9]/g,'').slice(-10)===clean &&!a.isCustomer24Hr);
+        let box = document.getElementById('payAdListBox');
+        let sel = document.getElementById('payAdSelect');
+        if(list.length===0){ box.style.display='none'; return; }
+        box.style.display='block';
+        sel.innerHTML = '';
+        list.forEach(ad=>{
+            let opt = document.createElement('option');
+            opt.value = ad.id;
+            let expText = ad.vipExpiry? ` (Exp: ${new Date(ad.vipExpiry).toLocaleDateString()})` : ` (Normal/Trial)`;
+            opt.text = `${ad.name} - ${ad.location}${expText}`;
+            sel.appendChild(opt);
+        });
+        updatePayExpiryInfo();
+        sel.onchange = updatePayExpiryInfo;
+    }
+function updatePayExpiryInfo(){
+        let sel = document.getElementById('payAdSelect');
+        let info = document.getElementById('payAdExpiryInfo');
+        if(!sel.value){ info.innerHTML=''; return; }
+        let ad = adsData.find(a=>a.id===sel.value);
+        if(!ad) return;
+        let now = Date.now();
+        if(ad.vipExpiry && ad.vipExpiry>now){
+            let days = Math.ceil((ad.vipExpiry-now)/(1000*60*60*24));
+            info.innerHTML = `⏳ Is ad me <b style="color:#00ffcc;">${days} din</b> bache hain - Renew karoge to 30 din aur judega`;
+        } else {
+            info.innerHTML = `🔴 Ye ad <b style="color:#ff0055;">Expired/Normal</b> hai - Pay karne par 30 din VIP active hoga`;
+        }
+    }
+    function isVipExpired(ad){
+        if(!ad.vipExpiry) return false;
+        return Date.now() > ad.vipExpiry;
+    }
+function updateAdminTotalCount(){
+        if(!isAdminLoggedIn) return;
+        let totalEl = document.getElementById('adminTotalCount');
+        let vipEl = document.getElementById('adminVipCount');
+        let urgentEl = document.getElementById('adminUrgentCount');
+        if(!totalEl) return;
+        let total = adsData.length;
+        let vip = adsData.filter(a => a.vipTier == 1 || a.vipTier == 2 || a.pinned).length;
+        let urgent = adsData.filter(a => a.isCustomer24Hr).length;
+        totalEl.innerText = total;
+        if(vipEl) vipEl.innerText = vip;
+        if(urgentEl) urgentEl.innerText = urgent;
+    }
+async function uploadImageToFirebase(fileInputId) {
+        if(fileInputId === 'newImageFile'){
+            let urls = [];
+            for(let i=1; i<=3; i++){
+                let f = document.getElementById('multiImg'+i);
+                // Fix #12: File existence check zaroor rakh
+                if(f && f.files && f.files[0]){
+                    let compUrl = await compressImageToLimit(f.files[0]);
+                    let fileName = "ads/" + Date.now() + "_" + i + "_" + f.files[0].name.replace(/[^a-zA-Z0-9.]/g,'_');
+                    let ref = storage.ref().child(fileName); // Fix #1: global firebase object se call kar
+                    await ref.putString(compUrl, 'data_url');
+                    let url = await ref.getDownloadURL();
+                    urls.push(url);
+                }
+            }
+            if(urls.length>0){
+                return urls;
+            }
+            return "";
+        }
+        let fileInput = document.getElementById(fileInputId);
+        let file = fileInput && fileInput.files[0];
+        if (!file) return "";
+        let compUrl = await compressImageToLimit(file);
+        let fileName = "ads/" + Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.]/g,'_');
+        let storageRef = storage.ref().child(fileName); // Fix #1
+        await storageRef.putString(compUrl, 'data_url');
+        let downloadURL = await storageRef.getDownloadURL();
+        return downloadURL;
+    }
+    function loadMoreAds(){
+        adsDisplayLimit += 15;
+        renderAds();
+  }
+  function openDigitalKhataLink(){
+        let a = document.getElementById('dukandarSpecialLink');
+        if(a && a.href){
+            window.open(a.href, '_blank');
+        }
+    }
+
+    // ✅ UPGRADED VOICE SEARCH FUNCTION (Fix #6 included)
+    function startVoiceSearch(){
+        if(!('webkitSpeechRecognition' in window) &&!('SpeechRecognition' in window)){
+            alert("🎤 Voice support nahi hai, Chrome browser use karo bhai!");
+            return;
+        }
+        let modal = document.getElementById('voiceSearchModal');
+        let modalText = document.getElementById('voiceModalText');
+        let input = document.getElementById('searchInput');
+        let micBtn = document.getElementById('voiceSearchBtn');
+
+        try {
+            // Fix #6: Pehle wale instance ko abort() karwa de
+            if(recognitionInstance) { recognitionInstance.abort(); }
+
+            let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognitionInstance = new SpeechRecognition();
+
+            recognitionInstance.lang = 'hi-IN';
+            recognitionInstance.continuous = false;
+            recognitionInstance.interimResults = true;
+
+            if(micBtn) micBtn.classList.add('listening');
+            modal.style.display = 'flex';
+            modalText.innerText = '🎙️ Sun raha hu... boliye!';
+            modalText.style.color = '#00ffcc';
+
+            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+                navigator.mediaDevices.getUserMedia({audio:true}).catch(()=>{});
+            }
+
+            recognitionInstance.onresult = function(e){
+                let transcript = '';
+                for (let i = e.resultIndex; i < e.results.length; ++i) {
+                    transcript += e.results[i][0].transcript;
+                }
+                input.value = transcript;
+                modalText.innerText = '✅ Suna: ' + transcript;
+
+                filterProfiles();
+                checkLocationInSearch(transcript);
+
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    if(micBtn) micBtn.classList.remove('listening');
+                }, 800);
+            };
+
+            recognitionInstance.onerror = function(ev){
+                if(ev.error === 'not-allowed'){
+                    modalText.innerText = '❌ Browser me Mic ki permission do!';
+                } else {
+                    modalText.innerText = '❌ Awaz saaf nahi aayi, dobara boliye...';
+                }
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    if(micBtn) micBtn.classList.remove('listening');
+                }, 1500);
+            };
+
+            recognitionInstance.onend = function(){
+                if(micBtn) micBtn.classList.remove('listening');
+                setTimeout(() => {
+                    if(modal.style.display === 'flex') {
+                        modal.style.display = 'none';
+                    }
+                }, 500);
+            };
+
+            recognitionInstance.start();
+        } catch(err) {
+            alert("Voice error: " + err.message);
+            document.getElementById('voiceSearchModal').style.display = 'none';
+            if(micBtn) micBtn.classList.remove('listening');
+        }
+    }
+
+    function loadMandiFromFirebase(city){
+        db.collection("mandis").doc(city).get().then(doc=>{
+            if(doc.exists && doc.data().rates){
+                dynamicSabziList = doc.data().rates;
+                localStorage.setItem("kaamDhandha10SabziList", JSON.stringify(dynamicSabziList));
+                renderDynamicSabziUI();
+                updateMandiBanner(doc.data().trend || "");
+                if(doc.data().updated) {
+                    let dateObj = new Date(doc.data().updated);
+                    let options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                    let el = document.getElementById('mandiUpdateTime');
+                    if(el) el.innerText = "🔄 Last Updated: " + dateObj.toLocaleDateString('hi-IN', options);
+                } else {
+                    let el = document.getElementById('mandiUpdateTime');
+                    if(el) el.innerText = "🔄 Last Updated: Abhi update hua";
+                }
+            }
+        });
+    }
+async function clearAllBanners(){
+        if(!confirm("Banner hatane hain?")) return;
+        await SETTINGS_DOC.set({ tickerText: "", sponsorTitle: "", sponsorOffer: "", sponsorImg: "", sponsorLink: "", dukaanSpecialVisibility: "hide", topLocationVisibility: "show", locationWeatherVisibility: "show" }, {merge:true});
+        loadAllBannersAndWeatherSettings();
+        alert("❌ Sabhi Banners Hide Ho Gaye");
+    }
+async function loadAllBannersAndWeatherSettings(){
+        try{
+            const doc = await SETTINGS_DOC.get();
+            const tickerWrap = document.getElementById("emergencyTickerWrap");
+            const tickerText = document.getElementById("emergencyTickerText");
+            if(doc.exists){
+                const data = doc.data();
+                if(data.tickerText && data.tickerText.trim()!== ""){
+                    tickerText.innerText = data.tickerText;
+                    tickerWrap.style.display = "block";
+                    if(document.getElementById("adminTickerInput")) document.getElementById("adminTickerInput").value = data.tickerText;
+                } else {
+                    tickerWrap.style.display = "none";
+                    if(document.getElementById("adminTickerInput")) document.getElementById("adminTickerInput").value = "";
+                }
+const sponsorWrap = document.getElementById("sponsorBannerWrap");
+                if(data.sponsorTitle && data.sponsorTitle.trim()!== ""){
+                    document.getElementById("sponsorBannerTitle").innerText = data.sponsorTitle;
+                    document.getElementById("sponsorBannerOffer").innerText = data.sponsorOffer || "";
+                    if(data.sponsorImg){ const img=document.getElementById("sponsorBannerImg"); img.src=data.sponsorImg; img.style.display="block"; }
+                    if(data.sponsorLink){ const l=document.getElementById("sponsorBannerLink"); l.href="https://wa.me/91"+data.sponsorLink.replace(/[^0-9]/g,''); l.style.display="inline-block"; }
+                    sponsorWrap.style.display = "block";
+                } else {
+                    if(sponsorWrap) sponsorWrap.style.display = "none";
+                }
+                let dukaanWrap = document.getElementById("dukandarSpecialBanner");
+                if(data.dukaanSpecialVisibility === "hide"){
+                    if(dukaanWrap) dukaanWrap.style.display = "none";
+                    if(document.getElementById("adminDukaanSpecialVisibility")) document.getElementById("adminDukaanSpecialVisibility").value = "hide";
+                } else {
+                    if(dukandarWrap){
+                        dukandarWrap.style.display = "block";
+                        document.getElementById("dukandarSpecialTitle").innerText = data.dukaanSpecialTitle || "🏪 Dukandar Special";
+                        document.getElementById("dukandarSpecialBtn").innerText = data.dukaanSpecialBtnText || "Click Karein";
+                        if(data.dukaanSpecialLink){
+                            document.getElementById("dukandarSpecialLink").href = data.dukaanSpecialLink;
+                            document.getElementById("dukandarSpecialLinkDisplay").innerText = data.dukaanSpecialLink;
+                        }
+                    }
+                    if(document.getElementById("adminDukaanSpecialVisibility")) document.getElementById("adminDukaanSpecialVisibility").value = "show";
+                }
+                if(data.gallerySystem === "on"){
+                    if(document.getElementById('custImageUrlWrapper')) document.getElementById('custImageUrlWrapper').style.display = 'none';
+                    if(document.getElementById('custImageFileWrapper')) document.getElementById('custImageFileWrapper').style.display = 'block';
+                    if(document.getElementById('newImageUrlWrapper')) document.getElementById('newImageUrlWrapper').style.display = 'none';
+                    if(document.getElementById('newImageFileWrapper')) document.getElementById('newImageFileWrapper').style.display = 'block';
+                    if(document.getElementById('adminGalleryToggle')) document.getElementById('adminGalleryToggle').value = 'on';
+                } else {
+                    if(document.getElementById('custImageUrlWrapper')) document.getElementById('custImageUrlWrapper').style.display = 'block';
+                    if(document.getElementById('custImageFileWrapper')) document.getElementById('custImageFileWrapper').style.display = 'none';
+                    if(document.getElementById('newImageUrlWrapper')) document.getElementById('newImageUrlWrapper').style.display = 'block';
+                    if(document.getElementById('newImageFileWrapper')) document.getElementById('newImageFileWrapper').style.display = 'none';
+                    if(document.getElementById('adminGalleryToggle')) document.getElementById('adminGalleryToggle').value = 'off';
+                }
+                let topBar = document.getElementById('topLocationBar');
+                if(data.topLocationVisibility === 'hide'){
+                    if(topBar) topBar.style.display = 'none';
+                    if(document.getElementById('adminTopLocationVisibility')) document.getElementById('adminTopLocationVisibility').value = 'hide';
+                } else {
+                    if(topBar) topBar.style.display = 'flex';
+                    if(document.getElementById('adminTopLocationVisibility')) document.getElementById('adminTopLocationVisibility').value = 'show';
+                }
+                let locWeatherWrap = document.getElementById('locationWeatherWrapper');
+                if(data.locationWeatherVisibility === 'hide'){
+                    if(locWeatherWrap) locWeatherWrap.style.display = 'none';
+                    if(document.getElementById('adminLocationVisibility')) document.getElementById('adminLocationVisibility').value = 'hide';
+                } else {
+                    if(locWeatherWrap) locWeatherWrap.style.display = 'grid';
+                    if(document.getElementById('adminLocationVisibility')) document.getElementById('adminLocationVisibility').value = 'show';
+                }
+if(data.defaultWeatherCity){
+                    if(document.getElementById('adminDefaultWeatherCity')) document.getElementById('adminDefaultWeatherCity').value = data.defaultWeatherCity;
+                }
+            }
+        } catch(e) { console.log(e); }
+  }
+  async function saveGallerySetting(){
+        let val = document.getElementById("adminGalleryToggle").value;
+        await SETTINGS_DOC.set({ gallerySystem: val }, {merge:true});
+        alert("✅ Gallery System Update Ho Gaya!");
+        loadAllBannersAndWeatherSettings();
+    }
+    async function saveTopLocationVisibility(){
+        let val = document.getElementById("adminTopLocationVisibility").value;
+        await SETTINGS_DOC.set({ topLocationVisibility: val }, {merge:true});
+        alert("✅ Top Location Bar Setting Save Ho Gayi!");
+        loadAllBannersAndWeatherSettings();
+    }
+    async function saveLocationVisibility(){
+        let val = document.getElementById("adminLocationVisibility").value;
+        await SETTINGS_DOC.set({ locationWeatherVisibility: val }, {merge:true});
+        alert("✅ Location + Weather Box Setting Save!");
+        loadAllBannersAndWeatherSettings();
+    }
+    async function saveDefaultWeatherCity(){
+        let city = document.getElementById("adminDefaultWeatherCity").value.trim();
+        if(city.length < 2){ alert("Sahi City naam likho!"); return; }
+        await SETTINGS_DOC.set({ defaultWeatherCity: city }, {merge:true});
+        alert("✅ Default City Set: " + city);
+    }
+
+    // ✅ UPGRADED - BIJLI TUFAN SALAH + HAR MAUSAM
+    function getWeatherAdvisory(temp, main, humidity){
+        temp = parseInt(temp);
+        main = (main || "").toLowerCase();
+        if(main.includes("thunderstorm")){
+            return "⚡🌩️ BIJLI TUFAN ALERT: Bahar mat niklein, mobile tower/ped ke niche khade na ho, bijli ke saman band rakhein, surakshit jagah rahein!";
+        } else if(main.includes("rain") || main.includes("drizzle")){
+            return "🌧️ Barish ka mausam hai, fasal ko dhak kar rakhein aur mandi me jane se pehle raincoat le jayein.";
+        } else if(temp >= 40){
+            return "🥵 Garmi tez hai (40°C+), dopahar me bahar nikalne se bachein, paani zyada piyein.";
+        } else if(temp <= 15){
+            return "🥶 Thand bahut hai, fasal ko pale se bachayein, garam kapde pehnein.";
+        } else if(humidity > 80){
+            return "💧 Nami zyada hai, anaaj ko sukhi jagah store karein, kharab hone se bachega.";
+        } else if(main.includes("clear")){
+            return "☀️ Mausam saaf hai, kheti aur mandi ke kaam ke liye best time hai!";
+        } else if(main.includes("cloud")){
+            return "☁️ Badal chhaye hain, halki barish ho sakti hai, taiyaar rahein.";
+        } else if(main.includes("haze") || main.includes("smoke")){
+            return "🌫️ Kohra/Dhuan hai, bike chalate samay light jalayein.";
+        } else {
+            return "🌾 Mausam normal hai, apne kaam jari rakhein.";
+        }
+    }
+// 🔥 UPGRADED: Gaon ho ya Sahar + UPDATE TIME + TUFAN BOX
+    async function fetchWeather(city){
+        let cleanCity = city.trim();
+        if(cleanCity.length<2) return;
+        try{
+            let urls = [
+                `https://api.openweathermap.org/data/2.5/weather?q=${cleanCity}&appid=${WEATHER_API_KEY}&units=metric&lang=hi`,
+                `https://api.openweathermap.org/data/2.5/weather?q=${cleanCity},IN&appid=${WEATHER_API_KEY}&units=metric&lang=hi`,
+                `https://api.openweathermap.org/data/2.5/weather?q=${cleanCity},Chhattisgarh,IN&appid=${WEATHER_API_KEY}&units=metric&lang=hi`
+            ];
+            let data = null;
+            for(let url of urls){
+                try{
+                    let res = await fetch(url);
+                    let json = await res.json();
+                    if(json.cod === 200){ data = json; break; }
+                }catch(e){}
+            }
+            if(data && data.cod === 200){
+                document.getElementById('weatherCity').innerText = data.name + ` (${cleanCity})`;
+                document.getElementById('weatherTemp').innerText = Math.round(data.main.temp) + "°C";
+                document.getElementById('weatherDesc').innerText = data.weather[0].description;
+                let main = data.weather[0].main;
+                let effectEl = document.getElementById('weatherEffect');
+                let widget = document.getElementById('weatherWidget');
+                widget.className = "";
+                if(main.toLowerCase().includes("thunderstorm")){
+                    effectEl.innerText = "⛈️"; widget.classList.add("weather-rain");
+                    widget.style.borderColor = "#ff0055";
+                } else if(main.toLowerCase().includes("rain") || main.toLowerCase().includes("drizzle")){
+                    effectEl.innerText = "🌧️"; widget.classList.add("weather-rain");
+                } else if(main.toLowerCase().includes("clear")){
+                    effectEl.innerText = "☀️"; widget.classList.add("weather-sunny");
+                } else {
+                    effectEl.innerText = "☁️"; widget.classList.add("weather-cloudy");
+                }
+                let advisory = getWeatherAdvisory(data.main.temp, main, data.main.humidity);
+                let advisoryEl = document.getElementById('weatherAdvisoryText');
+                if(advisoryEl) advisoryEl.innerText = advisory;
+
+                // ✅ MAUSAM UPDATE TIME
+                let updEl = document.getElementById('weatherUpdateTime');
+                if(updEl){
+                    let now = new Date();
+                    updEl.innerText = `🔄 Mausam Updated: ${now.toLocaleTimeString('hi-IN')} | ${now.toLocaleDateString('hi-IN')}`;
+                }
+            } else {
+                document.getElementById('weatherCity').innerText = cleanCity;
+                document.getElementById('weatherDesc').innerText = "Gaon/Sahar nahi mila, nearby dikha rahe";
+                document.getElementById('weatherTemp').innerText = "--°C";
+                try{
+                    let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bodla,IN&appid=${WEATHER_API_KEY}&units=metric&lang=hi`);
+                    let fb = await res.json();
+                    if(fb.cod===200){
+                        document.getElementById('weatherTemp').innerText = Math.round(fb.main.temp) + "°C";
+                        document.getElementById('weatherDesc').innerText = fb.weather[0].description + ` (Bodla nearby)`;
+                    }
+                }catch(e){}
+            }
+        } catch(e){
+            document.getElementById('weatherDesc').innerText = "Error";
+        }
+    }
+async function loadMandiCities(){
+        try{
+            let snap = await db.collection("mandi_cities").get();
+            let cities = [];
+            snap.forEach(doc => cities.push(doc.id));
+            if(cities.length > 0){
+                customLocations = cities;
+            } else {
+                customLocations = ["Bodla"];
+            }
+        }catch(e){
+            customLocations = JSON.parse(localStorage.getItem("customMandiLocations")) || ["Bodla","Kawardha","Bilaspur","Raipur","Pandariya"];
+        }
+        initLocationSelector();
+    }
+    function initLocationSelector(){
+        let sel = document.getElementById('mandiLocationSelect');
+        let newSel = document.getElementById('newMandiCity');
+        let adminDelSel = document.getElementById('adminDeleteLocationSelect');
+        if(sel) sel.innerHTML = '';
+        if(newSel) newSel.innerHTML = '';
+        if(adminDelSel) adminDelSel.innerHTML = '';
+        customLocations.forEach(city => {
+            if(sel){
+                let opt = document.createElement('option');
+                opt.value = city; opt.textContent = city;
+                if(city === currentMandiCity) opt.selected = true;
+                sel.appendChild(opt);
+            }
+            if(newSel){
+                let opt = document.createElement('option');
+                opt.value = city; opt.textContent = `Mandi City: ${city}`;
+                newSel.appendChild(opt);
+            }
+            if(adminDelSel){
+                let opt = document.createElement('option');
+                opt.value = city; opt.textContent = city;
+                adminDelSel.appendChild(opt);
+            }
+        });
+  }
+  function adminAddLocation(){
+        let city = document.getElementById('adminNewLocationInput').value.trim();
+        if(city.length < 2){ alert("Sahi naam likho bhai!"); return; }
+        db.collection("mandi_cities").doc(city).set({name: city, created: Date.now()}).then(() => {
+            alert(`✅ ${city} Add ho gaya! Ab sabko dikhega.`);
+            document.getElementById('adminNewLocationInput').value = '';
+            loadMandiCities();
+        });
+    }
+function adminDeleteLocation(){
+        let city = document.getElementById('adminDeleteLocationSelect').value;
+        if(!city) return;
+        if(confirm(`⚠️ WARNING: Kya aap sach me '${city}' ko hamesha ke liye list se udana chahte hain?`)){
+            db.collection("mandi_cities").doc(city).delete().then(() => {
+                alert(`❌ ${city} List se Delete ho gaya!`);
+                loadMandiCities();
+            });
+        }
+    }
+    function onLocationChange(selectedCity){
+        if(selectedCity) currentMandiCity = selectedCity;
+        else currentMandiCity = document.getElementById('mandiLocationSelect').value;
+        localStorage.setItem("currentMandiCity", currentMandiCity);
+        document.getElementById('mandiTitleCity').innerText = currentMandiCity.toUpperCase();
+        document.getElementById('currentMandiLocationLabel').innerText = currentMandiCity;
+        document.getElementById('adminMandiCityLabel').innerText = currentMandiCity;
+        document.querySelectorAll('.citySaveLabel').forEach(el=> el.innerText = currentMandiCity);
+        document.getElementById('topLocationDisplay').innerText = `📍 ${currentMandiCity} Live Mandi / All India`;
+        document.getElementById('weatherCity').innerText = currentMandiCity;
+        fetchWeather(currentMandiCity);
+        loadMandiFromFirebase(currentMandiCity);
+        renderAds();
+    }
+async function saveDukaanSpecialBanner(){
+        let title = document.getElementById('adminDukaanSpecialTitle').value.trim() || "🏪 Dukandar Special: Free Digital Dukaan + Udhaar Khata Banayein";
+        let link = document.getElementById('adminDukaanSpecialLink').value.trim();
+        let btnText = document.getElementById('adminDukaanSpecialBtnText').value.trim() || "Free Me Banayein";
+        let vis = document.getElementById('adminDukaanSpecialVisibility').value;
+        await SETTINGS_DOC.set({ dukaanSpecialTitle: title, dukaanSpecialLink: link, dukaanSpecialBtnText: btnText, dukaanSpecialVisibility: vis }, {merge:true});
+        alert("✅ Dukandar Special Save!");
+        loadAllBannersAndWeatherSettings();
+    }
+async function saveBannerSettings(){
+      const ticker = document.getElementById("adminTickerInput").value.trim();
+      const sTitle = document.getElementById("adminSponsorTitle").value.trim();
+      const sOffer = document.getElementById("adminSponsorOffer").value.trim();
+      const sImg = document.getElementById("adminSponsorImg").value.trim();
+      const sLink = document.getElementById("adminSponsorLink").value.trim();
+      const locVis = document.getElementById("adminLocationVisibility").value;
+      const topLocVis = document.getElementById("adminTopLocationVisibility")? document.getElementById("adminTopLocationVisibility").value : "show";
+      const defCity = document.getElementById("adminDefaultWeatherCity").value.trim();
+      await SETTINGS_DOC.set({ tickerText: ticker, sponsorTitle: sTitle, sponsorOffer: sOffer, sponsorImg: sImg, sponsorLink: sLink, locationWeatherVisibility: locVis, topLocationVisibility: topLocVis, defaultWeatherCity: defCity }, {merge:true});
+      alert("✅ Save Ho Gaya!"); loadAllBannersAndWeatherSettings(); if(defCity) fetchWeather(defCity);
+    }
+    function searchAnyWeather(){ return; }
+    function shareKaamDhandhaApp(){
+        let appLink = window.location.href;
+        let msg = `🔥 *KaamDhandha Direct App* 🔥\n\n👉 *${currentMandiCity} Live Mandi + All India*\n🌦️ Mausam + 🛒 Mandi Rate\n\n📲 *Link:* ${appLink}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+    }
+    function checkLocationInSearch(val){
+        if(!val || val.trim().length < 3) return;
+        let searchCity = val.trim();
+        fetchWeather(searchCity);
+        document.getElementById('weatherCity').innerText = searchCity;
+        document.getElementById('weatherDesc').innerText = `Live - ${searchCity}`;
+    }
+    function saveDynamicSabziRates() {
+        let textVal = document.getElementById('sabziBulkEditor').value.trim();
+        if (!textVal) { alert("Valid format dalein!"); return; }
+        let parts = textVal.split(',');
+        let newList = [];
+        parts.forEach(part => {
+            let sub = part.split(':');
+            if(sub.length >= 2) {
+                let nName = sub[0].trim(); let nRate = sub[1].trim();
+                if(nName && nRate) { newList.push({ name: nName, rate: nRate }); }
+            }
+        });
+        if (newList.length > 0) {
+            dynamicSabziList = newList;
+            localStorage.setItem("kaamDhandha10SabziList", JSON.stringify(dynamicSabziList));
+            db.collection("mandis").doc(currentMandiCity).set({ rates: dynamicSabziList, city: currentMandiCity, updated: Date.now(), trend: "" }, {merge:true});
+            renderDynamicSabziUI();
+            let el = document.getElementById('mandiUpdateTime');
+            if(el){
+                let options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                el.innerText = "🔄 Last Updated: " + new Date().toLocaleDateString('hi-IN', options);
+            }
+            alert(`✅ ${currentMandiCity} ke rates save!`);
+        } else { alert("❌ Format galat hai!"); }
+    }
+function autoDetectMandiTrend(){
+        let trend = `📢 Aaj ${currentMandiCity} Mandi Bhav | `;
+        let cheap = dynamicSabziList.slice(0,3).map(i=> `${i.name} ${i.rate}`).join(', ');
+        trend += `Sasta: ${cheap}`;
+        db.collection("mandis").doc(currentMandiCity).set({trend: trend}, {merge:true});
+        updateMandiBanner(trend);
+        alert("✅ Banner ban gaya!");
+    }
+    function updateMandiBanner(text){
+        let marquee = document.getElementById('mandiBannerText');
+        if(text && text.length > 5){
+            marquee.innerText = text + ` | 🌦️ ${currentMandiCity} Live | 📍 ${currentMandiCity}`;
+        } else {
+            marquee.innerText = `🔴 ${currentMandiCity} LIVE: ${dynamicSabziList.map(i=>`${i.name} ${i.rate}`).join(' | ')}`;
+        }
+    }
+
+    // ✅ UPGRADED BUSINESS ROTATION - ₹499 KO DOUBLE SPEED
+    function startRotation(){
+        if(rotationTimer) clearInterval(rotationTimer);
+
+        let pinnedAds = adsData.filter(a => a.vipTier == 2 || a.pinned);
+        let normalVipAds = adsData.filter(a => a.vipTier == 1);
+        let allRotationAds = [...pinnedAds,...pinnedAds,...normalVipAds]; // ₹499 walo ko double weight
+
+        if(allRotationAds.length > 0){
+            rotationIndex = Math.floor(Math.random() * allRotationAds.length);
+            let ad = allRotationAds[rotationIndex];
+            if(ad){
+                let badgeText = (ad.vipTier == 2 || ad.pinned)? '🌟 SUPER FAST PINNED (₹499/mo)' : '👑 VIP (₹249/mo)';
+                let glowColor = (ad.vipTier == 2 || ad.pinned)? '#ffaa00' : 'gold';
+                document.getElementById('adBox').innerHTML = `
+                    <div style="font-weight:bold; color:${glowColor};">${badgeText}</div>
+                    <div style="font-size:13px; color:#fff; font-weight:bold; margin-top:2px;">${ad.name} - <span style="color:#00ffcc;">${ad.price}</span></div>
+                    <div style="font-size:11px; color:#ccc;">${ad.work} | 📍 ${ad.location}</div>
+                    <div style="margin-top:6px;"><a href="https://wa.me/91${ad.phone}" style="background:#25D366; color:#fff; padding:4px 12px; border-radius:12px; text-decoration:none; font-size:11px; font-weight:bold;">💬 WhatsApp Par Baat Karein</a></div>
+                `;
+            }
+        }
+
+        rotationTimer = setInterval(()=>{
+            let pAds = adsData.filter(a => a.vipTier == 2 || a.pinned);
+            let vAds = adsData.filter(a => a.vipTier == 1);
+            let pool = [...pAds,...pAds,...vAds];
+
+            if(pool.length === 0){
+                document.getElementById('adBox').innerHTML = "⭐ VIP & Pinned Ads yahan tezi se rotate honge";
+                return;
+            }
+            rotationIndex = (rotationIndex + 1) % pool.length;
+            let ad = pool[rotationIndex];
+            let badgeText = (ad.vipTier == 2 || ad.pinned)? '🌟 SUPER FAST PINNED (₹499/mo)' : '👑 VIP (₹249/mo)';
+            let glowColor = (ad.vipTier == 2 || ad.pinned)? '#ffaa00' : 'gold';
+
+            document.getElementById('adBox').innerHTML = `
+                <div style="font-weight:bold; color:${glowColor};">${badgeText}</div>
+                <div style="font-size:13px; color:#fff; font-weight:bold; margin-top:2px;">${ad.name} - <span style="color:#00ffcc;">${ad.price}</span></div>
+                <div style="font-size:11px; color:#ccc;">${ad.work} | 📍 ${ad.location}</div>
+                <div style="margin-top:6px;"><a href="https://wa.me/91${ad.phone}" style="background:#25D366; color:#fff; padding:4px 12px; border-radius:12px; text-decoration:none; font-size:11px; font-weight:bold;">💬 WhatsApp Par Baat Karein</a></div>
+            `;
+        }, 3500);
+  }
+  function autoDeleteCheck() {
+        let now = new Date().getTime();
+        adsData.forEach(ad => {
+            let created = ad.createdAt || now;
+            let diffHours = (now - created) / (1000 * 60 * 60);
+            let diffDays = (now - created) / (1000 * 60 * 60 * 24);
+            let trialLimit = ad.customTrialDays || defaultTrialDays;
+            if(ad.vipExpiry && now > ad.vipExpiry){
+                if(ad.vipTier != 0 || ad.pinned){
+                    db.collection("ads").doc(ad.id).update({
+                        vipTier: 0,
+                        pinned: false,
+                    }).catch(()=>{});
+                }
+                return;
+            }
+            if(ad.isCustomer24Hr && diffHours > urgentAdHoursLimit) {
+                db.collection("ads").doc(ad.id).delete();
+            }
+            else if(!ad.isCustomer24Hr && (!ad.vipTier || ad.vipTier == 0) && diffDays > (trialLimit + 2)) {
+                db.collection("ads").doc(ad.id).delete();
+            }
+        });
+    }
+
+    // ✅ NAYA ADMIN EXPIRED ADS CHECKER - TERA DIYA HUA
+    function loadAdminExpiredAdsList() {
+        if (!isAdminLoggedIn) return;
+        let box = document.getElementById('adminExpiredBox');
+        let container = document.getElementById('adminExpiredListContainer');
+        // Fix #11: Null check add kar
+        if (!box || !container) return;
+        let now = Date.now();
+        let expiredAds = adsData.filter(ad => {
+            if (ad.isCustomer24Hr) return false;
+            let created = ad.createdAt || now;
+            let diffDays = (now - created) / (1000 * 60 * 60 * 24);
+            let limit = ad.customTrialDays || defaultTrialDays;
+            let isTrialExpired = diffDays > limit;
+            let isVipExpired = ad.vipExpiry && now > ad.vipExpiry;
+            return isTrialExpired || isVipExpired;
+        });
+        if (expiredAds.length === 0) {
+            box.style.display = 'none';
+            return;
+        }
+        box.style.display = 'block';
+        container.innerHTML = '';
+        expiredAds.forEach(ad => {
+            let div = document.createElement('div');
+            div.style.cssText = "background:rgba(0,0,0,0.5); border:1px dashed #ff0055; padding:6px; border-radius:6px; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;";
+            let reason = (ad.vipExpiry && now > ad.vipExpiry) ? "VIP Expired" : "Trial Expired";
+            div.innerHTML = `
+                <div>
+                    <b>${ad.name}</b> (${ad.phone})<br>
+                    <span style="color:#ff0055; font-size:10px;">📍 ${ad.location} | ${reason}</span>
+                </div>
+                <button onclick="openPayForSpecificAd('${ad.id}')" style="background:#ffd700; color:#000; border:none; padding:4px 8px; border-radius:4px; font-weight:bold; font-size:10px; cursor:pointer;">Renew Karo</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function startRealtimeClock() {
+        function updateClock() {
+            let now = new Date();
+            let options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            let timeString = now.toLocaleDateString('hi-IN', options);
+            let clockElem = document.getElementById('realtimeDisplay');
+            if (clockElem) { clockElem.innerText = timeString; }
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+    function renderDynamicSabziUI() {
+        let container = document.getElementById('sabziGridContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        dynamicSabziList.forEach((item, index) => {
+            let div = document.createElement('div');
+            div.style.cssText = "background: rgba(0,255,204,0.08); padding: 6px; border-radius: 6px; border: 1px dashed #00ffcc;";
+            div.innerHTML = `${index + 1}️⃣ <b>${item.name}:</b> <span class="rate-item">${item.rate}</span>`;
+            container.appendChild(div);
+        });
+        let bulkText = dynamicSabziList.map(i => `${i.name}:${i.rate}`).join(", ");
+        let editorArea = document.getElementById('sabziBulkEditor');
+        if (editorArea) { editorArea.value = bulkText; }
+        updateMandiBanner("");
+    }
+    function updateBijliNumber() {
+        let val = document.getElementById('newBijliInput').value.trim();
+        if(val.length >= 4) {
+            bijliNumber = val;
+            localStorage.setItem("kaamDhandhaBijliNo", val);
+            document.getElementById('topBijliNum').innerText = bijliNumber;
+            alert("✅ Bijli number update ho gaya!");
+        } else { alert("Kripya sahi number dalein."); }
+    }
+    function updateGlobalTrial() {
+        let val = parseInt(document.getElementById('trialDaysInput').value);
+        if(!isNaN(val) && val > 0) {
+            defaultTrialDays = val;
+            localStorage.setItem("kaamDhandhaTrialDays", val);
+            alert("✅ Default Trial Days update ho gaye!");
+            renderAds();
+        } else { alert("Kripya valid number dalein."); }
+    }
+    function updateUrgentHours() {
+        let val = parseInt(document.getElementById('adminUrgentHoursInput').value);
+        if(!isNaN(val) && val > 0) {
+            urgentAdHoursLimit = val;
+            localStorage.setItem("kaamDhandhaUrgentHours", val);
+            alert(`✅ 24-Hr Urgent Add Duration ab ${val} Hours set ho gaya!`);
+            renderAds();
+        } else { alert("Kripya valid hours dalein."); }
+    }
+    function updateMaxUrgentCount() {
+        let val = parseInt(document.getElementById('adminMaxUrgentCountInput').value);
+        if(!isNaN(val) && val >= 0) {
+            maxUrgentAdsAllowed = val;
+            localStorage.setItem("kaamDhandhaMaxUrgentCount", val);
+            alert(`✅ Max 24-Hr Ads limit ab ${val} set ho gayi!`);
+            renderAds();
+        } else { alert("Kripya valid limit number dalein."); }
+    }
+function saveCustomTrialForListing() {
+        let editId = document.getElementById('editId').value;
+        let customDays = parseInt(document.getElementById('customTrialDaysInput').value);
+        if(!editId) { alert("Pehle kisi listing ko edit mode mein kholein!"); return; }
+        if(isNaN(customDays)) { alert("Kripya valid trial days dalein."); return; }
+        db.collection("ads").doc(editId).update({ customTrialDays: customDays }).then(() => {
+            alert(`✅ Is listing ka custom trial days ${customDays} din set ho gaya!`);
+            renderAds();
+        }).catch((err) => { alert("Error: " + err); });
+    }
+    function openCustomerModal() { document.getElementById('customerModal').style.display = 'flex'; }
+    function closeCustomerModal() { document.getElementById('customerModal').style.display = 'none'; }
+    async function publishCustomer24HrAd() {
+        let name = document.getElementById('custName').value.trim();
+        let price = document.getElementById('custPrice').value.trim() || "₹500";
+        let work = document.getElementById('custWork').value.trim() || "Acchi halat me hai";
+        let location = document.getElementById('custLocation').value.trim() || "Bodla";
+        let phone = document.getElementById('custPhone').value.trim();
+        let showPhone = true;
+        if(!name ||!phone) { alert("Bhai, Samaan ka Naam aur WhatsApp Number zaroor bharein!"); return; }
+        if(typeof isFakeOrSpamNumber === 'function' && isFakeOrSpamNumber(phone)){
+            alert("⚠️ Sahi WhatsApp Number daalo! Yeh number fake / spam / galat pattern hai.");
+            return;
+        }
+        let nowTime = new Date().getTime();
+        let activeUrgentCount = adsData.filter(ad => {
+            if(!ad.isCustomer24Hr) return false;
+            let diffH = (nowTime - (ad.createdAt || nowTime)) / (1000 * 60 * 60);
+            return diffH <= urgentAdHoursLimit;
+        }).length;
+        if (activeUrgentCount >= maxUrgentAdsAllowed) {
+            alert(`❌ Maaf kijiye! Filhal maximum limit (${maxUrgentAdsAllowed}) tak 24-Gharte wale Urgent Ads active hain.`);
+            return;
+        }
+        let uploadedImageUrl = "";
+        let imageLinkVal = document.getElementById('custImage')? document.getElementById('custImage').value.trim() : "";
+        if(document.getElementById('custImageFile') && document.getElementById('custImageFile').files.length > 0){
+            try{ 
+                let compUrl = await compressImageToLimit(document.getElementById('custImageFile').files[0]);
+                let fileName = "ads/" + Date.now() + "_" + document.getElementById('custImageFile').files[0].name.replace(/[^a-zA-Z0-9.]/g,'_');
+                let ref = storage.ref().child(fileName);
+                await ref.putString(compUrl, 'data_url');
+                uploadedImageUrl = await ref.getDownloadURL();
+            }catch(e){ console.log(e); }
+        } else { uploadedImageUrl = imageLinkVal; }
+        let adObj = {
+            name: name, price: price, category: "⚡ CUSTOMER URGENT 24-HR AD",
+            work: work, location: location, phone: phone, showPhone: showPhone, video: "", image: uploadedImageUrl,
+            vipTier: 0, pinned: false, isCustomer24Hr: true,
+            createdAt: new Date().getTime(), views: 0, clicks: 0, mandiCity: currentMandiCity
+        };
+        db.collection("ads").add(adObj).then(() => {
+            alert("✅ Aapka Urgent Add publish ho gaya! 24 ghnte me auto delete ho jayega");
+            document.getElementById('custName').value = ""; document.getElementById('custPrice').value = "";
+            document.getElementById('custWork').value = ""; document.getElementById('custLocation').value = "";
+            document.getElementById('custPhone').value = "";
+            if(document.getElementById('custImageFile')) document.getElementById('custImageFile').value = "";
+            if(document.getElementById('custImage')) document.getElementById('custImage').value = "";
+            closeCustomerModal();
+        }).catch((error) => { alert("Error: " + error); });
+  }
+  function secretAdminTrigger() {
+        if (isAdminLoggedIn) {
+            if (confirm("Kya aap Admin panel se Logout karna chahte hain?")) {
+                auth.signOut().then(() => {
+                    alert("🔒 Logged Out!");
+                    document.getElementById('devPanel').style.display = 'none';
+                });
+            }
+            return;
+        }
+        let email = prompt("🔒 Admin Email likhein:");
+        if (!email) return;
+        let pass = prompt("🔑 Admin Password likhein:");
+        if (!pass) return;
+        auth.signInWithEmailAndPassword(email, pass)
+            .then((userCredential) => {
+                alert("✅ Admin Login Successful!");
+                toggleDevPanel();
+            })
+            .catch((error) => {
+                alert("❌ Galat Email ya Password!");
+            });
+    }
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            isAdminLoggedIn = true;
+            if(document.getElementById('vipContainer')) document.getElementById('vipContainer').style.display = 'block';
+            if(document.getElementById('adminMediaFields')) document.getElementById('adminMediaFields').style.display = 'block';
+            if(document.getElementById('adminSettingsBox')) document.getElementById('adminSettingsBox').style.display = 'block';
+            if(document.getElementById('themeColorBtn')) document.getElementById('themeColorBtn').style.display = 'inline-block';
+            
+            // ✅ ADMIN STATS BOX VISIBILITY FIX: Admin login hote hi stats box display block ho jayega
+            if(document.getElementById('adminStatsBox')) document.getElementById('adminStatsBox').style.display = 'block';
+
+            renderAds();
+            setTimeout(()=>{ updateAdminTotalCount(); loadAdminExpiredAdsList(); }, 600);
+        } else {
+            isAdminLoggedIn = false;
+            if(document.getElementById('vipContainer')) document.getElementById('vipContainer').style.display = 'none';
+            if(document.getElementById('adminMediaFields')) document.getElementById('adminMediaFields').style.display = 'none';
+            if(document.getElementById('adminSettingsBox')) document.getElementById('adminSettingsBox').style.display = 'none';
+            if(document.getElementById('themeColorBtn')) document.getElementById('themeColorBtn').style.display = 'none';
+            if(document.getElementById('adminStatsBox')) document.getElementById('adminStatsBox').style.display = 'none';
+            renderAds();
+        }
+    });
+function updateUpi2() {
+        let newUpi = document.getElementById('newUpi2Input').value.trim();
+        if(newUpi.length > 3) {
+            UPI_2 = newUpi;
+            localStorage.setItem("kaamDhandhaUpi2", newUpi);
+            document.getElementById('displayUpi2').innerText = UPI_2;
+            alert("✅ UPI 2 update ho gayi!");
+        } else { alert("Sahi UPI ID dalein."); }
+    }
+    function saveCustomerPaySettings() {
+        let enabled = document.getElementById('enableCustomerPayCheck').checked;
+        let amount = document.getElementById('custPayAmountInput').value || "₹10";
+        let msg = document.getElementById('custPayMsgInput').value || "Direct Call Access Pass";
+        customerPayConfig = { enabled, amount, msg };
+        localStorage.setItem("kaamDhandhaCustPayConfig", JSON.stringify(customerPayConfig));
+        alert("✅ Settings save ho gayi!");
+    }
+function triggerDirectCall(phone, id) {
+        trackClick(id);
+        let cleanPhone = phone.replace(/[^0-9]/g, '');
+        if (customerPayConfig.enabled &&!isCustomerUnlocked &&!isAdminLoggedIn) {
+            pendingCallPhone = cleanPhone;
+            document.getElementById('custModalTitle').innerText = `📞 ${customerPayConfig.msg}`;
+            document.getElementById('custPassPriceDisplay').innerText = customerPayConfig.amount;
+            document.getElementById('customerPayModal').style.display = 'flex';
+        } else { window.location.href = `tel:+91${cleanPhone}`; }
+    }
+    function closeCustomerPayModal() { document.getElementById('customerPayModal').style.display = 'none'; }
+    function unlockCustomerAccess() {
+        // Fix #8: Razorpay Not Defined Error check
+        if (typeof Razorpay === 'undefined') {
+            alert("⚠️ Razorpay load nahi hua! Internet check karein.");
+            return;
+        }
+
+        let amountNum = customerPayConfig.amount.replace(/[^0-9]/g, '') || "10";
+        let options = {
+            key: RAZORPAY_KEY_ID,
+            amount: parseInt(amountNum) * 100,
+            currency: "INR",
+            name: "KaamDhandha Direct",
+            description: customerPayConfig.msg,
+            theme: { color: "#00ffcc" },
+            handler: function (response) {
+                isCustomerUnlocked = true;
+                localStorage.setItem("kaamDhandhaCustUnlocked", "true");
+                closeCustomerPayModal();
+                alert("🎉 Payment Safal! Call Unlock Ho Gaya.\nPayment ID: " + response.razorpay_payment_id);
+                if (pendingCallPhone) { window.location.href = `tel:+91${pendingCallPhone}`; }
+            },
+            modal: { ondismiss: function(){} }
+        };
+        let rzp = new Razorpay(options);
+        rzp.on('payment.failed', function(response){
+            alert("❌ Payment fail ho gaya: " + response.error.description);
+        });
+        rzp.open();
+    }
+    function fetchAdsFromFirebase() {
+        db.collection("ads").onSnapshot((snapshot) => {
+            adsData = [];
+            snapshot.forEach((doc) => {
+                let data = doc.data();
+                data.id = doc.id;
+                if(data.vipExpiry && Date.now() > data.vipExpiry){
+                    data.vipTier = 0;
+                    data.pinned = false;
+                }
+                adsData.push(data);
+            });
+            renderAds();
+            startRotation();
+            updateAdminTotalCount();
+            if(isAdminLoggedIn) loadAdminExpiredAdsList();
+        }, (error) => { console.error("Error: ", error); });
+    }
+    function openColorModal() { document.getElementById('colorModal').style.display = 'flex'; }
+    function closeColorModal() { document.getElementById('colorModal').style.display = 'none'; }
+    function openPayModal() { document.getElementById('payModal').style.display = 'flex'; }
+    function closePayModal() { document.getElementById('payModal').style.display = 'none'; }
+    function payViaWhatsApp(planName, amount) {
+        // Fix #8: Razorpay Not Defined Error check
+        if (typeof Razorpay === 'undefined') {
+            alert("⚠️ Razorpay load nahi hua! Internet check karein.");
+            return;
+        }
+
+        let sName = document.getElementById('payShopName').value.trim();
+        let oPhone = document.getElementById('payOwnerPhone').value.trim();
+        
+        // Fix #3: Fallback logic for Ad ID
+        let selectedAdId = document.getElementById('payAdSelect') ? document.getElementById('payAdSelect').value : "";
+        if(!selectedAdId) {
+            let cleanPhone = oPhone.replace(/[^0-9]/g,'').slice(-10);
+            let userAds = adsData.filter(a => (a.phone||'').replace(/[^0-9]/g,'').slice(-10) === cleanPhone);
+            if(userAds.length > 0) selectedAdId = userAds[0].id;
+        }
+
+        if(!sName ||!oPhone) { alert("Naam aur WhatsApp Number zaroor bharein!"); return; }
+        if(!selectedAdId && adsData.filter(a=> (a.phone||'').replace(/[^0-9]/g,'').slice(-10)===oPhone.replace(/[^0-9]/g,'').slice(-10)).length>0){
+            alert("⚠️ Neeche dropdown se kaunsa Ad renew karna hai wo select karo!");
+            return;
+        }
+        let ad = adsData.find(a=>a.id===selectedAdId);
+        let adName = ad ? ad.name : sName;
+        
+        let options = {
+            key: RAZORPAY_KEY_ID,
+            amount: parseInt(amount) * 100,
+            currency: "INR",
+            name: "KaamDhandha Direct",
+            description: planName + " - " + adName,
+            prefill: { contact: oPhone.replace(/[^0-9]/g,'').slice(-10), name: sName },
+            notes: { shop_name: sName, phone: oPhone, plan: planName, ad_id: selectedAdId || "Naya Ad" },
+            theme: { color: "#00ffcc" },
+            handler: function (response) {
+                let tier = 0;
+                if(amount=="249") tier = 1;
+                if(amount=="499") tier = 2;
+                if(amount=="99") tier = 0;
+                let expiry = Date.now() + (30*24*60*60*1000);
+                let expiryDate = new Date(expiry).toLocaleDateString('hi-IN');
+                if(selectedAdId){
+                    db.collection("ads").doc(selectedAdId).update({
+                        vipTier: tier, pinned: tier==2, vipExpiry: expiry, lastRenewedAt: Date.now(), lastPlan: planName, lastPaymentId: response.razorpay_payment_id
+                    }).then(()=>{
+                        alert(`✅ Payment Safal! ${planName} active - ${expiryDate} tak.\nID: ${response.razorpay_payment_id}`);
+                    });
+                } else {
+                    alert(`✅ Payment Safal! ID: ${response.razorpay_payment_id}`);
+                }
+                let msg = `✅ Payment ho gaya!\n\n🏪 Business: *${sName}*\n📱 WhatsApp: *${oPhone}*\n📦 Plan: *${planName}*\n🆔 Ad ID: *${selectedAdId || 'Naya Ad'}*\n💳 Payment ID: *${response.razorpay_payment_id}*\n⏳ 30 Din Valid: *${expiryDate} tak*`;
+                window.open(`https://wa.me/916264917767?text=${encodeURIComponent(msg)}`, '_blank');
+                closePayModal();
+            },
+            modal: { ondismiss: function(){} }
+        };
+        let rzp = new Razorpay(options);
+        rzp.on('payment.failed', function(response){
+            alert("❌ Payment fail ho gaya: " + response.error.description);
+        });
+        rzp.open();
+  }
+  function setThemeColor(colorHex) {
+        currentListingThemeColor = colorHex;
+        localStorage.setItem("kaamDhandhaThemeColor", colorHex);
+        closeColorModal();
+        renderAds();
+    }
+function toggleDevPanel() {
+        let panel = document.getElementById('devPanel');
+        panel.style.display = (panel.style.display === 'block')? 'none' : 'block';
+        if(panel.style.display === 'block'){
+            setTimeout(updateAdminTotalCount, 300);
+        }
+    }
+
+    function getEmbedVideoHtml(url) {
+        if (!url) return '';
+        let videoId = '';
+        if (url.includes('shorts/')) { videoId = url.split('shorts/')[1].split('?')[0]; }
+        else if (url.includes('youtu.be/')) { videoId = url.split('youtu.be/')[1].split('?')[0]; }
+        else if (url.includes('watch?v=')) { videoId = url.split('watch?v=')[1].split('&')[0]; }
+        if (videoId) {
+            return `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0" allowfullscreen style="width:100%; height:100%; object-fit:cover;"></iframe>`;
+        } else { return `<video src="${url}" controls playsinline style="width:100%; height:100%; object-fit:cover;"></video>`; }
+    }
+
+    function trackClick(id) {
+        let adRef = db.collection("ads").doc(id);
+        adRef.get().then((doc) => {
+            if (doc.exists) { adRef.update({ clicks: (doc.data().clicks || 0) + 1 }); }
+        });
+    }
+    </script>
+    <script>
+      function renderAds() {
+        let listContainer = document.getElementById('profileList');
+        listContainer.innerHTML = '';
+        let now = new Date().getTime();
+        let globalTrialDays = defaultTrialDays;
+
+        let sortedAds = [...adsData].sort((a, b) => {
+            let aExpired = a.vipExpiry && now > a.vipExpiry;
+            let bExpired = b.vipExpiry && now > b.vipExpiry;
+            
+            // Fix #7: Strict check for vipTier sorting bug
+            let tierA = aExpired ? 99 : (a.vipTier !== undefined && a.vipTier !== null ? a.vipTier : 99);
+            let tierB = bExpired ? 99 : (b.vipTier !== undefined && b.vipTier !== null ? b.vipTier : 99);
+
+            let isCustA = a.isCustomer24Hr? 1 : 0;
+            let isCustB = b.isCustomer24Hr? 1 : 0;
+            let timeA = a.createdAt || now;
+            let timeB = b.createdAt || now;
+            let isExpiredA = isCustA && ((now - timeA) > (urgentAdHoursLimit * 60 * 60 * 1000));
+            let isExpiredB = isCustB && ((now - timeB) > (urgentAdHoursLimit * 60 * 60 * 1000));
+            let activeCustA = isCustA &&!isExpiredA? 1 : 0;
+            let activeCustB = isCustB &&!isExpiredB? 1 : 0;
+            if (activeCustA!== activeCustB) { return activeCustB - activeCustA; }
+            if (a.pinned &&!aExpired && b.pinned &&!bExpired) return 0;
+            if (a.pinned &&!aExpired && (!b.pinned || bExpired)) return -1;
+            if (!a.pinned && b.pinned &&!bExpired) return 1;
+            if (tierA === 99) tierA = 99;
+            if (tierB === 99) tierB = 99;
+            return tierA - tierB;
+        });
+
+        let searchInputRaw = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase().trim() : "";
+        let adsToDisplay = [];
+        let isSearching = searchInputRaw.length > 0;
+
+        if (isSearching) {
+            // Fix #9: Safe regex splitting for search bar special characters
+            let searchWords = searchInputRaw.split(/\s+/).filter(w => w.length > 0);
+            adsToDisplay = sortedAds.filter(ad => {
+                let searchString = `${ad.name} ${ad.price} ${ad.category} ${ad.work} ${ad.location} ${ad.mandiCity||''}`.toLowerCase();
+                return searchWords.every(word => searchString.includes(word));
+            });
+            if(document.getElementById('loadMoreBtn')) {
+                document.getElementById('loadMoreBtn').style.display = 'none';
+            }
+            document.getElementById('noResult').style.display = (adsToDisplay.length === 0) ? "block" : "none";
+        } else {
+            adsToDisplay = sortedAds.slice(0, adsDisplayLimit);
+            document.getElementById('noResult').style.display = "none";
+            if(document.getElementById('loadMoreBtn')){
+                document.getElementById('loadMoreBtn').style.display = (sortedAds.length > adsDisplayLimit) ? "block" : "none";
+            }
+        }
+adsToDisplay.forEach((ad) => {
+            let createdAt = ad.createdAt || now;
+            let diffMs = now - createdAt;
+            let diffHours = diffMs / (1000 * 60 * 60);
+            let diffDays = diffMs / (1000 * 60 * 60 * 24);
+            let isCust24 = ad.isCustomer24Hr;
+            let isCustExpired = isCust24 && (diffHours > urgentAdHoursLimit);
+            let specificTrialLimit = ad.customTrialDays? parseInt(ad.customTrialDays) : globalTrialDays;
+            let daysRemaining = Math.ceil(specificTrialLimit - diffDays);
+            let isVipExpired = ad.vipExpiry && now > ad.vipExpiry;
+            let isExpired = isCustExpired || (!isCust24 && diffDays > specificTrialLimit && (!ad.vipTier || ad.vipTier === 0 || isVipExpired));
+            
+            // ✅ ADMIN ADS VISIBILITY FIX: Agar admin logged in hai, toh expired ads hide nahi honge
+            if (!isAdminLoggedIn && isExpired) {
+                return; 
+            }
+
+            let tier = isVipExpired? 0 : (ad.vipTier || 0);
+            let cardColor = currentListingThemeColor;
+            let isPinnedVip = (tier === 1 || tier === 2 || (ad.pinned && !isVipExpired));
+            let catLower = (ad.category || "").toLowerCase();
+            let titleLower = (ad.name || "").toLowerCase();
+            let entityBadge = "🏪 ";
+            if(isCust24) { entityBadge = "⚡🚲 "; }
+            else if(catLower.includes('cycle') || titleLower.includes('cycle')) { entityBadge = "🚲 "; }
+            else if(catLower.includes('sabzi') || catLower.includes('mandi') || titleLower.includes('tamatar') || titleLower.includes('baigan')) { entityBadge = "🛒🥦 "; }
+            else if(catLower.includes('dj') || titleLower.includes('dj') || catLower.includes('sound')) { entityBadge = "🎶🔊 "; }
+            else if(catLower.includes('labor') || catLower.includes('mistri') || catLower.includes('majdoor') || catLower.includes('worker') || catLower.includes('kaamgar')) { entityBadge = "👷🛠️ "; }
+            else if(catLower.includes('showroom') || catLower.includes('dukaan') || catLower.includes('store')) { entityBadge = "🏢✨ "; }
+            else if(catLower.includes('rent') || catLower.includes('gaadi') || catLower.includes('car') || catLower.includes('bike') || catLower.includes('bus')) { entityBadge = "🚗🚌 "; }
+
+            let blueTick = (tier === 1 || tier === 2)? ' ✓' : '';
+            let displayName = `${entityBadge}${ad.name}${blueTick}`;
+            if (isCust24) { cardColor = '#ff0055'; }
+            else if (isPinnedVip) { cardColor = '#ffd700'; }
+            if (isCust24) { displayName = `⚡ [URGENT SALE] ${ad.name}${blueTick}`; }
+            else if (tier === 1) { displayName = `👑 ⚡ [SUPER VIP] ${ad.name}${blueTick}`; }
+            else if (tier === 2) { displayName = `📌 🌟 [TOP PINNED] ${ad.name}${blueTick}`; }
+            if (ad.pinned && !isVipExpired) { displayName = `📌 🔥 [PINNED #1] ${ad.name}${blueTick}`; }
+            if (isVipExpired) { displayName = `🏪 ${ad.name} (VIP Expired - Normal)`; }
+            
+            // ⭐ DYNAMIC CATEGORY & TRUST BADGES (DJ, Labor, Showroom, Rent Gaadi, Bus Wale etc.)
+            let daysOld = Math.floor(diffDays);
+            let clicks = ad.clicks || 0;
+            let badgeTitle = "⭐ Trusted Seller";
+            if(catLower.includes('labor') || catLower.includes('mistri') || catLower.includes('majdoor') || catLower.includes('worker') || catLower.includes('kaamgar')){
+                badgeTitle = "👷 Trusted Pro Worker";
+            } else if(catLower.includes('dj') || titleLower.includes('dj') || catLower.includes('sound')){
+                badgeTitle = "🎶 Trusted DJ & Sound Pro";
+            } else if(catLower.includes('showroom') || catLower.includes('store') || catLower.includes('dukaan')){
+                badgeTitle = "🏢 Trusted Showroom Partner";
+            } else if(catLower.includes('rent') || catLower.includes('gaadi') || catLower.includes('car') || catLower.includes('bike')){
+                badgeTitle = "🚗 Verified Rental Partner";
+            } else if(catLower.includes('bus') || catLower.includes('transport')){
+                badgeTitle = "🚌 Trusted Transport Provider";
+            }
+
+            let goldBadgeHtml = (daysOld >= 30 || clicks >= 20 || isAdminLoggedIn) ? `<span class="gold-trust-badge">${badgeTitle}</span>` : '';
+
+            let displayTitle = displayName + goldBadgeHtml;
+            let displayMedia = '';
+            let trialBadgeHtml = '';
+            let isPhoneHidden = (ad.showPhone === false);
+            let displayPhoneInfo = "";
+            if(isPhoneHidden && !isAdminLoggedIn){
+                displayPhoneInfo = `🔒 Number Hidden (Private)`;
+            } else {
+                displayPhoneInfo = isAdminLoggedIn? `📞 ${ad.phone} ${isPhoneHidden ? '(Hidden from Public)' : ''}` : `💬 WhatsApp Chat (FREE)`;
+            }
+            if (isCustExpired) {
+                displayTitle = `🔒 [EXPIRED] ${ad.name}${blueTick}`;
+                displayPhoneInfo = `🔒 Hidden`;
+                trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,0,85,0.15); color: #ff0055; border: 1px solid #ff0055;">⚠️ Time limit expire ho chuka hai.</div>`;
+            } else if (isExpired &&!isAdminLoggedIn &&!isCust24) {
+                if(isVipExpired){
+                    displayMedia = `<div style="padding:10px; text-align:center; background:#111; color:#ffd700; font-weight:bold; border-radius:8px; border:1px dashed #ffd700;">⏳ VIP/Pinned 30 din khatam ho gaya, ab Normal me hai. Renew karo.</div>`;
+                    trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700;">🔴 VIP Expired - 30 din khatam | <span onclick="openPayForSpecificAd('${ad.id}')" style="text-decoration:underline; cursor:pointer;">Renew Karo</span></div>`;
+                } else {
+                    displayTitle = `🔒 [TRIAL EXPIRED]`;
+                    displayPhoneInfo = `🔒 Hidden`;
+                    displayMedia = `<div style="padding:30px; text-align:center; background:#111; color:#ff0055; font-weight:bold; border-radius:8px;">⚠️ Free Trial Over! Plan lein.</div>`;
+                    trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,0,85,0.15); color: #ff0055; border: 1px solid #ff0055;">⚠️ Trial Expired! <span onclick="openPayForSpecificAd('${ad.id}')" style="text-decoration:underline; cursor:pointer; margin-left:6px;">₹99 Renew</span></div>`;
+                }
+            } else {
+                if (ad.video && ad.video.trim()!== '') {
+                    displayMedia = `<div class="card-media-container"><div class="media-badge">▶ HD VIDEO</div>${getEmbedVideoHtml(ad.video)}</div>`;
+                } else {
+                    let images = [];
+                    // Fix #5: Safe check for Single vs Multi-Images Array Crash in renderAds()
+                    if(Array.isArray(ad.images) && ad.images.length > 0) {
+                        images = ad.images;
+                    } else if(ad.image && typeof ad.image === 'string' && ad.image.trim() !== '') {
+                        images = [ad.image];
+                    }
+
+                    if(images.length>0){
+                        if(images.length===1){
+                            displayMedia = `<div class="card-media-container" onclick="openImageModal('${images[0]}')"><div class="media-badge">📷 PHOTO 1/1</div><img src="${images[0]}" alt="${ad.name}" onerror="this.style.display='none'"><div class="zoom-hint">🔍 Tap to Zoom</div></div>`;
+                        } else {
+                            let imgsHtml = images.map((img,i)=> `<div class="gallery-slide" style="min-width:100%; height:100%; position:relative;"><img src="${img}" style="width:100%; height:100%; object-fit:cover;" onclick="openImageModal('${img}')" onerror="this.style.display='none'"><div style="position:absolute; top:8px; left:8px; background:rgba(0,0,0,0.8); color:#00ffcc; font-size:10px; padding:3px 6px; border-radius:4px;">📷 ${i+1}/${images.length}</div></div>`).join('');
+                            displayMedia = `<div class="card-media-container" style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;"><div style="display:flex; width:100%;">${imgsHtml}</div></div><div style="font-size:10px; color:#00ffcc; text-align:center; margin-top:2px;">👉 Swipe karo - ${images.length} Photos</div>`;
+                        }
+                    }
+                }
+                if (isCust24) {
+                    let hoursLeft = Math.max(0, urgentAdHoursLimit - Math.floor(diffHours));
+                    trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,0,85,0.12); color: #ff0055; border: 1px solid #ff0055;">⚡ Urgent Add: ${hoursLeft} hours remaining</div>`;
+                } else if (ad.vipExpiry && !isVipExpired) {
+                    let vDays = Math.ceil((ad.vipExpiry - now)/(1000*60*60*24));
+                    trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid #ffd700;">⭐ ${tier==2?'Pinned':'VIP'} Active: ${vDays} din bache (Exp: ${new Date(ad.vipExpiry).toLocaleDateString('hi-IN')})</div>`;
+                } else if (!tier || tier === 0) {
+                    if (daysRemaining > 0) {
+                        trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(0,255,204,0.1); color: #00ffcc; border: 1px dashed #00ffcc;">⏳ Free Trial: ${daysRemaining} din bache (Total ${specificTrialLimit}d)</div>`;
+                    }
+                }
+      }
+  let glowColor = cardColor + '44';
+            let searchString = `${ad.name} ${ad.price} ${ad.category} ${ad.work} ${ad.location} ${ad.mandiCity||''}`.toLowerCase();
+            let card = document.createElement('div');
+            card.className = isCust24 &&!isCustExpired? 'card urgent-customer-card' : (isPinnedVip? 'card pinned-vip-card' : 'card');
+            card.style.cssText = `--card-neon: ${cardColor}; --card-glow: ${glowColor};`;
+            card.setAttribute('data-search', searchString);
+            card.setAttribute('data-city', (ad.mandiCity||'Bodla'));
+            let cleanPhone = ad.phone? ad.phone.replace(/[^0-9]/g, '') : '';
+            let viewsCount = ad.views || 0;
+            let clicksCount = ad.clicks || 0;
+            let statsHtml = isAdminLoggedIn? `<div class="card-stats">📊 Views: ${viewsCount} | Clicks: ${clicksCount} | City: ${ad.mandiCity||'Bodla'} | Reports: ${ad.reportCount||0}</div>` : '';
+            let chatMessage = `Hello, mujhe '${ad.name}' (Daam: ${ad.price}) ke baare mein jankari chahiye. City: ${currentMandiCity}`;
+            let whatsappActionBtn = "";
+            let callActionBtn = "";
+            if((isExpired || isCustExpired) && !isAdminLoggedIn && !isVipExpired){
+                whatsappActionBtn = `<div style="text-align:center; color:#777; font-size:12px; margin-top:10px; font-weight:bold;">🔒 Locked - Plan lein</div>`;
+            } else if(isPhoneHidden && !isAdminLoggedIn){
+                whatsappActionBtn = `<div style="text-align:center; background:rgba(255,255,255,0.05); border:1px dashed #888; padding:8px; border-radius:6px; margin-top:10px; color:#aaa; font-size:12px;">🔒 Owner ne Number Private rakha hai<br><span style="font-size:10px;">Sirf Admin contact kar sakta hai</span></div>`;
+            } else {
+                whatsappActionBtn = `<a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(chatMessage)}" class="whatsapp-btn" style="color: ${cardColor}; border-color: ${cardColor}; background: ${glowColor}15;" target="_blank" onclick="trackClick('${ad.id}')">💬 WhatsApp Chat Karein (FREE)</a>`;
+                callActionBtn = `<a href="javascript:void(0);" class="call-btn" onclick="triggerDirectCall('${ad.phone}', '${ad.id}')">📞 Direct Call Now (${customerPayConfig.enabled &&!isCustomerUnlocked &&!isAdminLoggedIn? customerPayConfig.amount + ' Pass' : 'FREE'})</a>`;
+            }
+            let upgradeBtnHtml = isCust24? '' : `<button class="upgrade-btn" onclick="openPayForSpecificAd('${ad.id}')">⭐ Plan Lein / Renew (VIP ₹249 / Pinned ₹499 - 30 Din)</button>`;
+            
+            // ⚠️ REPORT BUTTON UNDER AD (10 Reports -> Admin WhatsApp Alert)
+            let reportBtnHtml = `<div style="text-align:right; margin-top:6px;"><button class="report-btn" onclick="reportAdFraud('${ad.id}', '${ad.name}', '${ad.phone}', '${ad.location}')">⚠️ Report Fraud / Scam</button></div>`;
+
+            card.innerHTML = `
+                <div class="card-actions">
+                    <button class="edit-card-btn" style="display: ${isAdminLoggedIn? 'inline-block' : 'none'}" onclick="editAd('${ad.id}')">Edit</button>
+                    <button class="delete-btn" style="display: ${isAdminLoggedIn? 'inline-block' : 'none'}" onclick="deleteAd('${ad.id}')">X</button>
+                </div>
+                ${displayMedia}
+                <div class="card-header-row">
+                    <div>
+                        <div class="card-title">${displayTitle}</div>
+                        <div class="card-category">${ad.category} ${ad.mandiCity? '| 📍 '+ad.mandiCity : ''}</div>
+                    </div>
+                    <div class="price-badge" style="background: ${cardColor}; color:#000;">${ad.price}</div>
+                </div>
+                <div class="card-info">📦 Details: ${ad.work}</div>
+                ${trialBadgeHtml}
+                ${statsHtml}
+                <div class="card-footer">
+                    <span class="location-badge">📍 ${ad.location}</span>
+                    <span style="font-size: 11px; color: #88ccbb; font-weight: bold;">${displayPhoneInfo}</span>
+                </div>
+                ${reportBtnHtml}
+                ${whatsappActionBtn}
+                ${callActionBtn}
+                ${upgradeBtnHtml}
+            `;
+            listContainer.appendChild(card);
+            if (!sessionStorage.getItem("view_counted_" + ad.id)) {
+                sessionStorage.setItem("view_counted_" + ad.id, "true");
+                db.collection("ads").doc(ad.id).update({ views: viewsCount + 1 });
+            }
+        });
+
+        if(!isSearching){
+            let loadBtn = document.getElementById('loadMoreBtn');
+            if(!loadBtn){
+                loadBtn = document.createElement('button');
+                loadBtn.id = 'loadMoreBtn';
+                loadBtn.innerText = '🔽 Load More Ads (15 aur dekhein)';
+                loadBtn.style.cssText = 'background:linear-gradient(135deg,#00ffcc,#00aaff); color:#000; border:none; padding:10px 20px; border-radius:25px; font-weight:bold; width:100%; margin:15px 0; cursor:pointer; box-shadow:0 0 15px rgba(0,255,204,0.5);';
+                loadBtn.onclick = loadMoreAds;
+                listContainer.parentNode.insertBefore(loadBtn, listContainer.nextSibling);
+            }
+            loadBtn.style.display = (sortedAds.length > adsDisplayLimit) ? "block" : "none";
+        }
+    }
+function openImageModal(imgSrc) {
+        let imgElem = document.getElementById('modalFullImg');
+        imgElem.src = imgSrc;
+        imgElem.style.transform = "scale(1)";
+        isZoomed = false;
+        document.getElementById('imgModal').style.display = 'flex';
+    }
+    function closeImageModal() { document.getElementById('imgModal').style.display = 'none'; }
+    function toggleZoom(event) {
+        event.stopPropagation();
+        let img = document.getElementById('modalFullImg');
+        if (!isZoomed) { img.style.transform = "scale(2.5)"; isZoomed = true; }
+        else { img.style.transform = "scale(1)"; isZoomed = false; }
+      }
+      async function saveProfile() {
+        let name = document.getElementById('newName').value.trim();
+        let price = document.getElementById('newPrice').value.trim() || "Rate On Call";
+        let category = document.getElementById('newCategory').value.trim() || "DUKAAN";
+        let work = document.getElementById('newWork').value.trim() || "Available";
+        let location = document.getElementById('newLocation').value.trim() || "Bodla";
+        let phone = document.getElementById('newPhone').value.trim();
+        let showPhone = true;
+        let mandiCity = currentMandiCity;
+        let video = isAdminLoggedIn? document.getElementById('newVideo').value.trim() : "";
+        let imageUrlField = document.getElementById('newImage')? document.getElementById('newImage').value.trim() : "";
+        let vipTier = isAdminLoggedIn? parseInt(document.getElementById('vipTierSelect').value) : 0;
+        let pinned = isAdminLoggedIn? document.getElementById('pinToTopCheck').checked : false;
+        let editId = document.getElementById('editId').value.trim();
+        if(!name ||!phone) { alert("Naam aur WhatsApp Number zaroor bharein!"); return; }
+
+        if(isFakeOrSpamNumber(phone)){
+            alert("⚠️ Sahi WhatsApp Number daalo! Yeh number fake / spam / galat pattern hai.");
+            return;
+        }
+
+        // ✅ SAFETY CHECK - FIXED (Using safetyTermsCheckDev ID correctly)
+        let safetyChecked = document.getElementById('safetyTermsCheckDev')?.checked;
+        if(!safetyChecked && !isAdminLoggedIn){
+            alert("⚠️ Bhai pehle Safety Terms accept karo - bina iske Ad publish nahi hoga! Fraud se bachein, advance payment mat karo 🙏");
+            let sc = document.getElementById('safetyTermsCheckDev');
+            if(sc){ sc.focus(); sc.style.outline = "2px solid #ff0055"; }
+            return;
+        }
+
+        // ✅ 3 PHOTO UPLOAD LOGIC WITH AUTO COMPRESSION (< 498 KB) & UNIVERSAL URL SUPPORT
+        let uploadedImageUrl = imageUrlField;
+        let uploadedImagesArray = [];
+        try{
+            let result = await uploadImageToFirebase('newImageFile');
+            if(Array.isArray(result) && result.length>0){
+                uploadedImagesArray = result;
+                uploadedImageUrl = result[0];
+            } else if(typeof result === 'string' && result!==""){
+                uploadedImageUrl = result;
+                uploadedImagesArray = [result];
+            }
+        }catch(e){ alert("Photo upload fail: "+e.message); return; }
+
+        if(editId === "") {
+            let cleanPhone = phone.replace(/[^0-9]/g, '');
+            let existingAds = adsData.filter(ad =>
+                ad.phone && ad.phone.replace(/[^0-9]/g, '') === cleanPhone &&!ad.isCustomer24Hr
+            ).length;
+            if(existingAds >= maxAdsPerPhoneLimit && !isAdminLoggedIn) {
+                document.getElementById('adLimitMsg').style.display = 'block';
+                alert(`❌ Is number se ${maxAdsPerPhoneLimit} ad already hain. Naya ad nahi bana sakte.`);
+                return;
+            } else {
+                document.getElementById('adLimitMsg').style.display = 'none';
+            }
+        }
+        let vipExpiry = null;
+        if(vipTier==1 || vipTier==2 || pinned){
+            vipExpiry = Date.now() + (30*24*60*60*1000);
+        }
+        let adObj = { name, price, category, work, location, phone, showPhone, video, image: uploadedImageUrl, images: uploadedImagesArray, vipTier, pinned, isCustomer24Hr: false, mandiCity: mandiCity };
+        if(vipExpiry) { adObj.vipExpiry = vipExpiry; adObj.lastRenewedAt = Date.now(); adObj.lastPlan = vipTier==2?'Pinned 499': vipTier==1?'VIP 249':'Pinned Top'; }
+        if (editId === "") {
+            adObj.createdAt = new Date().getTime();
+            adObj.views = 0;
+            adObj.clicks = 0;
+            db.collection("ads").add(adObj).then(() => {
+                let expMsg = vipExpiry? ` 30 din tak VIP active (${new Date(vipExpiry).toLocaleDateString('hi-IN')} tak)` : '';
+                alert(`✅ Dukandar Add publish ho gaya! City: ${mandiCity}${expMsg}`);
+                clearForm();
+                if(document.getElementById('newImageFile')) document.getElementById('newImageFile').value = "";
+                for(let i=1; i<=3; i++){ let el=document.getElementById('multiImg'+i); if(el) el.value=""; }
+                document.getElementById('devPanel').style.display = 'none';
+            }).catch((error) => { alert("Error: " + error); });
+        } else {
+            if (!isAdminLoggedIn) return;
+            if(vipExpiry){
+                adObj.vipExpiry = vipExpiry;
+                adObj.lastRenewedAt = Date.now();
+            }
+            db.collection("ads").doc(editId).update(adObj).then(() => {
+                alert(`✅ Add Update ho gaya! ${vipExpiry?'30 din expiry set':''}`);
+                cancelEdit();
+                if(document.getElementById('newImageFile')) document.getElementById('newImageFile').value = "";
+                for(let i=1; i<=3; i++){ let el=document.getElementById('multiImg'+i); if(el) el.value=""; }
+                document.getElementById('devPanel').style.display = 'none';
+            }).catch((error) => { alert("Error: " + error); });
+        }
+    }
+function cancelEdit() {
+        clearForm();
+        document.getElementById('editId').value = "";
+        document.getElementById('individualTrialBox').style.display = 'none';
+        document.getElementById('panelHeading').innerText = "🏪 Dukandar / Business Add Jodein";
+        document.getElementById('saveBtn').innerText = "🚀 Publish Karein";
+        document.getElementById('cancelBtn').style.display = 'none';
+    }
+function clearForm() {
+        document.getElementById('newName').value = "";
+        document.getElementById('newPrice').value = "";
+        document.getElementById('newCategory').value = "";
+        document.getElementById('newWork').value = "";
+        document.getElementById('newLocation').value = "";
+        document.getElementById('newPhone').value = "";
+        if(document.getElementById('newVideo')) document.getElementById('newVideo').value = "";
+        if(document.getElementById('newImage')) document.getElementById('newImage').value = "";
+        if(document.getElementById('newImageFile')) document.getElementById('newImageFile').value = "";
+        for(let i=1; i<=3; i++){ let el=document.getElementById('multiImg'+i); if(el) el.value=""; }
+        if(document.getElementById('custImage')) document.getElementById('custImage').value = "";
+        if(document.getElementById('custImageFile')) document.getElementById('custImageFile').value = "";
+        if(document.getElementById('vipTierSelect')) document.getElementById('vipTierSelect').value = "0";
+        if(document.getElementById('pinToTopCheck')) document.getElementById('pinToTopCheck').checked = false;
+        if(document.getElementById('customTrialDaysInput')) document.getElementById('customTrialDaysInput').value = "";
+        if(document.getElementById('safetyTermsCheckDev')) document.getElementById('safetyTermsCheckDev').checked = false;
+        if(document.getElementById('safetyTermsCheckCust')) document.getElementById('safetyTermsCheckCust').checked = false;
+        document.getElementById('adLimitMsg').style.display = 'none';
+      }
+      function deleteAd(id) {
+        if(!isAdminLoggedIn) return;
+        if(confirm("Kya aap is ad ko delete karna chahte hain?")) {
+            db.collection("ads").doc(id).delete().catch((error) => { alert("Error: " + error); });
+        }
+    }
+
+    function updateAdminStats(){
+        if(!adsData) return;
+        let box = document.getElementById('adminStatsBox');
+        let expBox = document.getElementById('adminExpiredBox');
+        if(isAdminLoggedIn){
+            if(box) box.style.display = 'block';
+            if(expBox) expBox.style.display = 'block';
+        } else {
+            if(box) box.style.display = 'none';
+            if(expBox) expBox.style.display = 'none';
+            return;
+        }
+        document.getElementById('adminTotalCount').innerText = adsData.length;
+        document.getElementById('adminVipCount').innerText = adsData.filter(p => p.vipTier > 0 || p.pinned).length;
+        document.getElementById('adminUrgentCount').innerText = adsData.filter(p => p.isCustomer24Hr).length;
+        let expired = adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired || (p.location||'').includes('Expired'));
+        document.getElementById('adminExpiredCount').innerText = expired.length;
+        renderAdminExpiredList();
+    }
+
+    function renderAdminExpiredList(){
+        let box = document.getElementById('adminExpiredListContainer');
+        if(!box) return;
+        let expired = adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired || (p.location||'').includes('Expired'));
+        if(expired.length === 0){
+            box.innerHTML = '<div style="color:#aaa; font-size:11px; text-align:center;">✅ Koi expired nahi</div>';
+            return;
+        }
+        box.innerHTML = expired.map(p => `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#000; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid #333;">
+                <div style="font-size:12px;"><b style="color:#fff;">${p.name}</b> <span style="color:#aaa;">(${p.phone})</span><br><span style="color:#ff4444; font-size:10px;">${p.location} | Expired</span></div>
+                <div style="display:flex; gap:5px;">
+                    <button onclick="sendSingleReminder('${p.phone}','${p.name}')" style="background:#25D366; color:#fff; border:none; padding:6px 10px; border-radius:20px; font-size:11px; font-weight:bold; cursor:pointer;">WhatsApp</button>
+                    <button onclick="deleteAd('${p.id}')" style="background:#ff0055; color:#fff; border:none; padding:6px 8px; border-radius:12px; font-size:11px; cursor:pointer;">🗑️</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function sendSingleReminder(phone, name){
+        let msg = `🙏 Namaste ${name} Ji 🙏\n\nAapka ad *KaamDhandha Direct - Bodla* me laga tha, uska time khatam ho gaya hai.\n\nIsliye ab aapki dukaan customer ko upar nahi dikh rahi hai.\n\nWapas Top par lana hai to plan dekh lijiye:\n\n🔄 Normal - ₹99 / 30 Din (List me active)\n👑 VIP Rotation - ₹249 / 30 Din (Upar ghumega)\n📌 Top Speed - ₹499 / 30 Din (Sabse Top par)\n\n7 din me renew nahi hua to ad automatic delete ho jayega.\n\nKonsa plan karna hai? Bas likh ke bhej dijiye - 99 / 249 / 499\n\n- Raaj | KaamDhandha Direct`;
+        let cleanPhone = String(phone).replace(/[^0-9]/g, '').slice(-10);
+        window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function filterAdminAds(type){
+        if(type === 'all') {
+            renderAds();
+        } else if(type === 'vip') {
+            renderAds(adsData.filter(p => p.vipTier > 0 || p.pinned));
+        } else if(type === 'urgent') {
+            renderAds(adsData.filter(p => p.isCustomer24Hr));
+        } else if(type === 'expired') {
+            renderAds(adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired));
+        } else if(type === 'active') {
+            renderAds(adsData.filter(p => !p.trialExpired && (!p.vipExpiry || p.vipExpiry > Date.now())));
+        }
+    }
+
+    function sendBulkExpiryReminder(){
+        let expired = adsData.filter(p => (p.vipExpiry && p.vipExpiry < Date.now()) || p.trialExpired);
+        if(expired.length === 0){
+            alert('Koi expired nahi');
+            return;
+        }
+        expired.forEach((p, i) => {
+            setTimeout(() => {
+                sendSingleReminder(p.phone, p.name);
+            }, i * 1000);
+        });
+    }
+
+    function filterProfiles() {
+        renderAds();
+        let input = document.getElementById('searchInput').value.toLowerCase().trim();
+        if(input.length >= 3){
+            let searchCityForWeather = document.getElementById('searchInput').value.trim();
+            let ignoreWords = ['cycle','tamatar','baigan','aalu','sabzi','dukan','mechanic','labor','majdoor'];
+            let isItemSearch = ignoreWords.some(w => input.includes(w));
+            if(!isItemSearch && searchCityForWeather.length >= 3){
+                fetchWeather(searchCityForWeather);
+                document.getElementById('weatherCity').innerText = searchCityForWeather;
+            }
+        } else if(input.length === 0){
+            fetchWeather(currentMandiCity);
+            document.getElementById('weatherCity').innerText = currentMandiCity;
+        }
+    }
+</script>
+
+<div style="text-align: center; margin: 30px 0 15px 0; font-size: 12px; opacity: 0.7; border-top: 1px solid rgba(255,255,215,0.1); padding-top: 15px;">
+    © 2026 KaamDhandha Direct | Bodla Live Mandi & Customer Network | Managed by <span style="color: #ffd700; font-weight: bold;">❥. Ʀᴀ፝֟ᴀᴊ 𝐌𝐞𝐫𝐚𝐯𝐢 ࿐</span>
+</div>
+</body>
+</html>
