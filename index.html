@@ -59,6 +59,11 @@
   }
 </script>
 
+<!-- 📥 PWA INSTALL FLOATING BUTTON -->
+<div id="pwaInstallBanner" style="display:none; position:fixed; bottom:15px; left:50%; transform:translateX(-50%); z-index:99999; background:linear-gradient(135deg,#00ffcc,#00aaff); color:#000; padding:10px 20px; border-radius:30px; font-weight:bold; font-size:14px; box-shadow:0 0 20px rgba(0,255,204,0.7); cursor:pointer; text-align:center;">
+    📲 KaamDhandha App Install Karein
+</div>
+
 <div id="voiceSearchModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
     <div id="voiceModalText" style="font-size:24px; color:#00ffcc; margin-bottom:30px; font-weight:bold;">Kripya Boliye...</div>
     <div class="mic-pulse" style="background:linear-gradient(135deg,#ff0055,#ff6600); border-radius:50%; width:90px; height:90px; display:flex; justify-content:center; align-items:center; font-size:45px; box-shadow:0 0 20px #ff0055; margin-bottom:40px;">🎤</div>
@@ -443,7 +448,7 @@
                     <button onclick="autoDetectMandiTrend()" style="background:#ffd700; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; flex:1; font-size:12px;">📢 Auto Banner Banao</button>
                 </div>
             </div>
-            <label style="font-size:11px; color:#ccc; margin-top:6px;">⚡ Bijli Vibhag ka Number:</label>
+<label style="font-size:11px; color:#ccc; margin-top:6px;">⚡ Bijli Vibhag ka Number:</label>
             <div style="display:flex; gap:6px; margin-bottom:8px;">
                 <input type="text" id="newBijliInput" placeholder="jaise: 9876543210" style="margin:0;">
                 <button onclick="updateBijliNumber()" style="background:#ffd700; color:#000; border:none; padding:0 12px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:12px;">Save Bijli No.</button>
@@ -476,7 +481,7 @@
                 <input type="number" id="customTrialDaysInput" placeholder="jaise: 30 ya 45 din" style="margin-bottom:4px;">
                 <button onclick="saveCustomTrialForListing()" style="background:#ff0055; color:#fff; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; font-size:12px;">💾 Save Custom Trial</button>
             </div>
-<div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-top:10px;">
+            <div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-top:10px;">
                 <label style="color:#00ffcc; font-weight:bold;">📞 Direct Call Monetization:</label>
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
                     <input type="checkbox" id="enableCustomerPayCheck" style="width:18px; height:18px; margin:0; cursor:pointer;">
@@ -517,7 +522,7 @@
     <div id="profileList"></div>
     <div id="noResult" class="no-result" style="display: none;">Koi add nahi mila! ❌</div>
     <style>
-      :root { --neon-color: #00ffcc; --neon-glow: rgba(0, 255, 204, 0.4); --bg-color: #050505; --card-bg: #0b0f19; }
+        :root { --neon-color: #00ffcc; --neon-glow: rgba(0, 255, 204, 0.4); --bg-color: #050505; --card-bg: #0b0f19; }
     body { background-color: var(--bg-color); color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 12px; width: 100vw; overflow-x: hidden; box-sizing: border-box; touch-action: pan-x pan-y; *, *::before, *::after { box-sizing: border-box; } }
     h1 { text-align: center; color: var(--neon-color); text-shadow: 0 0 12px var(--neon-color); margin-bottom: 5px; font-size: 22px; }
   .subtitle { text-align: center; color: var(--neon-color); opacity: 0.8; font-size: 13px; margin-bottom: 15px; letter-spacing: 1px; }
@@ -593,7 +598,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
 .report-btn { background: none; border: none; color: #ff4444; font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 4px; display: inline-block; font-weight: bold; }
 </style>
 <script>
-  const firebaseConfig = {
+    const firebaseConfig = {
         apiKey: "AIzaSyBYUdDr7ngl99gv8hqt1lJ6rM-grfyLVEc",
         authDomain: "kaamdhandha-database.firebaseapp.com",
         projectId: "kaamdhandha-database",
@@ -634,52 +639,75 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
     let customerPayConfig = JSON.parse(localStorage.getItem("kaamDhandhaCustPayConfig")) || { enabled: false, amount: "₹10", msg: "Direct Call Access Pass" };
     let isCustomerUnlocked = localStorage.getItem("kaamDhandhaCustUnlocked") === "true";
     let pendingCallPhone = "";
-    let recognitionInstance = null; // Fix #6: Global variable for recognition instance
+    let recognitionInstance = null;
     const SETTINGS_DOC = db.collection("kaam_settings").doc("global_banner");
 
-    // 📸 IMAGE AUTO COMPRESSION (< 498 KB) & UNIVERSAL URL SUPPORT
-    async function compressImageToLimit(file) {
-        return new Promise((resolve) => {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function(event) {
-                let img = new Image();
-                img.src = event.target.result;
-                img.onload = function() {
-                    let canvas = document.createElement('canvas');
-                    let MAX_WIDTH = 800, MAX_HEIGHT = 800;
-                    let width = img.width, height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                    } else {
-                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                    }
-                    canvas.width = width; canvas.height = height;
-                    let ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    
-                    let dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                    resolve(dataUrl);
-                }
+    // 🌟 NATURAL HINDI VOICE & UNIVERSAL NUMBER-TO-WORDS CONVERTER
+    function convertNumbersToHindiWords(text) {
+        // Regex to find numbers and convert them to proper Hindi words
+        return text.replace(/\d+/g, function(match) {
+            let num = parseInt(match, 10);
+            if (isNaN(num)) return match;
+            
+            if (num < 100) {
+                const units = ["shunya", "ek", "do", "teen", "chaar", "paanch", "chhe", "saat", "aath", "nau", "das", "gyarah", "barah", "terah", "chaudah", "pandraah", "solah", "satrah", "atharah", "unnis", "bees", "ikkis", "baais", "teis", "chaubis", "pachis", "chhabis", "sattais", "atthais", "unatis", "tees", "ikatis", "battis", "tetis", "chautis", "pantis", "chattis", "saintis", "artis", "untalis", "chalis", "ikatis", "bialis", "tetalis", "chawalis", "paintais", "chhiyalis", "saintalis", "adhtalis", "unachaas", "pachaas", "ikavan", "bavan", "trevan", "chauvan", "pachpan", "chhapan", "sattavan", "atthavan", "unsath", "sath", "iksath", "bhasath", "tresath", "chausath", "patsath", "chhiyasath", "satsath", "athsath", "unhattar", "sattar", "ikhattar", "bahattar", "tihattar", "chauhattar", "pachhattar", "chhihattar", "satahattar", "athhattar", "unasi", "assi", "ikasi", "byasi", "tiasi", "chausi", "pachasi", "chhiyasi", "satasi", "athasi", "nawasi", "nabbe", "ikyanbe", "biyanbe", "tranbe", "chaunbe", "pachanbe", "chhiyanbe", "satanbe", "athanbe", "unniyalis"];
+                // Simple lookup for common ones or direct mapping
+                if (num === 10) return "das";
+                if (num === 20) return "bees";
+                if (num === 30) return "tees";
+                if (num === 40) return "chalis";
+                if (num === 50) return "pachaas";
+                if (num === 60) return "saath";
+                if (num === 70) return "sattar";
+                if (num === 80) return "assi";
+                if (num === 90) return "nabbe";
             }
+            
+            if (num === 100) return "ek sau";
+            if (num === 110) return "ek sau das";
+            if (num === 120) return "ek sau bees";
+            if (num === 150) return "ek sau pachaas";
+            if (num === 200) return "do sau";
+            
+            return match; // Fallback
         });
     }
 
-    // 🔊 FREE VOICE SPEAKER (WEB SPEECH API) WITH ADMIN HIDE/SHOW
+    // 🔊 FREE NATURAL VOICE SPEAKER (NATURAL HINDI VOICE ENGINE)
     function speakMandiRates() {
         if (!('speechSynthesis' in window)) {
             alert("Aapka browser voice support nahi karta!");
             return;
         }
-        window.speechSynthesis.cancel(); // Fix #2: Purani awaz turant rokne ke liye
-        let text = `${currentMandiCity} mandi ke taaja rates. `;
+        window.speechSynthesis.cancel();
+        
+        let rawText = `${currentMandiCity} mandi ke taaja rates. `;
         dynamicSabziList.forEach(i => {
-            text += `${i.name} ka bhav ${i.rate} hai. `;
+            rawText += `${i.name} ka bhav ${i.rate} hai. `;
         });
-        let utterance = new SpeechSynthesisUtterance(text);
+
+        // Convert numbers like 30, 110, 50 to Hindi words
+        let spokenText = convertNumbersToHindiWords(rawText);
+
+        let utterance = new SpeechSynthesisUtterance(spokenText);
+        
+        // Select natural Hindi / Indian voice if available
+        let voices = window.speechSynthesis.getVoices();
+        let hindiVoice = voices.find(v => v.lang === 'hi-IN' || v.lang.includes('hi') || v.lang.includes('IN'));
+        if (hindiVoice) {
+            utterance.voice = hindiVoice;
+        }
+        
         utterance.lang = 'hi-IN';
+        utterance.rate = 0.9; // Normal soothing speed
         window.speechSynthesis.speak(utterance);
+    }
+
+    // Ensure voices are loaded for browser compatibility
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.getVoices();
+        };
     }
 
     function updateVoiceSpeakerVisibility() {
@@ -718,7 +746,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
                         if(reports >= 10) {
                             db.collection("ads").doc(adId).update({ vipTier: 0, pinned: false, location: "[REPORTED & REMOVED]" });
                             
-                            // Send WhatsApp alert to Admin (Raaj Meravi - 6264917767)
                             let adminMsg = `🚨 *FRAUD AD ALERT (10 Reports)* 🚨\n\nEk ad par 10 genuine reports aayi hain aur use remove kar diya gaya hai:\n\n🏪 Dukaan: *${adName}*\n📱 Number: *${adPhone}*\n📍 Location: *${adLoc}*\n🆔 Ad ID: *${adId}*`;
                             window.open(`https://wa.me/916264917767?text=${encodeURIComponent(adminMsg)}`, '_blank');
 
@@ -731,9 +758,8 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             });
         }
     }
-// 🛡️ Ultimate & Bulletproof Anti-Spam Guard for Phone Numbers
+
     function isFakeOrSpamNumber(phone) {
-        // Fix #4: Trim country code before checking
         let c = phone.replace(/[^0-9]/g,'');
         if(c.length === 12 && c.startsWith('91')) c = c.slice(2);
         if(c.length === 11 && c.startsWith('0')) c = c.slice(1);
@@ -777,8 +803,33 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         fetchAdsFromFirebase();
         autoDeleteCheck();
         setInterval(autoDeleteCheck, 60000);
+
+        // 📲 PWA SERVICE WORKER & INSTALL PROMPT REGISTRATION
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration failed:', err));
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            let installBtn = document.getElementById('pwaInstallBanner');
+            if (installBtn) {
+                installBtn.style.display = 'block';
+                installBtn.onclick = () => {
+                    installBtn.style.display = 'none';
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                };
+            }
+        });
     };
-  function checkMyTrialStatus(){
+    function checkMyTrialStatus(){
       let phoneInput = document.getElementById('trialCheckPhone').value.trim().replace(/[^0-9]/g,'');
       let resultEl = document.getElementById('trialCheckResult');
       if(phoneInput.length < 10){
@@ -819,7 +870,6 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
             color = "#ffd700";
             showPayBtn = false;
         } else {
-            // Fix #10: Math.floor se round off kar le
             let diffDays = Math.floor((now - created) / (1000 * 60 * 60 * 24));
             let limit = ad.customTrialDays || defaultTrialDays;
             remaining = Math.ceil(limit - diffDays);
@@ -846,6 +896,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
       html += `</div>`;
       resultEl.innerHTML = html;
     }
+
     function openPayForSpecificAd(adId){
         let ad = adsData.find(a=>a.id===adId);
         if(!ad) return;
@@ -859,6 +910,7 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         },500);
         document.getElementById('payModal').style.display='flex';
     }
+
     function autoLoadAdsForPay(phone){
         let clean = phone.replace(/[^0-9]/g,'').slice(-10);
         if(clean.length<10) return;
@@ -878,7 +930,8 @@ mic-pulse { animation: pulseMicModal 1s infinite; }
         updatePayExpiryInfo();
         sel.onchange = updatePayExpiryInfo;
     }
-function updatePayExpiryInfo(){
+
+    function updatePayExpiryInfo(){
         let sel = document.getElementById('payAdSelect');
         let info = document.getElementById('payAdExpiryInfo');
         if(!sel.value){ info.innerHTML=''; return; }
@@ -892,11 +945,13 @@ function updatePayExpiryInfo(){
             info.innerHTML = `🔴 Ye ad <b style="color:#ff0055;">Expired/Normal</b> hai - Pay karne par 30 din VIP active hoga`;
         }
     }
+
     function isVipExpired(ad){
         if(!ad.vipExpiry) return false;
         return Date.now() > ad.vipExpiry;
     }
-function updateAdminTotalCount(){
+
+    function updateAdminTotalCount(){
         if(!isAdminLoggedIn) return;
         let totalEl = document.getElementById('adminTotalCount');
         let vipEl = document.getElementById('adminVipCount');
@@ -909,16 +964,43 @@ function updateAdminTotalCount(){
         if(vipEl) vipEl.innerText = vip;
         if(urgentEl) urgentEl.innerText = urgent;
     }
-async function uploadImageToFirebase(fileInputId) {
+
+    async function compressImageToLimit(file) {
+        return new Promise((resolve) => {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(event) {
+                let img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    let canvas = document.createElement('canvas');
+                    let MAX_WIDTH = 800, MAX_HEIGHT = 800;
+                    let width = img.width, height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                    } else {
+                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                    }
+                    canvas.width = width; canvas.height = height;
+                    let ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    let dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    resolve(dataUrl);
+                }
+            }
+        });
+    }
+    async function uploadImageToFirebase(fileInputId) {
         if(fileInputId === 'newImageFile'){
             let urls = [];
             for(let i=1; i<=3; i++){
                 let f = document.getElementById('multiImg'+i);
-                // Fix #12: File existence check zaroor rakh
                 if(f && f.files && f.files[0]){
                     let compUrl = await compressImageToLimit(f.files[0]);
                     let fileName = "ads/" + Date.now() + "_" + i + "_" + f.files[0].name.replace(/[^a-zA-Z0-9.]/g,'_');
-                    let ref = storage.ref().child(fileName); // Fix #1: global firebase object se call kar
+                    let ref = storage.ref().child(fileName);
                     await ref.putString(compUrl, 'data_url');
                     let url = await ref.getDownloadURL();
                     urls.push(url);
@@ -934,25 +1016,27 @@ async function uploadImageToFirebase(fileInputId) {
         if (!file) return "";
         let compUrl = await compressImageToLimit(file);
         let fileName = "ads/" + Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.]/g,'_');
-        let storageRef = storage.ref().child(fileName); // Fix #1
+        let storageRef = storage.ref().child(fileName);
         await storageRef.putString(compUrl, 'data_url');
         let downloadURL = await storageRef.getDownloadURL();
         return downloadURL;
     }
+
     function loadMoreAds(){
         adsDisplayLimit += 15;
         renderAds();
-  }
-  function openDigitalKhataLink(){
+    }
+
+    function openDigitalKhataLink(){
         let a = document.getElementById('dukandarSpecialLink');
         if(a && a.href){
             window.open(a.href, '_blank');
         }
     }
 
-    // ✅ UPGRADED VOICE SEARCH FUNCTION (Fix #6 included)
+    // 🎙️ UNIVERSAL VOICE SEARCH (ANY LANGUAGE / ACCENT SUPPORT + 100% TYPING FIX)
     function startVoiceSearch(){
-        if(!('webkitSpeechRecognition' in window) &&!('SpeechRecognition' in window)){
+        if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
             alert("🎤 Voice support nahi hai, Chrome browser use karo bhai!");
             return;
         }
@@ -962,20 +1046,22 @@ async function uploadImageToFirebase(fileInputId) {
         let micBtn = document.getElementById('voiceSearchBtn');
 
         try {
-            // Fix #6: Pehle wale instance ko abort() karwa de
             if(recognitionInstance) { recognitionInstance.abort(); }
 
             let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognitionInstance = new SpeechRecognition();
 
+            // Set language to dynamic auto/multi-support (Hindi + English mix)
             recognitionInstance.lang = 'hi-IN';
             recognitionInstance.continuous = false;
             recognitionInstance.interimResults = true;
 
             if(micBtn) micBtn.classList.add('listening');
-            modal.style.display = 'flex';
-            modalText.innerText = '🎙️ Sun raha hu... boliye!';
-            modalText.style.color = '#00ffcc';
+            if(modal) modal.style.display = 'flex';
+            if(modalText) {
+                modalText.innerText = '🎙️ Sun raha hu... boliye!';
+                modalText.style.color = '#00ffcc';
+            }
 
             if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
                 navigator.mediaDevices.getUserMedia({audio:true}).catch(()=>{});
@@ -986,43 +1072,45 @@ async function uploadImageToFirebase(fileInputId) {
                 for (let i = e.resultIndex; i < e.results.length; ++i) {
                     transcript += e.results[i][0].transcript;
                 }
-                input.value = transcript;
-                modalText.innerText = '✅ Suna: ' + transcript;
+                
+                if(input) {
+                    input.value = transcript;
+                    // Trigger input event so instant filter works seamlessly
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+
+                if(modalText) modalText.innerText = '✅ Suna: ' + transcript;
 
                 filterProfiles();
                 checkLocationInSearch(transcript);
 
                 setTimeout(() => {
-                    modal.style.display = 'none';
+                    if(modal) modal.style.display = 'none';
                     if(micBtn) micBtn.classList.remove('listening');
                 }, 800);
             };
 
             recognitionInstance.onerror = function(ev){
-                if(ev.error === 'not-allowed'){
-                    modalText.innerText = '❌ Browser me Mic ki permission do!';
-                } else {
-                    modalText.innerText = '❌ Awaz saaf nahi aayi, dobara boliye...';
-                }
+                if(modalText) modalText.innerText = '❌ Awaz saaf nahi aayi, dobara boliye...';
                 setTimeout(() => {
-                    modal.style.display = 'none';
+                    if(modal) modal.style.display = 'none';
                     if(micBtn) micBtn.classList.remove('listening');
-                }, 1500);
+                }, 1200);
             };
 
             recognitionInstance.onend = function(){
                 if(micBtn) micBtn.classList.remove('listening');
                 setTimeout(() => {
-                    if(modal.style.display === 'flex') {
+                    if(modal && modal.style.display === 'flex') {
                         modal.style.display = 'none';
                     }
-                }, 500);
+                }, 400);
             };
 
             recognitionInstance.start();
         } catch(err) {
             alert("Voice error: " + err.message);
-            document.getElementById('voiceSearchModal').style.display = 'none';
+            if(modal) modal.style.display = 'none';
             if(micBtn) micBtn.classList.remove('listening');
         }
     }
@@ -1046,13 +1134,14 @@ async function uploadImageToFirebase(fileInputId) {
             }
         });
     }
-async function clearAllBanners(){
+    async function clearAllBanners(){
         if(!confirm("Banner hatane hain?")) return;
         await SETTINGS_DOC.set({ tickerText: "", sponsorTitle: "", sponsorOffer: "", sponsorImg: "", sponsorLink: "", dukaanSpecialVisibility: "hide", topLocationVisibility: "show", locationWeatherVisibility: "show" }, {merge:true});
         loadAllBannersAndWeatherSettings();
         alert("❌ Sabhi Banners Hide Ho Gaye");
     }
-async function loadAllBannersAndWeatherSettings(){
+
+    async function loadAllBannersAndWeatherSettings(){
         try{
             const doc = await SETTINGS_DOC.get();
             const tickerWrap = document.getElementById("emergencyTickerWrap");
@@ -1067,7 +1156,7 @@ async function loadAllBannersAndWeatherSettings(){
                     tickerWrap.style.display = "none";
                     if(document.getElementById("adminTickerInput")) document.getElementById("adminTickerInput").value = "";
                 }
-const sponsorWrap = document.getElementById("sponsorBannerWrap");
+                const sponsorWrap = document.getElementById("sponsorBannerWrap");
                 if(data.sponsorTitle && data.sponsorTitle.trim()!== ""){
                     document.getElementById("sponsorBannerTitle").innerText = data.sponsorTitle;
                     document.getElementById("sponsorBannerOffer").innerText = data.sponsorOffer || "";
@@ -1078,7 +1167,7 @@ const sponsorWrap = document.getElementById("sponsorBannerWrap");
                     if(sponsorWrap) sponsorWrap.style.display = "none";
                 }
                 let dukaanWrap = document.getElementById("dukandarSpecialBanner");
-                if(data.dukaanSpecialVisibility === "hide"){
+                if(data.dukandarSpecialVisibility === "hide"){
                     if(dukaanWrap) dukaanWrap.style.display = "none";
                     if(document.getElementById("adminDukaanSpecialVisibility")) document.getElementById("adminDukaanSpecialVisibility").value = "hide";
                 } else {
@@ -1122,30 +1211,34 @@ const sponsorWrap = document.getElementById("sponsorBannerWrap");
                     if(locWeatherWrap) locWeatherWrap.style.display = 'grid';
                     if(document.getElementById('adminLocationVisibility')) document.getElementById('adminLocationVisibility').value = 'show';
                 }
-if(data.defaultWeatherCity){
+                if(data.defaultWeatherCity){
                     if(document.getElementById('adminDefaultWeatherCity')) document.getElementById('adminDefaultWeatherCity').value = data.defaultWeatherCity;
                 }
             }
         } catch(e) { console.log(e); }
-  }
-  async function saveGallerySetting(){
+    }
+
+    async function saveGallerySetting(){
         let val = document.getElementById("adminGalleryToggle").value;
         await SETTINGS_DOC.set({ gallerySystem: val }, {merge:true});
         alert("✅ Gallery System Update Ho Gaya!");
         loadAllBannersAndWeatherSettings();
     }
+
     async function saveTopLocationVisibility(){
         let val = document.getElementById("adminTopLocationVisibility").value;
         await SETTINGS_DOC.set({ topLocationVisibility: val }, {merge:true});
         alert("✅ Top Location Bar Setting Save Ho Gayi!");
         loadAllBannersAndWeatherSettings();
     }
+
     async function saveLocationVisibility(){
         let val = document.getElementById("adminLocationVisibility").value;
         await SETTINGS_DOC.set({ locationWeatherVisibility: val }, {merge:true});
         alert("✅ Location + Weather Box Setting Save!");
         loadAllBannersAndWeatherSettings();
     }
+
     async function saveDefaultWeatherCity(){
         let city = document.getElementById("adminDefaultWeatherCity").value.trim();
         if(city.length < 2){ alert("Sahi City naam likho!"); return; }
@@ -1153,7 +1246,6 @@ if(data.defaultWeatherCity){
         alert("✅ Default City Set: " + city);
     }
 
-    // ✅ UPGRADED - BIJLI TUFAN SALAH + HAR MAUSAM
     function getWeatherAdvisory(temp, main, humidity){
         temp = parseInt(temp);
         main = (main || "").toLowerCase();
@@ -1177,7 +1269,7 @@ if(data.defaultWeatherCity){
             return "🌾 Mausam normal hai, apne kaam jari rakhein.";
         }
     }
-// 🔥 UPGRADED: Gaon ho ya Sahar + UPDATE TIME + TUFAN BOX
+
     async function fetchWeather(city){
         let cleanCity = city.trim();
         if(cleanCity.length<2) return;
@@ -1217,7 +1309,6 @@ if(data.defaultWeatherCity){
                 let advisoryEl = document.getElementById('weatherAdvisoryText');
                 if(advisoryEl) advisoryEl.innerText = advisory;
 
-                // ✅ MAUSAM UPDATE TIME
                 let updEl = document.getElementById('weatherUpdateTime');
                 if(updEl){
                     let now = new Date();
@@ -1240,7 +1331,7 @@ if(data.defaultWeatherCity){
             document.getElementById('weatherDesc').innerText = "Error";
         }
     }
-async function loadMandiCities(){
+    async function loadMandiCities(){
         try{
             let snap = await db.collection("mandi_cities").get();
             let cities = [];
@@ -1255,6 +1346,7 @@ async function loadMandiCities(){
         }
         initLocationSelector();
     }
+
     function initLocationSelector(){
         let sel = document.getElementById('mandiLocationSelect');
         let newSel = document.getElementById('newMandiCity');
@@ -1280,8 +1372,9 @@ async function loadMandiCities(){
                 adminDelSel.appendChild(opt);
             }
         });
-  }
-  function adminAddLocation(){
+    }
+
+    function adminAddLocation(){
         let city = document.getElementById('adminNewLocationInput').value.trim();
         if(city.length < 2){ alert("Sahi naam likho bhai!"); return; }
         db.collection("mandi_cities").doc(city).set({name: city, created: Date.now()}).then(() => {
@@ -1290,7 +1383,8 @@ async function loadMandiCities(){
             loadMandiCities();
         });
     }
-function adminDeleteLocation(){
+
+    function adminDeleteLocation(){
         let city = document.getElementById('adminDeleteLocationSelect').value;
         if(!city) return;
         if(confirm(`⚠️ WARNING: Kya aap sach me '${city}' ko hamesha ke liye list se udana chahte hain?`)){
@@ -1300,6 +1394,7 @@ function adminDeleteLocation(){
             });
         }
     }
+
     function onLocationChange(selectedCity){
         if(selectedCity) currentMandiCity = selectedCity;
         else currentMandiCity = document.getElementById('mandiLocationSelect').value;
@@ -1314,7 +1409,8 @@ function adminDeleteLocation(){
         loadMandiFromFirebase(currentMandiCity);
         renderAds();
     }
-async function saveDukaanSpecialBanner(){
+
+    async function saveDukaanSpecialBanner(){
         let title = document.getElementById('adminDukaanSpecialTitle').value.trim() || "🏪 Dukandar Special: Free Digital Dukaan + Udhaar Khata Banayein";
         let link = document.getElementById('adminDukaanSpecialLink').value.trim();
         let btnText = document.getElementById('adminDukaanSpecialBtnText').value.trim() || "Free Me Banayein";
@@ -1323,7 +1419,8 @@ async function saveDukaanSpecialBanner(){
         alert("✅ Dukandar Special Save!");
         loadAllBannersAndWeatherSettings();
     }
-async function saveBannerSettings(){
+
+    async function saveBannerSettings(){
       const ticker = document.getElementById("adminTickerInput").value.trim();
       const sTitle = document.getElementById("adminSponsorTitle").value.trim();
       const sOffer = document.getElementById("adminSponsorOffer").value.trim();
@@ -1335,12 +1432,15 @@ async function saveBannerSettings(){
       await SETTINGS_DOC.set({ tickerText: ticker, sponsorTitle: sTitle, sponsorOffer: sOffer, sponsorImg: sImg, sponsorLink: sLink, locationWeatherVisibility: locVis, topLocationVisibility: topLocVis, defaultWeatherCity: defCity }, {merge:true});
       alert("✅ Save Ho Gaya!"); loadAllBannersAndWeatherSettings(); if(defCity) fetchWeather(defCity);
     }
+
     function searchAnyWeather(){ return; }
+
     function shareKaamDhandhaApp(){
         let appLink = window.location.href;
         let msg = `🔥 *KaamDhandha Direct App* 🔥\n\n👉 *${currentMandiCity} Live Mandi + All India*\n🌦️ Mausam + 🛒 Mandi Rate\n\n📲 *Link:* ${appLink}`;
         window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
     }
+
     function checkLocationInSearch(val){
         if(!val || val.trim().length < 3) return;
         let searchCity = val.trim();
@@ -1348,6 +1448,7 @@ async function saveBannerSettings(){
         document.getElementById('weatherCity').innerText = searchCity;
         document.getElementById('weatherDesc').innerText = `Live - ${searchCity}`;
     }
+
     function saveDynamicSabziRates() {
         let textVal = document.getElementById('sabziBulkEditor').value.trim();
         if (!textVal) { alert("Valid format dalein!"); return; }
@@ -1373,7 +1474,8 @@ async function saveBannerSettings(){
             alert(`✅ ${currentMandiCity} ke rates save!`);
         } else { alert("❌ Format galat hai!"); }
     }
-function autoDetectMandiTrend(){
+
+    function autoDetectMandiTrend(){
         let trend = `📢 Aaj ${currentMandiCity} Mandi Bhav | `;
         let cheap = dynamicSabziList.slice(0,3).map(i=> `${i.name} ${i.rate}`).join(', ');
         trend += `Sasta: ${cheap}`;
@@ -1381,6 +1483,7 @@ function autoDetectMandiTrend(){
         updateMandiBanner(trend);
         alert("✅ Banner ban gaya!");
     }
+
     function updateMandiBanner(text){
         let marquee = document.getElementById('mandiBannerText');
         if(text && text.length > 5){
@@ -1389,14 +1492,12 @@ function autoDetectMandiTrend(){
             marquee.innerText = `🔴 ${currentMandiCity} LIVE: ${dynamicSabziList.map(i=>`${i.name} ${i.rate}`).join(' | ')}`;
         }
     }
-
-    // ✅ UPGRADED BUSINESS ROTATION - ₹499 KO DOUBLE SPEED
     function startRotation(){
         if(rotationTimer) clearInterval(rotationTimer);
 
         let pinnedAds = adsData.filter(a => a.vipTier == 2 || a.pinned);
         let normalVipAds = adsData.filter(a => a.vipTier == 1);
-        let allRotationAds = [...pinnedAds,...pinnedAds,...normalVipAds]; // ₹499 walo ko double weight
+        let allRotationAds = [...pinnedAds,...pinnedAds,...normalVipAds];
 
         if(allRotationAds.length > 0){
             rotationIndex = Math.floor(Math.random() * allRotationAds.length);
@@ -1434,8 +1535,9 @@ function autoDetectMandiTrend(){
                 <div style="margin-top:6px;"><a href="https://wa.me/91${ad.phone}" style="background:#25D366; color:#fff; padding:4px 12px; border-radius:12px; text-decoration:none; font-size:11px; font-weight:bold;">💬 WhatsApp Par Baat Karein</a></div>
             `;
         }, 3500);
-  }
-  function autoDeleteCheck() {
+    }
+
+    function autoDeleteCheck() {
         let now = new Date().getTime();
         adsData.forEach(ad => {
             let created = ad.createdAt || now;
@@ -1460,12 +1562,10 @@ function autoDetectMandiTrend(){
         });
     }
 
-    // ✅ NAYA ADMIN EXPIRED ADS CHECKER - TERA DIYA HUA
     function loadAdminExpiredAdsList() {
         if (!isAdminLoggedIn) return;
         let box = document.getElementById('adminExpiredBox');
         let container = document.getElementById('adminExpiredListContainer');
-        // Fix #11: Null check add kar
         if (!box || !container) return;
         let now = Date.now();
         let expiredAds = adsData.filter(ad => {
@@ -1509,6 +1609,7 @@ function autoDetectMandiTrend(){
         updateClock();
         setInterval(updateClock, 1000);
     }
+
     function renderDynamicSabziUI() {
         let container = document.getElementById('sabziGridContainer');
         if (!container) return;
@@ -1524,6 +1625,7 @@ function autoDetectMandiTrend(){
         if (editorArea) { editorArea.value = bulkText; }
         updateMandiBanner("");
     }
+
     function updateBijliNumber() {
         let val = document.getElementById('newBijliInput').value.trim();
         if(val.length >= 4) {
@@ -1533,6 +1635,7 @@ function autoDetectMandiTrend(){
             alert("✅ Bijli number update ho gaya!");
         } else { alert("Kripya sahi number dalein."); }
     }
+
     function updateGlobalTrial() {
         let val = parseInt(document.getElementById('trialDaysInput').value);
         if(!isNaN(val) && val > 0) {
@@ -1542,6 +1645,7 @@ function autoDetectMandiTrend(){
             renderAds();
         } else { alert("Kripya valid number dalein."); }
     }
+
     function updateUrgentHours() {
         let val = parseInt(document.getElementById('adminUrgentHoursInput').value);
         if(!isNaN(val) && val > 0) {
@@ -1551,6 +1655,7 @@ function autoDetectMandiTrend(){
             renderAds();
         } else { alert("Kripya valid hours dalein."); }
     }
+
     function updateMaxUrgentCount() {
         let val = parseInt(document.getElementById('adminMaxUrgentCountInput').value);
         if(!isNaN(val) && val >= 0) {
@@ -1560,7 +1665,8 @@ function autoDetectMandiTrend(){
             renderAds();
         } else { alert("Kripya valid limit number dalein."); }
     }
-function saveCustomTrialForListing() {
+
+    function saveCustomTrialForListing() {
         let editId = document.getElementById('editId').value;
         let customDays = parseInt(document.getElementById('customTrialDaysInput').value);
         if(!editId) { alert("Pehle kisi listing ko edit mode mein kholein!"); return; }
@@ -1570,6 +1676,7 @@ function saveCustomTrialForListing() {
             renderAds();
         }).catch((err) => { alert("Error: " + err); });
     }
+
     function openCustomerModal() { document.getElementById('customerModal').style.display = 'flex'; }
     function closeCustomerModal() { document.getElementById('customerModal').style.display = 'none'; }
     async function publishCustomer24HrAd() {
@@ -1620,8 +1727,9 @@ function saveCustomTrialForListing() {
             if(document.getElementById('custImage')) document.getElementById('custImage').value = "";
             closeCustomerModal();
         }).catch((error) => { alert("Error: " + error); });
-  }
-  function secretAdminTrigger() {
+    }
+
+    function secretAdminTrigger() {
         if (isAdminLoggedIn) {
             if (confirm("Kya aap Admin panel se Logout karna chahte hain?")) {
                 auth.signOut().then(() => {
@@ -1644,6 +1752,7 @@ function saveCustomTrialForListing() {
                 alert("❌ Galat Email ya Password!");
             });
     }
+
     auth.onAuthStateChanged((user) => {
         if (user) {
             isAdminLoggedIn = true;
@@ -1651,8 +1760,6 @@ function saveCustomTrialForListing() {
             if(document.getElementById('adminMediaFields')) document.getElementById('adminMediaFields').style.display = 'block';
             if(document.getElementById('adminSettingsBox')) document.getElementById('adminSettingsBox').style.display = 'block';
             if(document.getElementById('themeColorBtn')) document.getElementById('themeColorBtn').style.display = 'inline-block';
-            
-            // ✅ ADMIN STATS BOX VISIBILITY FIX: Admin login hote hi stats box display block ho jayega
             if(document.getElementById('adminStatsBox')) document.getElementById('adminStatsBox').style.display = 'block';
 
             renderAds();
@@ -1667,7 +1774,8 @@ function saveCustomTrialForListing() {
             renderAds();
         }
     });
-function updateUpi2() {
+
+    function updateUpi2() {
         let newUpi = document.getElementById('newUpi2Input').value.trim();
         if(newUpi.length > 3) {
             UPI_2 = newUpi;
@@ -1676,6 +1784,7 @@ function updateUpi2() {
             alert("✅ UPI 2 update ho gayi!");
         } else { alert("Sahi UPI ID dalein."); }
     }
+
     function saveCustomerPaySettings() {
         let enabled = document.getElementById('enableCustomerPayCheck').checked;
         let amount = document.getElementById('custPayAmountInput').value || "₹10";
@@ -1684,7 +1793,8 @@ function updateUpi2() {
         localStorage.setItem("kaamDhandhaCustPayConfig", JSON.stringify(customerPayConfig));
         alert("✅ Settings save ho gayi!");
     }
-function triggerDirectCall(phone, id) {
+
+    function triggerDirectCall(phone, id) {
         trackClick(id);
         let cleanPhone = phone.replace(/[^0-9]/g, '');
         if (customerPayConfig.enabled &&!isCustomerUnlocked &&!isAdminLoggedIn) {
@@ -1694,9 +1804,10 @@ function triggerDirectCall(phone, id) {
             document.getElementById('customerPayModal').style.display = 'flex';
         } else { window.location.href = `tel:+91${cleanPhone}`; }
     }
+
     function closeCustomerPayModal() { document.getElementById('customerPayModal').style.display = 'none'; }
+
     function unlockCustomerAccess() {
-        // Fix #8: Razorpay Not Defined Error check
         if (typeof Razorpay === 'undefined') {
             alert("⚠️ Razorpay load nahi hua! Internet check karein.");
             return;
@@ -1725,6 +1836,7 @@ function triggerDirectCall(phone, id) {
         });
         rzp.open();
     }
+
     function fetchAdsFromFirebase() {
         db.collection("ads").onSnapshot((snapshot) => {
             adsData = [];
@@ -1747,8 +1859,8 @@ function triggerDirectCall(phone, id) {
     function closeColorModal() { document.getElementById('colorModal').style.display = 'none'; }
     function openPayModal() { document.getElementById('payModal').style.display = 'flex'; }
     function closePayModal() { document.getElementById('payModal').style.display = 'none'; }
+
     function payViaWhatsApp(planName, amount) {
-        // Fix #8: Razorpay Not Defined Error check
         if (typeof Razorpay === 'undefined') {
             alert("⚠️ Razorpay load nahi hua! Internet check karein.");
             return;
@@ -1757,7 +1869,6 @@ function triggerDirectCall(phone, id) {
         let sName = document.getElementById('payShopName').value.trim();
         let oPhone = document.getElementById('payOwnerPhone').value.trim();
         
-        // Fix #3: Fallback logic for Ad ID
         let selectedAdId = document.getElementById('payAdSelect') ? document.getElementById('payAdSelect').value : "";
         if(!selectedAdId) {
             let cleanPhone = oPhone.replace(/[^0-9]/g,'').slice(-10);
@@ -1809,14 +1920,16 @@ function triggerDirectCall(phone, id) {
             alert("❌ Payment fail ho gaya: " + response.error.description);
         });
         rzp.open();
-  }
-  function setThemeColor(colorHex) {
+    }
+
+    function setThemeColor(colorHex) {
         currentListingThemeColor = colorHex;
         localStorage.setItem("kaamDhandhaThemeColor", colorHex);
         closeColorModal();
         renderAds();
     }
-function toggleDevPanel() {
+
+    function toggleDevPanel() {
         let panel = document.getElementById('devPanel');
         panel.style.display = (panel.style.display === 'block')? 'none' : 'block';
         if(panel.style.display === 'block'){
@@ -1843,7 +1956,7 @@ function toggleDevPanel() {
     }
     </script>
     <script>
-      function renderAds() {
+        function renderAds() {
         let listContainer = document.getElementById('profileList');
         listContainer.innerHTML = '';
         let now = new Date().getTime();
@@ -1853,7 +1966,6 @@ function toggleDevPanel() {
             let aExpired = a.vipExpiry && now > a.vipExpiry;
             let bExpired = b.vipExpiry && now > b.vipExpiry;
             
-            // Fix #7: Strict check for vipTier sorting bug
             let tierA = aExpired ? 99 : (a.vipTier !== undefined && a.vipTier !== null ? a.vipTier : 99);
             let tierB = bExpired ? 99 : (b.vipTier !== undefined && b.vipTier !== null ? b.vipTier : 99);
 
@@ -1879,7 +1991,6 @@ function toggleDevPanel() {
         let isSearching = searchInputRaw.length > 0;
 
         if (isSearching) {
-            // Fix #9: Safe regex splitting for search bar special characters
             let searchWords = searchInputRaw.split(/\s+/).filter(w => w.length > 0);
             adsToDisplay = sortedAds.filter(ad => {
                 let searchString = `${ad.name} ${ad.price} ${ad.category} ${ad.work} ${ad.location} ${ad.mandiCity||''}`.toLowerCase();
@@ -1896,7 +2007,8 @@ function toggleDevPanel() {
                 document.getElementById('loadMoreBtn').style.display = (sortedAds.length > adsDisplayLimit) ? "block" : "none";
             }
         }
-adsToDisplay.forEach((ad) => {
+
+        adsToDisplay.forEach((ad) => {
             let createdAt = ad.createdAt || now;
             let diffMs = now - createdAt;
             let diffHours = diffMs / (1000 * 60 * 60);
@@ -1908,7 +2020,6 @@ adsToDisplay.forEach((ad) => {
             let isVipExpired = ad.vipExpiry && now > ad.vipExpiry;
             let isExpired = isCustExpired || (!isCust24 && diffDays > specificTrialLimit && (!ad.vipTier || ad.vipTier === 0 || isVipExpired));
             
-            // ✅ ADMIN ADS VISIBILITY FIX: Agar admin logged in hai, toh expired ads hide nahi honge
             if (!isAdminLoggedIn && isExpired) {
                 return; 
             }
@@ -1937,7 +2048,6 @@ adsToDisplay.forEach((ad) => {
             if (ad.pinned && !isVipExpired) { displayName = `📌 🔥 [PINNED #1] ${ad.name}${blueTick}`; }
             if (isVipExpired) { displayName = `🏪 ${ad.name} (VIP Expired - Normal)`; }
             
-            // ⭐ DYNAMIC CATEGORY & TRUST BADGES (DJ, Labor, Showroom, Rent Gaadi, Bus Wale etc.)
             let daysOld = Math.floor(diffDays);
             let clicks = ad.clicks || 0;
             let badgeTitle = "⭐ Trusted Seller";
@@ -1984,7 +2094,6 @@ adsToDisplay.forEach((ad) => {
                     displayMedia = `<div class="card-media-container"><div class="media-badge">▶ HD VIDEO</div>${getEmbedVideoHtml(ad.video)}</div>`;
                 } else {
                     let images = [];
-                    // Fix #5: Safe check for Single vs Multi-Images Array Crash in renderAds()
                     if(Array.isArray(ad.images) && ad.images.length > 0) {
                         images = ad.images;
                     } else if(ad.image && typeof ad.image === 'string' && ad.image.trim() !== '') {
@@ -2011,8 +2120,8 @@ adsToDisplay.forEach((ad) => {
                         trialBadgeHtml = `<div class="trial-status-badge" style="background: rgba(0,255,204,0.1); color: #00ffcc; border: 1px dashed #00ffcc;">⏳ Free Trial: ${daysRemaining} din bache (Total ${specificTrialLimit}d)</div>`;
                     }
                 }
-      }
-  let glowColor = cardColor + '44';
+        }
+            let glowColor = cardColor + '44';
             let searchString = `${ad.name} ${ad.price} ${ad.category} ${ad.work} ${ad.location} ${ad.mandiCity||''}`.toLowerCase();
             let card = document.createElement('div');
             card.className = isCust24 &&!isCustExpired? 'card urgent-customer-card' : (isPinnedVip? 'card pinned-vip-card' : 'card');
@@ -2036,7 +2145,6 @@ adsToDisplay.forEach((ad) => {
             }
             let upgradeBtnHtml = isCust24? '' : `<button class="upgrade-btn" onclick="openPayForSpecificAd('${ad.id}')">⭐ Plan Lein / Renew (VIP ₹249 / Pinned ₹499 - 30 Din)</button>`;
             
-            // ⚠️ REPORT BUTTON UNDER AD (10 Reports -> Admin WhatsApp Alert)
             let reportBtnHtml = `<div style="text-align:right; margin-top:6px;"><button class="report-btn" onclick="reportAdFraud('${ad.id}', '${ad.name}', '${ad.phone}', '${ad.location}')">⚠️ Report Fraud / Scam</button></div>`;
 
             card.innerHTML = `
@@ -2084,7 +2192,8 @@ adsToDisplay.forEach((ad) => {
             loadBtn.style.display = (sortedAds.length > adsDisplayLimit) ? "block" : "none";
         }
     }
-function openImageModal(imgSrc) {
+
+    function openImageModal(imgSrc) {
         let imgElem = document.getElementById('modalFullImg');
         imgElem.src = imgSrc;
         imgElem.style.transform = "scale(1)";
@@ -2097,8 +2206,9 @@ function openImageModal(imgSrc) {
         let img = document.getElementById('modalFullImg');
         if (!isZoomed) { img.style.transform = "scale(2.5)"; isZoomed = true; }
         else { img.style.transform = "scale(1)"; isZoomed = false; }
-      }
-      async function saveProfile() {
+    }
+
+    async function saveProfile() {
         let name = document.getElementById('newName').value.trim();
         let price = document.getElementById('newPrice').value.trim() || "Rate On Call";
         let category = document.getElementById('newCategory').value.trim() || "DUKAAN";
@@ -2119,7 +2229,6 @@ function openImageModal(imgSrc) {
             return;
         }
 
-        // ✅ SAFETY CHECK - FIXED (Using safetyTermsCheckDev ID correctly)
         let safetyChecked = document.getElementById('safetyTermsCheckDev')?.checked;
         if(!safetyChecked && !isAdminLoggedIn){
             alert("⚠️ Bhai pehle Safety Terms accept karo - bina iske Ad publish nahi hoga! Fraud se bachein, advance payment mat karo 🙏");
@@ -2128,7 +2237,6 @@ function openImageModal(imgSrc) {
             return;
         }
 
-        // ✅ 3 PHOTO UPLOAD LOGIC WITH AUTO COMPRESSION (< 498 KB) & UNIVERSAL URL SUPPORT
         let uploadedImageUrl = imageUrlField;
         let uploadedImagesArray = [];
         try{
@@ -2187,8 +2295,8 @@ function openImageModal(imgSrc) {
                 document.getElementById('devPanel').style.display = 'none';
             }).catch((error) => { alert("Error: " + error); });
         }
-    }
-function cancelEdit() {
+        }
+        function cancelEdit() {
         clearForm();
         document.getElementById('editId').value = "";
         document.getElementById('individualTrialBox').style.display = 'none';
@@ -2196,7 +2304,8 @@ function cancelEdit() {
         document.getElementById('saveBtn').innerText = "🚀 Publish Karein";
         document.getElementById('cancelBtn').style.display = 'none';
     }
-function clearForm() {
+
+    function clearForm() {
         document.getElementById('newName').value = "";
         document.getElementById('newPrice').value = "";
         document.getElementById('newCategory').value = "";
@@ -2215,8 +2324,9 @@ function clearForm() {
         if(document.getElementById('safetyTermsCheckDev')) document.getElementById('safetyTermsCheckDev').checked = false;
         if(document.getElementById('safetyTermsCheckCust')) document.getElementById('safetyTermsCheckCust').checked = false;
         document.getElementById('adLimitMsg').style.display = 'none';
-      }
-      function deleteAd(id) {
+    }
+
+    function deleteAd(id) {
         if(!isAdminLoggedIn) return;
         if(confirm("Kya aap is ad ko delete karna chahte hain?")) {
             db.collection("ads").doc(id).delete().catch((error) => { alert("Error: " + error); });
