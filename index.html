@@ -1014,84 +1014,93 @@ async function uploadImageToFirebase(fileInputId) {
 
     // 🎙️ UNIVERSAL VOICE SEARCH (ANY LANGUAGE / ACCENT SUPPORT + 100% TYPING FIX)
     function startVoiceSearch(){
-        if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
-            alert("🎤 Voice support nahi hai, Chrome browser use karo bhai!");
-            return;
+    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SpeechRecognition){
+        alert("🎤 Aapke is browser mein Voice Search ka support nahi hai! Google Chrome use karein.");
+        return;
+    }
+
+    if(recognitionInstance) {
+        try { recognitionInstance.stop(); } catch(e){}
+    }
+
+    let modal = document.getElementById('voiceSearchModal');
+    let modalText = document.getElementById('voiceModalText');
+    let input = document.getElementById('searchInput');
+    let micBtn = document.getElementById('voiceSearchBtn');
+
+    try {
+        recognitionInstance = new SpeechRecognition();
+        recognitionInstance.lang = 'hi-IN';
+        recognitionInstance.continuous = false;
+        recognitionInstance.interimResults = true;
+
+        if(micBtn) micBtn.classList.add('listening');
+        if(modal) modal.style.display = 'flex';
+        if(modalText) {
+            modalText.innerText = '🎙️ Sun raha hu... Zor se boliye!';
+            modalText.style.color = '#00ffcc';
         }
-        let modal = document.getElementById('voiceSearchModal');
-        let modalText = document.getElementById('voiceModalText');
-        let input = document.getElementById('searchInput');
-        let micBtn = document.getElementById('voiceSearchBtn');
 
-        try {
-            if(recognitionInstance) { recognitionInstance.abort(); }
+        let hasResult = false;
 
-            let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognitionInstance = new SpeechRecognition();
-
-            // Set language to dynamic auto/multi-support (Hindi + English mix)
-            recognitionInstance.lang = 'hi-IN';
-            recognitionInstance.continuous = false;
-            recognitionInstance.interimResults = true;
-
-            if(micBtn) micBtn.classList.add('listening');
-            if(modal) modal.style.display = 'flex';
-            if(modalText) {
-                modalText.innerText = '🎙️ Sun raha hu... boliye!';
-                modalText.style.color = '#00ffcc';
+        recognitionInstance.onresult = function(e){
+            hasResult = true;
+            let transcript = '';
+            for (let i = e.resultIndex; i < e.results.length; ++i) {
+                transcript += e.results[i][0].transcript;
+            }
+            
+            if(input) {
+                input.value = transcript;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
             }
 
-            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
-                navigator.mediaDevices.getUserMedia({audio:true}).catch(()=>{});
-            }
+            if(modalText) modalText.innerText = '✅ Suna: ' + transcript;
 
-            recognitionInstance.onresult = function(e){
-                let transcript = '';
-                for (let i = e.resultIndex; i < e.results.length; ++i) {
-                    transcript += e.results[i][0].transcript;
-                }
-                
-                if(input) {
-                    input.value = transcript;
-                    // Trigger input event so instant filter works seamlessly
-                    input.dispatchEvent(new Event('input', { bubbles: true }));
-                }
+            filterProfiles();
+            checkLocationInSearch(transcript);
 
-                if(modalText) modalText.innerText = '✅ Suna: ' + transcript;
+            setTimeout(() => {
+                if(modal) modal.style.display = 'none';
+                if(micBtn) micBtn.classList.remove('listening');
+            }, 800);
+        };
 
-                filterProfiles();
-                checkLocationInSearch(transcript);
+        recognitionInstance.onerror = function(ev){
+            console.error("Speech Error Details:", ev.error);
+            if(modalText) modalText.innerText = '❌ Aawaz pakdi nahi gayi (Error: ' + ev.error + ')';
+            setTimeout(() => {
+                if(modal) modal.style.display = 'none';
+                if(micBtn) micBtn.classList.remove('listening');
+            }, 1500);
+        };
 
-                setTimeout(() => {
-                    if(modal) modal.style.display = 'none';
-                    if(micBtn) micBtn.classList.remove('listening');
-                }, 800);
-            };
-
-            recognitionInstance.onerror = function(ev){
-                if(modalText) modalText.innerText = '❌ Awaz saaf nahi aayi, dobara boliye...';
+        recognitionInstance.onend = function(){
+            if(!hasResult && modalText && modalText.style.display !== 'none') {
+                modalText.innerText = '⚠️ Kuch sunayi nahi diya, dobara click karke bole!';
                 setTimeout(() => {
                     if(modal) modal.style.display = 'none';
                     if(micBtn) micBtn.classList.remove('listening');
                 }, 1200);
-            };
-
-            recognitionInstance.onend = function(){
+            } else {
                 if(micBtn) micBtn.classList.remove('listening');
-                setTimeout(() => {
-                    if(modal && modal.style.display === 'flex') {
-                        modal.style.display = 'none';
-                    }
-                }, 400);
-            };
+                if(modal) modal.style.display = 'none';
+            }
+        };
 
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(() => {
             recognitionInstance.start();
-        } catch(err) {
-            alert("Voice error: " + err.message);
-            if(modal) modal.style.display = 'none';
-            if(micBtn) micBtn.classList.remove('listening');
-        }
+        }).catch(err => {
+            recognitionInstance.start();
+        });
+
+    } catch(err) {
+        alert("Voice error: " + err.message);
+        if(modal) modal.style.display = 'none';
+        if(micBtn) micBtn.classList.remove('listening');
     }
+    }  
     function loadMandiFromFirebase(city){
         db.collection("mandis").doc(city).get().then(doc=>{
             if(doc.exists && doc.data().rates){
