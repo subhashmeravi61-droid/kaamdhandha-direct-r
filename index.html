@@ -80,7 +80,7 @@
         <marquee id="mandiBannerText" scrollamount="3">🔴 Loading Aaj ka Mandi Bhaav...</marquee>
     </div>
 
-    <!-- 🏪 TOP BANNER - CLICK PE LINK KHULEGA -->
+    <!-- 🏪 TOP BANNER (DUKANDAR SPECIAL) - CLICK PE LINK / VIDEO KHULEGA -->
     <div id="dukandarSpecialBanner" onclick="openDigitalKhataLink()" style="display:block; background:linear-gradient(135deg,#001100,#002200); border:2px solid #00ff66; border-radius:12px; padding:14px; margin-bottom:12px; text-align:center; box-shadow:0 0 20px rgba(0,255,102,0.5); cursor:pointer;">
         <div style="font-size:13px; color:#00ff66; font-weight:bold; margin-bottom:6px;">🏪 DUKANDAR SPECIAL</div>
         <div id="dukandarSpecialTitle" style="font-size:15px; font-weight:bold; color:#ffd700; margin-bottom:10px;">🏪 Dukandar Special: Free Digital Dukaan + Udhaar Khata Banayein</div>
@@ -92,10 +92,11 @@
         <a id="dukandarSpecialLink" href="https://wa.me/916264917767?text=Free%20Digital%20Dukaan%20Chahiye" target="_blank" style="display:none;"></a>
     </div>
 
+    <!-- 🏪 MONTHLY PREMIUM SPONSOR (VIDEO / PHOTO / WHATSAPP SUPPORT) -->
     <div id="sponsorBannerWrap" style="display:none; background:linear-gradient(135deg,#1a0033,#330066); border:2px solid gold; border-radius:12px; padding:10px; margin-bottom:12px; text-align:center; box-shadow:0 0 20px rgba(255,215,0,0.5);">
         <div style="font-size:11px; color:gold; font-weight:bold;">🏪 MONTHLY PREMIUM SPONSOR</div>
+        <div style="margin-top:6px;" id="sponsorMediaContainer"></div>
         <div style="display:flex; align-items:center; gap:10px; margin-top:6px; text-align:left;">
-            <img id="sponsorBannerImg" src="" style="width:60px; height:60px; border-radius:8px; object-fit:cover; border:2px solid gold; display:none;">
             <div style="flex:1;">
                 <div id="sponsorBannerTitle" style="font-size:15px; font-weight:bold; color:#fff;"></div>
                 <div id="sponsorBannerOffer" style="font-size:12px; color:#00ffcc; font-weight:bold; margin-top:2px;"></div>
@@ -110,6 +111,7 @@
         <button onclick="speakMandiRates()" style="background:#00aaff; color:#000; border:none; padding:8px 16px; border-radius:20px; font-weight:bold; font-size:12px; width:100%; cursor:pointer;">🔊 Aaj Ke Mandi Bhav Bol Kar Suniye</button>
     </div>
 
+    <!-- 📍🌦️ LOCATION + WEATHER BOX (ADMIN HIDE/SHOW SYNCHRONIZED) -->
     <div id="locationWeatherWrapper" style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:12px;">
         <div id="locationSelectorBox" style="background:#0b0f19; border:2px solid #ffd700; border-radius:10px; padding:8px;">
             <div style="font-size:11px; color:#ffd700; font-weight:bold; margin-bottom:4px;">📍 Location Chunein</div>
@@ -193,18 +195,25 @@
                 <input type="text" id="custLocation" placeholder="jaise: Bodla Chowk" style="width:100%; padding:7px; margin-top:2px; background:#000; border:1px solid #ff0055; color:#fff; border-radius:6px; font-size:12px;">
                 <input type="text" id="custPhone" placeholder="WhatsApp Number: 9876543210" style="width:100%; padding:7px; margin-top:6px; background:#000; border:1px solid #ff0055; color:#fff; border-radius:6px; font-size:12px;">
                 
-                <div id="custImageUrlWrapper" style="display:block;">
-                    <label style="color:#ffd700; font-size:11px; font-weight:bold; margin-top:8px; display:block;">📸 Photo Link (URL) Paste Karein:</label>
-                    <input type="text" id="custImage" placeholder="jaise: https://... (Optional)" style="width:100%; padding:7px; background:#000; border:1px solid #ffd700; color:#fff; border-radius:6px; font-size:12px;">
-                </div>
-                <div id="custImageFileWrapper" style="display:none;">
-                    <label style="color:#ffd700; font-size:11px; font-weight:bold; margin-top:8px; display:block;">📸 Photo Select Karein (Gallery Se - Auto < 498KB):</label>
+                <!-- 📸 GALLERY FILE UPLOAD FIRST (GALLERY ON/OFF SYNCED) -->
+                <div id="custImageFileWrapper" style="display:block; margin-top:8px;">
+                    <label style="color:#ffd700; font-size:11px; font-weight:bold; display:block;">📸 Photo Select Karein (Gallery Se - Auto < 498KB):</label>
                     <input type="file" id="custImageFile" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #ffd700; border-radius:6px; font-size:12px;">
                     <div id="custUploadStatus" style="color:#00ffcc; font-size:11px; display:none; margin-top:4px;">Uploading...</div>
                 </div>
+                <div id="custImageUrlWrapper" style="display:none; margin-top:8px;">
+                    <label style="color:#ffd700; font-size:11px; font-weight:bold; display:block;">📸 Photo Link (URL) Paste Karein:</label>
+                    <input type="text" id="custImage" placeholder="jaise: https://... (Optional)" style="width:100%; padding:7px; background:#000; border:1px solid #ffd700; color:#fff; border-radius:6px; font-size:12px;">
+                </div>
+
+                <!-- 🎬 YOUTUBE VIDEO LINK ADDED IN CUSTOMER 24HR AD FORM -->
+                <div style="margin-top:8px;">
+                    <label style="color:#ffd700; font-size:11px; font-weight:bold; display:block;">🎬 YouTube Video Link (Optional):</label>
+                    <input type="text" id="custVideo" placeholder="https://youtube.com/watch?v=..." style="width:100%; padding:7px; background:#000; border:1px solid #ffd700; color:#fff; border-radius:6px; font-size:12px;">
+                </div>
             </div>
             
-            <!-- 🛡️ FRAUD SAFETY CHECKBOX (Fixed ID: safetyTermsCheckCust) -->
+            <!-- 🛡️ FRAUD SAFETY CHECKBOX -->
             <div style="background:rgba(255,215,0,0.08); border:1px dashed #ffd700; padding:8px; border-radius:6px; margin-top:10px; font-size:10px; color:#ccc; text-align:left;">
                 <label style="display:flex; gap:6px; align-items:flex-start; cursor:pointer;"><input type="checkbox" id="safetyTermsCheckCust" style="margin-top:2px;"><span>Main samjhta hu: <b>KaamDhandha Direct sirf ad dikhane ka platform hai</b>. Kisi bhi fraud ya len-den ke liye Admin zimmedar nahi hai.</span></label>
             </div>
@@ -283,7 +292,7 @@
 <div id="devPanel" class="dev-panel">
         <h3 id="panelHeading">🏪 Dukandar / Business Add Jodein</h3>
 
-        <!-- ✅ ADVANCED ADMIN STATS & FILTER DROPDOWN - FIXED (Hidden by default) -->
+        <!-- ✅ ADVANCED ADMIN STATS & FILTER DROPDOWN -->
         <div id="adminStatsBox" style="display:none; background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:8px; margin-bottom:10px;">
           <div style="font-size:11px;">📊 <b>Admin Stats:</b> Total: <span id="adminTotalCount" style="color:#ffd700;">0</span> | VIP: <span id="adminVipCount" style="color:#00ffcc;">0</span> | Urgent: <span id="adminUrgentCount" style="color:#ff0055;">0</span> | Expired: <span id="adminExpiredCount" style="color:#ff4444;">0</span></div>
           <select id="adminFilterDropdown" onchange="filterAdminAds(this.value)" style="width:100%; background:#000; color:#00ffcc; border:1px solid #00ffcc; padding:7px; border-radius:6px; font-size:12px; margin-top:8px;">
@@ -316,7 +325,7 @@
             <label style="color:#00ffcc;">Part 3: Category:</label>
             <input type="text" id="newCategory" placeholder="jaise: DUKAAN / DJ SOUND / SHOWROOM / RENT GAADI / LABOR">
         </div>
-    <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
+<div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
             <label style="color:#00ffcc;">Part 4: Services Details:</label>
             <input type="text" id="newWork" placeholder="jaise: Yahan sabhi kaam hote hain">
         </div>
@@ -326,27 +335,33 @@
             <input type="text" id="newPhone" placeholder="WhatsApp Number: 9876543210" style="margin-top:6px;">
         </div>
 
-        <!-- ✅ 3. MULTIPLE PHOTO UPLOAD (3 Photos with Auto Compression < 498 KB) -->
+        <!-- 📸 GALLERY FILE UPLOAD FIRST (GALLERY ON/OFF SYNCED) -->
         <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
-            <div id="newImageUrlWrapper" style="display:block;">
-                <label style="color:#00ffcc;">Part 6: Photo Link (URL) Paste Karein:</label>
-                <input type="text" id="newImage" placeholder="jaise: https://..." style="width:100%; padding:8px; background:#000; border:1px solid #00ffcc; color:#fff; border-radius:6px;">
-            </div>
-            <div id="newImageFileWrapper" style="display:none;">
-                <label style="color:#00ffcc; font-weight:bold;">📸 3 Photos Select Karein (Auto Compressed < 498 KB):</label>
+            <div id="newImageFileWrapper" style="display:block;">
+                <label style="color:#00ffcc; font-weight:bold;">📸 3 Photos Select Karein (Gallery Se - Auto < 498 KB):</label>
                 <input type="file" id="multiImg1" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #00ffcc; border-radius:6px; margin-top:6px;">
                 <input type="file" id="multiImg2" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #00ffcc; border-radius:6px; margin-top:6px;">
                 <input type="file" id="multiImg3" accept="image/*" style="width:100%; padding:8px; background:#000; color:#fff; border:1px solid #00ffcc; border-radius:6px; margin-top:6px;">
                 <div id="uploadStatus" style="color:#00ffcc; font-size:12px; display:none; margin-top:4px;">Optimizing photos... ⏳</div>
                 <input type="file" id="newImageFile" accept="image/*" style="display:none;">
             </div>
+            <div id="newImageUrlWrapper" style="display:none; margin-top:6px;">
+                <label style="color:#00ffcc;">Photo Link (URL) Paste Karein:</label>
+                <input type="text" id="newImage" placeholder="jaise: https://..." style="width:100%; padding:8px; background:#000; border:1px solid #00ffcc; color:#fff; border-radius:6px;">
+            </div>
         </div>
 
-        <!-- 🛡️ FRAUD SAFETY CHECKBOX (Fixed ID: safetyTermsCheckDev) -->
+        <!-- 🎬 YOUTUBE VIDEO LINK SECTION (AVAILABLE EVERYWHERE) -->
+        <div id="adminMediaFields" class="form-part-box" style="border:1px dashed #ffd700; padding:8px; margin-bottom:8px; border-radius:6px;">
+            <label style="color:#ffd700; font-weight:bold;">🎬 Video Link (YouTube/MP4 Link - Optional):</label>
+            <input type="text" id="newVideo" placeholder="https://youtube.com/watch?v=..." style="width:100%; padding:8px; background:#000; border:1px solid #ffd700; color:#fff; border-radius:6px;">
+        </div>
+
+        <!-- 🛡️ FRAUD SAFETY CHECKBOX -->
         <div style="background:rgba(255,215,0,0.08); border:1px dashed #ffd700; padding:8px; border-radius:6px; margin-bottom:8px; font-size:10px; color:#ccc;">
             <label style="display:flex; gap:6px; align-items:flex-start; cursor:pointer;"><input type="checkbox" id="safetyTermsCheckDev" style="margin-top:2px;"><span>Main samjhta hu: <b>KaamDhandha Direct sirf ad dikhane ka platform hai</b>. Kisi bhi fraud ya len-den ke liye Admin zimmedar nahi hai.</span></label>
         </div>
-<div id="adminSettingsBox" style="display:none; background:rgba(255,215,0,0.05); border:1px dashed #ffd700; padding:10px; border-radius:6px; margin:10px 0;">
+        <div id="adminSettingsBox" style="display:none; background:rgba(255,215,0,0.05); border:1px dashed #ffd700; padding:10px; border-radius:6px; margin:10px 0;">
           
           <!-- 🎛️ ADMIN LIMITS & VOICE SPEAKER HIDE/SHOW CONTROL -->
           <div style="background:rgba(0,255,204,0.08); border:1px solid #00ffcc; padding:8px; border-radius:6px; margin-bottom:10px;">
@@ -394,6 +409,7 @@
             </div>
 <label style="color:#ffd700;">⚙️ Admin Settings & 10 Sabzi Dynamic Rates Editor:</label>
 
+            <!-- 🏪 DUKANDAR SPECIAL BANNER HIDE/SHOW FIX -->
             <div style="background:linear-gradient(135deg,#001100,#003300); border:2px solid #00ff66; padding:8px; border-radius:6px; margin-bottom:10px;">
                 <label style="color:#00ff66; font-weight:bold;">🏪 Dukandar Special Banner - Link Admin:</label>
                 <input type="text" id="adminDukaanSpecialTitle" value="🏪 Dukandar Special: Free Digital Dukaan + Udhaar Khata Banayein" style="margin-top:4px;">
@@ -413,14 +429,16 @@
                 <input type="text" id="adminTickerInput" placeholder="jaise: ⛽ Aaj Diesel ₹94.50 | Petrol ₹108 - Raaj Fuel Center" style="margin-top:4px;">
             </div>
 
+            <!-- 🏪 MONTHLY SPONSOR BANNER (VIDEO / LINK / PHOTO / WHATSAPP SUPPORT) -->
             <div style="background:rgba(255,215,0,0.08); border:1px solid gold; padding:8px; border-radius:6px; margin-bottom:10px;">
-                <label style="color:gold; font-weight:bold;">🏪 Monthly Sponsor Banner ₹20K (Title Khali = Auto Hide):</label>
+                <label style="color:gold; font-weight:bold;">🏪 Monthly Sponsor Banner (Title Khali = Auto Hide):</label>
                 <input type="text" id="adminSponsorTitle" placeholder="Sponsor Dukaan Naam" style="margin-top:4px;">
                 <input type="text" id="adminSponsorOffer" placeholder="Offer - jaise: 10% OFF Aaj" style="margin-top:4px;">
-                <input type="text" id="adminSponsorImg" placeholder="Sponsor Photo Link" style="margin-top:4px;">
+                <input type="text" id="adminSponsorImg" placeholder="Sponsor Photo Link / YouTube Video Link" style="margin-top:4px;">
                 <input type="text" id="adminSponsorLink" placeholder="Sponsor WhatsApp Number" style="margin-top:4px;">
             </div>
 
+            <!-- 📍🌦️ LOCATION + WEATHER BOX HIDE/SHOW FIX -->
             <div style="background:rgba(0,170,255,0.08); border:1px solid #00aaff; padding:8px; border-radius:6px; margin-bottom:10px;">
                 <label style="color:#00aaff; font-weight:bold;">📍🌦️ Location + Mausam Admin Control:</label>
                 <div style="display:flex; gap:6px; margin-top:6px;">
@@ -491,11 +509,6 @@
                 <input type="text" id="custPayMsgInput" placeholder="Reason" style="margin-bottom:0;">
                 <button onclick="saveCustomerPaySettings()" style="background:#00ffcc; color:#000; border:none; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer; width:100%; margin-top:6px; font-size:12px;">💾 Save Setting</button>
             </div>
-        </div>
-
-        <div id="adminMediaFields" style="display: none; border-top: 1px dashed var(--neon-color); padding-top: 10px; margin-top: 10px;">
-            <label style="color:#ffd700;">🎬 Video Link (Sirf Admin):</label>
-            <input type="text" id="newVideo" placeholder="YouTube/MP4 link">
         </div>
 
         <div id="vipContainer" style="display: none; background: rgba(0,255,204,0.05); padding: 10px; border-radius: 6px; border: 1px dashed var(--neon-color); margin-top: 10px; margin-bottom: 10px;">
@@ -642,7 +655,7 @@ const firebaseConfig = {
     let recognitionInstance = null;
     const SETTINGS_DOC = db.collection("kaam_settings").doc("global_banner");
 
-    // 🌟 UNIVERSAL HINDI-ENGLISH CROSS MATCHER (HINDI / ENGLISH / VOICED SEARCH FIX)
+    // 🌟 UNIVERSAL HINDI-ENGLISH CROSS MATCHER
     const hindiToEngMap = {
         'राज': 'raj', 'राजेन्द्र': 'rajendra', 'राम': 'ram', 'राहुल': 'rahul', 'रोहित': 'rohit',
         'अर्जुन': 'arjun', 'साइकिल': 'cycle', 'साइकल': 'cycle', 'टमाटर': 'tamatar', 'आलू': 'aalu',
@@ -685,7 +698,7 @@ const firebaseConfig = {
         });
     }
 
-    // 🔊 FREE NATURAL VOICE SPEAKER (NATURAL HINDI VOICE ENGINE)
+    // 🔊 FREE NATURAL VOICE SPEAKER
     function speakMandiRates() {
         if (!('speechSynthesis' in window)) {
             alert("Aapka browser voice support nahi karta!");
@@ -807,6 +820,7 @@ const firebaseConfig = {
             }
         });
     };
+
     function checkMyTrialStatus(){
       let phoneInput = document.getElementById('trialCheckPhone').value.trim().replace(/[^0-9]/g,'');
       let resultEl = document.getElementById('trialCheckResult');
@@ -942,7 +956,6 @@ const firebaseConfig = {
         if(vipEl) vipEl.innerText = vip;
         if(urgentEl) urgentEl.innerText = urgent;
     }
-
     async function compressImageToLimit(file) {
         return new Promise((resolve) => {
             let reader = new FileReader();
@@ -970,7 +983,8 @@ const firebaseConfig = {
             }
         });
     }
-async function uploadImageToFirebase(fileInputId) {
+
+    async function uploadImageToFirebase(fileInputId) {
         if(fileInputId === 'newImageFile'){
             let urls = [];
             for(let i=1; i<=3; i++){
@@ -1012,8 +1026,8 @@ async function uploadImageToFirebase(fileInputId) {
         }
     }
 
-    // 🎙️ UNIVERSAL VOICE SEARCH (ANY LANGUAGE / ACCENT SUPPORT + 100% TYPING FIX)
-        function startVoiceSearch(){
+    // 🎙️ UNIVERSAL VOICE SEARCH
+    function startVoiceSearch(){
         if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
             alert("🎤 Voice support nahi hai, Chrome browser use karo bhai!");
             return;
@@ -1024,14 +1038,14 @@ async function uploadImageToFirebase(fileInputId) {
         let micBtn = document.getElementById('voiceSearchBtn');
 
         try {
-            if(window.currentRecognition) { window.currentRecognition.abort(); }
-            let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            let recognition = new SpeechRecognition();
-            window.currentRecognition = recognition;
+            if(recognitionInstance) { recognitionInstance.abort(); }
 
-            recognition.lang = 'hi-IN';
-            recognition.continuous = false;
-            recognition.interimResults = true;
+            let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognitionInstance = new SpeechRecognition();
+
+            recognitionInstance.lang = 'hi-IN';
+            recognitionInstance.continuous = false;
+            recognitionInstance.interimResults = true;
 
             if(micBtn) micBtn.classList.add('listening');
             if(modal) modal.style.display = 'flex';
@@ -1040,46 +1054,57 @@ async function uploadImageToFirebase(fileInputId) {
                 modalText.style.color = '#00ffcc';
             }
 
-            recognition.onresult = function(e){
+            if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+                navigator.mediaDevices.getUserMedia({audio:true}).catch(()=>{});
+            }
+
+            recognitionInstance.onresult = function(e){
                 let transcript = '';
                 for (let i = e.resultIndex; i < e.results.length; ++i) {
                     transcript += e.results[i][0].transcript;
                 }
+                
                 if(input) {
                     input.value = transcript;
                     input.dispatchEvent(new Event('input', { bubbles: true }));
                 }
+
                 if(modalText) modalText.innerText = '✅ Suna: ' + transcript;
+
                 filterProfiles();
                 checkLocationInSearch(transcript);
+
                 setTimeout(() => {
                     if(modal) modal.style.display = 'none';
                     if(micBtn) micBtn.classList.remove('listening');
                 }, 800);
             };
 
-            recognition.onerror = function(ev){
-                if(modalText) modalText.innerText = '❌ Awaz nahi aayi, dobara boliye...';
+            recognitionInstance.onerror = function(ev){
+                if(modalText) modalText.innerText = '❌ Awaz saaf nahi aayi, dobara boliye...';
                 setTimeout(() => {
                     if(modal) modal.style.display = 'none';
                     if(micBtn) micBtn.classList.remove('listening');
                 }, 1200);
             };
 
-            recognition.onend = function(){
+            recognitionInstance.onend = function(){
                 if(micBtn) micBtn.classList.remove('listening');
                 setTimeout(() => {
-                    if(modal && modal.style.display === 'flex') { modal.style.display = 'none'; }
+                    if(modal && modal.style.display === 'flex') {
+                        modal.style.display = 'none';
+                    }
                 }, 400);
             };
 
-            recognition.start();
+            recognitionInstance.start();
         } catch(err) {
             alert("Voice error: " + err.message);
             if(modal) modal.style.display = 'none';
             if(micBtn) micBtn.classList.remove('listening');
         }
-        }
+    }
+
     function loadMandiFromFirebase(city){
         db.collection("mandis").doc(city).get().then(doc=>{
             if(doc.exists && doc.data().rates){
@@ -1099,20 +1124,30 @@ async function uploadImageToFirebase(fileInputId) {
             }
         });
     }
-async function clearAllBanners(){
+
+    async function clearAllBanners(){
         if(!confirm("Banner hatane hain?")) return;
         await SETTINGS_DOC.set({ tickerText: "", sponsorTitle: "", sponsorOffer: "", sponsorImg: "", sponsorLink: "", dukaanSpecialVisibility: "hide", topLocationVisibility: "show", locationWeatherVisibility: "show" }, {merge:true});
         loadAllBannersAndWeatherSettings();
         alert("❌ Sabhi Banners Hide Ho Gaye");
     }
 
+    // 🛠️ 100% FIXED & SYNCHRONIZED loadAllBannersAndWeatherSettings (NO RESET BUG)
     async function loadAllBannersAndWeatherSettings(){
         try{
             const doc = await SETTINGS_DOC.get();
             const tickerWrap = document.getElementById("emergencyTickerWrap");
             const tickerText = document.getElementById("emergencyTickerText");
+            
+            if(customerPayConfig) {
+                if(document.getElementById('enableCustomerPayCheck')) document.getElementById('enableCustomerPayCheck').checked = customerPayConfig.enabled;
+                if(document.getElementById('custPayAmountInput')) document.getElementById('custPayAmountInput').value = customerPayConfig.amount;
+                if(document.getElementById('custPayMsgInput')) document.getElementById('custPayMsgInput').value = customerPayConfig.msg;
+            }
+
             if(doc.exists){
                 const data = doc.data();
+                
                 if(data.tickerText && data.tickerText.trim()!== ""){
                     tickerText.innerText = data.tickerText;
                     tickerWrap.style.display = "block";
@@ -1121,68 +1156,96 @@ async function clearAllBanners(){
                     tickerWrap.style.display = "none";
                     if(document.getElementById("adminTickerInput")) document.getElementById("adminTickerInput").value = "";
                 }
+
+                // 🏪 MONTHLY SPONSOR BANNER (SUPPORT FOR YOUTUBE EMBED OR IMAGE)
                 const sponsorWrap = document.getElementById("sponsorBannerWrap");
+                const sponsorMediaContainer = document.getElementById("sponsorMediaContainer");
                 if(data.sponsorTitle && data.sponsorTitle.trim()!== ""){
                     document.getElementById("sponsorBannerTitle").innerText = data.sponsorTitle;
                     document.getElementById("sponsorBannerOffer").innerText = data.sponsorOffer || "";
-                    if(data.sponsorImg){ const img=document.getElementById("sponsorBannerImg"); img.src=data.sponsorImg; img.style.display="block"; }
-                    if(data.sponsorLink){ const l=document.getElementById("sponsorBannerLink"); l.href="https://wa.me/91"+data.sponsorLink.replace(/[^0-9]/g,''); l.style.display="inline-block"; }
+                    
+                    if(data.sponsorImg && data.sponsorImg.trim() !== ""){
+                        let sImgVal = data.sponsorImg.trim();
+                        if(sImgVal.includes("youtube.com") || sImgVal.includes("youtu.be") || sImgVal.includes("shorts/")){
+                            sponsorMediaContainer.innerHTML = `<div style="width:100%; height:180px; border-radius:8px; overflow:hidden; border:2px solid gold; background:#000;">${getEmbedVideoHtml(sImgVal)}</div>`;
+                        } else {
+                            sponsorMediaContainer.innerHTML = `<img src="${sImgVal}" style="width:100%; max-height:180px; border-radius:8px; object-fit:cover; border:2px solid gold;">`;
+                        }
+                        sponsorMediaContainer.style.display = "block";
+                    } else {
+                        sponsorMediaContainer.style.display = "none";
+                    }
+
+                    if(data.sponsorLink){ 
+                        const l = document.getElementById("sponsorBannerLink"); 
+                        l.href = "https://wa.me/91" + data.sponsorLink.replace(/[^0-9]/g,''); 
+                        l.style.display = "inline-block"; 
+                    } else {
+                        document.getElementById("sponsorBannerLink").style.display = "none";
+                    }
                     sponsorWrap.style.display = "block";
                 } else {
                     if(sponsorWrap) sponsorWrap.style.display = "none";
                 }
+
+                // 🏪 DUKANDAR SPECIAL BANNER HIDE/SHOW SYNC FIX
                 let dukaanWrap = document.getElementById("dukandarSpecialBanner");
-                if(data.dukandarSpecialVisibility === "hide"){
-                    if(dukaanWrap) dukaanWrap.style.display = "none";
-                    if(document.getElementById("adminDukaanSpecialVisibility")) document.getElementById("adminDukaanSpecialVisibility").value = "hide";
-                } else {
-                    if(dukandarWrap){
+                let adminDukaanVis = document.getElementById("adminDukaanSpecialVisibility");
+                if(adminDukaanVis) adminDukaanVis.value = data.dukandarSpecialVisibility || "show";
+
+                if(dukandarWrap){
+                    if(data.dukandarSpecialVisibility === "hide"){
+                        dukandarWrap.style.display = "none";
+                    } else {
                         dukandarWrap.style.display = "block";
-                        document.getElementById("dukandarSpecialTitle").innerText = data.dukaanSpecialTitle || "🏪 Dukandar Special";
-                        document.getElementById("dukandarSpecialBtn").innerText = data.dukaanSpecialBtnText || "Click Karein";
+                        if(data.dukaanSpecialTitle) document.getElementById("dukandarSpecialTitle").innerText = data.dukaanSpecialTitle;
+                        if(data.dukaanSpecialBtnText) document.getElementById("dukandarSpecialBtn").innerText = data.dukaanSpecialBtnText;
                         if(data.dukaanSpecialLink){
                             document.getElementById("dukandarSpecialLink").href = data.dukaanSpecialLink;
                             document.getElementById("dukandarSpecialLinkDisplay").innerText = data.dukaanSpecialLink;
                         }
                     }
-                    if(document.getElementById("adminDukaanSpecialVisibility")) document.getElementById("adminDukaanSpecialVisibility").value = "show";
                 }
+
+                // 🖼️ GALLERY SYSTEM TOGGLE
+                let galleryToggleElem = document.getElementById('adminGalleryToggle');
+                if(galleryToggleElem) galleryToggleElem.value = data.gallerySystem || "off";
+
                 if(data.gallerySystem === "on"){
                     if(document.getElementById('custImageUrlWrapper')) document.getElementById('custImageUrlWrapper').style.display = 'none';
                     if(document.getElementById('custImageFileWrapper')) document.getElementById('custImageFileWrapper').style.display = 'block';
                     if(document.getElementById('newImageUrlWrapper')) document.getElementById('newImageUrlWrapper').style.display = 'none';
                     if(document.getElementById('newImageFileWrapper')) document.getElementById('newImageFileWrapper').style.display = 'block';
-                    if(document.getElementById('adminGalleryToggle')) document.getElementById('adminGalleryToggle').value = 'on';
                 } else {
                     if(document.getElementById('custImageUrlWrapper')) document.getElementById('custImageUrlWrapper').style.display = 'block';
                     if(document.getElementById('custImageFileWrapper')) document.getElementById('custImageFileWrapper').style.display = 'none';
                     if(document.getElementById('newImageUrlWrapper')) document.getElementById('newImageUrlWrapper').style.display = 'block';
                     if(document.getElementById('newImageFileWrapper')) document.getElementById('newImageFileWrapper').style.display = 'none';
-                    if(document.getElementById('adminGalleryToggle')) document.getElementById('adminGalleryToggle').value = 'off';
                 }
+
                 let topBar = document.getElementById('topLocationBar');
-                if(data.topLocationVisibility === 'hide'){
-                    if(topBar) topBar.style.display = 'none';
-                    if(document.getElementById('adminTopLocationVisibility')) document.getElementById('adminTopLocationVisibility').value = 'hide';
-                } else {
-                    if(topBar) topBar.style.display = 'flex';
-                    if(document.getElementById('adminTopLocationVisibility')) document.getElementById('adminTopLocationVisibility').value = 'show';
+                let adminTopLocVis = document.getElementById('adminTopLocationVisibility');
+                if(adminTopLocVis) adminTopLocVis.value = data.topLocationVisibility || "show";
+
+                if(topBar){
+                    topBar.style.display = (data.topLocationVisibility === 'hide') ? 'none' : 'flex';
                 }
+
+                // 📍🌦️ LOCATION + WEATHER BOX HIDE/SHOW PERMANENT FIX
                 let locWeatherWrap = document.getElementById('locationWeatherWrapper');
-                if(data.locationWeatherVisibility === 'hide'){
-                    if(locWeatherWrap) locWeatherWrap.style.display = 'none';
-                    if(document.getElementById('adminLocationVisibility')) document.getElementById('adminLocationVisibility').value = 'hide';
-                } else {
-                    if(locWeatherWrap) locWeatherWrap.style.display = 'grid';
-                    if(document.getElementById('adminLocationVisibility')) document.getElementById('adminLocationVisibility').value = 'show';
+                let adminLocVis = document.getElementById('adminLocationVisibility');
+                if(adminLocVis) adminLocVis.value = data.locationWeatherVisibility || "show";
+
+                if(locWeatherWrap){
+                    locWeatherWrap.style.display = (data.locationWeatherVisibility === 'hide') ? 'none' : 'grid';
                 }
+
                 if(data.defaultWeatherCity){
                     if(document.getElementById('adminDefaultWeatherCity')) document.getElementById('adminDefaultWeatherCity').value = data.defaultWeatherCity;
                 }
             }
         } catch(e) { console.log(e); }
     }
-
     async function saveGallerySetting(){
         let val = document.getElementById("adminGalleryToggle").value;
         await SETTINGS_DOC.set({ gallerySystem: val }, {merge:true});
@@ -1210,6 +1273,7 @@ async function clearAllBanners(){
         await SETTINGS_DOC.set({ defaultWeatherCity: city }, {merge:true});
         alert("✅ Default City Set: " + city);
     }
+
     function getWeatherAdvisory(temp, main, humidity){
         temp = parseInt(temp);
         main = (main || "").toLowerCase();
@@ -1295,7 +1359,8 @@ async function clearAllBanners(){
             document.getElementById('weatherDesc').innerText = "Error";
         }
     }
-async function loadMandiCities(){
+
+    async function loadMandiCities(){
         try{
             let snap = await db.collection("mandi_cities").get();
             let cities = [];
@@ -1397,8 +1462,6 @@ async function loadMandiCities(){
       alert("✅ Save Ho Gaya!"); loadAllBannersAndWeatherSettings(); if(defCity) fetchWeather(defCity);
     }
 
-    function searchAnyWeather(){ return; }
-
     function shareKaamDhandhaApp(){
         let appLink = window.location.href;
         let msg = `🔥 *KaamDhandha Direct App* 🔥\n\n👉 *${currentMandiCity} Live Mandi + All India*\n🌦️ Mausam + 🛒 Mandi Rate\n\n📲 *Link:* ${appLink}`;
@@ -1412,6 +1475,7 @@ async function loadMandiCities(){
         document.getElementById('weatherCity').innerText = searchCity;
         document.getElementById('weatherDesc').innerText = `Live - ${searchCity}`;
     }
+
     function saveDynamicSabziRates() {
         let textVal = document.getElementById('sabziBulkEditor').value.trim();
         if (!textVal) { alert("Valid format dalein!"); return; }
@@ -1455,7 +1519,7 @@ async function loadMandiCities(){
             marquee.innerText = `🔴 ${currentMandiCity} LIVE: ${dynamicSabziList.map(i=>`${i.name} ${i.rate}`).join(' | ')}`;
         }
     }
-function startRotation(){
+    function startRotation(){
         if(rotationTimer) clearInterval(rotationTimer);
 
         let pinnedAds = adsData.filter(a => a.vipTier == 2 || a.pinned);
@@ -1495,7 +1559,7 @@ function startRotation(){
                 <div style="font-weight:bold; color:${glowColor};">${badgeText}</div>
                 <div style="font-size:13px; color:#fff; font-weight:bold; margin-top:2px;">${ad.name} - <span style="color:#00ffcc;">${ad.price}</span></div>
                 <div style="font-size:11px; color:#ccc;">${ad.work} | 📍 ${ad.location}</div>
-                <div style="margin-top:6px;"><a href="https://wa.me/91${ad.phone}" style="background:#25D366; color:#fff; padding:4px 12px; border-radius:12px; text-decoration:none; font-size:11px; font-weight:bold;">💬 WhatsApp Par Baat Karein</a></div>
+                <div style="margin-top:6px;"><a href="https://wa.me/91${ad.phone}" style="background:#25D366; color:#fff; padding:4px 12px; border-radius:12px; text-decoration:none; font-weight:bold;">💬 WhatsApp Par Baat Karein</a></div>
             `;
         }, 3500);
     }
@@ -1618,6 +1682,7 @@ function startRotation(){
             renderAds();
         } else { alert("Kripya valid hours dalein."); }
     }
+
     function updateMaxUrgentCount() {
         let val = parseInt(document.getElementById('adminMaxUrgentCountInput').value);
         if(!isNaN(val) && val >= 0) {
@@ -1641,7 +1706,8 @@ function startRotation(){
 
     function openCustomerModal() { document.getElementById('customerModal').style.display = 'flex'; }
     function closeCustomerModal() { document.getElementById('customerModal').style.display = 'none'; }
-async function publishCustomer24HrAd() {
+
+    async function publishCustomer24HrAd() {
         let name = document.getElementById('custName').value.trim();
         let price = document.getElementById('custPrice').value.trim() || "₹500";
         let work = document.getElementById('custWork').value.trim() || "Acchi halat me hai";
@@ -1674,9 +1740,12 @@ async function publishCustomer24HrAd() {
                 uploadedImageUrl = await ref.getDownloadURL();
             }catch(e){ console.log(e); }
         } else { uploadedImageUrl = imageLinkVal; }
+
+        let videoLink = document.getElementById('custVideo') ? document.getElementById('custVideo').value.trim() : "";
+
         let adObj = {
             name: name, price: price, category: "⚡ CUSTOMER URGENT 24-HR AD",
-            work: work, location: location, phone: phone, showPhone: showPhone, video: "", image: uploadedImageUrl,
+            work: work, location: location, phone: phone, showPhone: showPhone, video: videoLink, image: uploadedImageUrl,
             vipTier: 0, pinned: false, isCustomer24Hr: true,
             createdAt: new Date().getTime(), views: 0, clicks: 0, mandiCity: currentMandiCity
         };
@@ -1687,6 +1756,7 @@ async function publishCustomer24HrAd() {
             document.getElementById('custPhone').value = "";
             if(document.getElementById('custImageFile')) document.getElementById('custImageFile').value = "";
             if(document.getElementById('custImage')) document.getElementById('custImage').value = "";
+            if(document.getElementById('custVideo')) document.getElementById('custVideo').value = "";
             closeCustomerModal();
         }).catch((error) => { alert("Error: " + error); });
     }
@@ -1736,7 +1806,6 @@ async function publishCustomer24HrAd() {
             renderAds();
         }
     });
-
     function updateUpi2() {
         let newUpi = document.getElementById('newUpi2Input').value.trim();
         if(newUpi.length > 3) {
@@ -1817,7 +1886,8 @@ async function publishCustomer24HrAd() {
             if(isAdminLoggedIn) loadAdminExpiredAdsList();
         }, (error) => { console.error("Error: ", error); });
     }
-function openColorModal() { document.getElementById('colorModal').style.display = 'flex'; }
+
+    function openColorModal() { document.getElementById('colorModal').style.display = 'flex'; }
     function closeColorModal() { document.getElementById('colorModal').style.display = 'none'; }
     function openPayModal() { document.getElementById('payModal').style.display = 'flex'; }
     function closePayModal() { document.getElementById('payModal').style.display = 'none'; }
@@ -1883,6 +1953,7 @@ function openColorModal() { document.getElementById('colorModal').style.display 
         });
         rzp.open();
     }
+
     function setThemeColor(colorHex) {
         currentListingThemeColor = colorHex;
         localStorage.setItem("kaamDhandhaThemeColor", colorHex);
@@ -1914,6 +1985,29 @@ function openColorModal() { document.getElementById('colorModal').style.display 
         adRef.get().then((doc) => {
             if (doc.exists) { adRef.update({ clicks: (doc.data().clicks || 0) + 1 }); }
         });
+    }
+
+    function editAd(id) {
+        let ad = adsData.find(a => a.id === id);
+        if(!ad) return;
+        
+        document.getElementById('editId').value = ad.id;
+        document.getElementById('newName').value = ad.name || '';
+        document.getElementById('newPrice').value = ad.price || '';
+        document.getElementById('newCategory').value = ad.category || '';
+        document.getElementById('newWork').value = ad.work || '';
+        document.getElementById('newLocation').value = ad.location || '';
+        document.getElementById('newPhone').value = ad.phone || '';
+        if(document.getElementById('newImage')) document.getElementById('newImage').value = ad.image || '';
+        if(document.getElementById('vipTierSelect')) document.getElementById('vipTierSelect').value = ad.vipTier || 0;
+        if(document.getElementById('pinToTopCheck')) document.getElementById('pinToTopCheck').checked = ad.pinned || false;
+        if(document.getElementById('newVideo')) document.getElementById('newVideo').value = ad.video || '';
+        
+        document.getElementById('panelHeading').innerText = "✏️ Dukandar Add Edit Karein";
+        document.getElementById('saveBtn').innerText = "💾 Update Karein";
+        document.getElementById('cancelBtn').style.display = 'block';
+        document.getElementById('devPanel').style.display = 'block';
+        document.getElementById('devPanel').scrollIntoView({ behavior: 'smooth' });
     }
     </script>
     <script>
@@ -1948,7 +2042,7 @@ function openColorModal() { document.getElementById('colorModal').style.display 
         });
 
         let rawSearch = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : "";
-        let searchInputRaw = normalizeSearchText(rawSearch); // 👈 Universal Hindi-English Matcher Applied Here
+        let searchInputRaw = normalizeSearchText(rawSearch);
         let adsToDisplay = [];
         let isSearching = searchInputRaw.length > 0;
 
@@ -2083,7 +2177,8 @@ function openColorModal() { document.getElementById('colorModal').style.display 
                     }
                 }
             }
-let glowColor = cardColor + '44';
+
+            let glowColor = cardColor + '44';
             let searchString = `${ad.name} ${ad.price} ${ad.category} ${ad.work} ${ad.location} ${ad.mandiCity||''}`.toLowerCase();
             let card = document.createElement('div');
             card.className = isCust24 &&!isCustExpired? 'card urgent-customer-card' : (isPinnedVip? 'card pinned-vip-card' : 'card');
@@ -2169,7 +2264,7 @@ let glowColor = cardColor + '44';
         if (!isZoomed) { img.style.transform = "scale(2.5)"; isZoomed = true; }
         else { img.style.transform = "scale(1)"; isZoomed = false; }
         }
-        async function saveProfile() {
+    async function saveProfile() {
         let name = document.getElementById('newName').value.trim();
         let price = document.getElementById('newPrice').value.trim() || "Rate On Call";
         let category = document.getElementById('newCategory').value.trim() || "DUKAAN";
@@ -2178,7 +2273,7 @@ let glowColor = cardColor + '44';
         let phone = document.getElementById('newPhone').value.trim();
         let showPhone = true;
         let mandiCity = currentMandiCity;
-        let video = isAdminLoggedIn? document.getElementById('newVideo').value.trim() : "";
+        let video = document.getElementById('newVideo') ? document.getElementById('newVideo').value.trim() : "";
         let imageUrlField = document.getElementById('newImage')? document.getElementById('newImage').value.trim() : "";
         let vipTier = isAdminLoggedIn? parseInt(document.getElementById('vipTierSelect').value) : 0;
         let pinned = isAdminLoggedIn? document.getElementById('pinToTopCheck').checked : false;
@@ -2257,7 +2352,8 @@ let glowColor = cardColor + '44';
             }).catch((error) => { alert("Error: " + error); });
         }
     }
-function cancelEdit() {
+
+    function cancelEdit() {
         clearForm();
         document.getElementById('editId').value = "";
         document.getElementById('individualTrialBox').style.display = 'none';
@@ -2279,6 +2375,7 @@ function cancelEdit() {
         for(let i=1; i<=3; i++){ let el=document.getElementById('multiImg'+i); if(el) el.value=""; }
         if(document.getElementById('custImage')) document.getElementById('custImage').value = "";
         if(document.getElementById('custImageFile')) document.getElementById('custImageFile').value = "";
+        if(document.getElementById('custVideo')) document.getElementById('custVideo').value = "";
         if(document.getElementById('vipTierSelect')) document.getElementById('vipTierSelect').value = "0";
         if(document.getElementById('pinToTopCheck')) document.getElementById('pinToTopCheck').checked = false;
         if(document.getElementById('customTrialDaysInput')) document.getElementById('customTrialDaysInput').value = "";
@@ -2388,9 +2485,5 @@ function cancelEdit() {
     © 2026 KaamDhandha Direct | Bodla Live Mandi & Customer Network | Managed by <span style="color: #ffd700; font-weight: bold;">❥. Ʀᴀ፝֟ᴀᴊ 𝐌𝐞𝐫𝐚𝐯𝐢 ࿐</span>
 </div>
 </body>
-</html>
-    
-    
-    
-        
+</html>    
     
