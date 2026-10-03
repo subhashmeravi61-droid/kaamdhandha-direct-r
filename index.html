@@ -168,9 +168,9 @@
             <button type="button" id="voiceSearchBtn" onclick="startVoiceSearch()" style="background:linear-gradient(135deg,#ff0055,#ff6600); border:2px solid #ffd700; color:#fff; padding:10px 16px; border-radius:8px; font-weight:bold; font-size:18px; box-shadow:0 0 10px rgba(255,0,85,0.5); touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor:pointer;">🎤</button>
         </div>
         <div id="voiceStatus" style="font-size:11px; color:#00ffcc; margin-top:6px; display:none; font-weight:bold; background:rgba(0,255,102,0.1); padding:5px 8px; border-radius:4px; border:1px dashed #00ffcc;">🎙️ Sun raha hu... bolo</div>
-              </div>
+    </div>
 <div id="myTrialCheckBox" style="background: linear-gradient(135deg, #001a33, #000d1a); border: 2px solid #00aaff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 0 15px rgba(0,170,255,0.3);">
-        <div style="font-size: 13px; color: #00aaff; font-weight: bold; margin-bottom: 2px; text-align: center;">📱 Apna Trial Days Dekhein</div>
+            <div style="font-size: 13px; color: #00aaff; font-weight: bold; margin-bottom: 2px; text-align: center;">📱 Apna Trial Days Dekhein</div>
         <div style="font-size: 10px; color: #aaa; text-align: center; margin-bottom: 8px;">Apna WhatsApp Number daalein, bache hue din + Pay ka option turant</div>
         <div style="display:flex; gap:6px; align-items:center;">
             <input type="tel" id="trialCheckPhone" placeholder="Apna WhatsApp No. 9876543210" style="flex:1; padding:9px 12px; border-radius:20px; border:1px solid #00aaff; background:#000; color:#fff; font-size:12px; text-align:center;">
@@ -326,12 +326,12 @@
         <input type="hidden" id="editId" value="">
         <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
             <label style="color:#00ffcc;">Part 1: Dukaan ya Business ka Naam:</label>
-                        <input type="text" id="newName" placeholder="jaise: Lucky Mill / Verma General Store...">
+            <input type="text" id="newName" placeholder="jaise: Lucky Mill / Verma General Store...">
         </div>
         <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
             <label style="color:#00ffcc;">Part 2: Rate / Special Offer:</label>
             <input type="text" id="newPrice" placeholder="jaise: Contact for Rates...">
-        </div>
+                    </div>
         <div class="form-part-box" style="border:1px dashed #00ffcc; padding:8px; margin-bottom:8px; border-radius:6px;">
             <label style="color:#00ffcc;">Part 3: Category:</label>
             <input type="text" id="newCategory" placeholder="jaise: DUKAAN / DJ SOUND / SHOWROOM / RENT GAADI / LABOR">
@@ -462,7 +462,7 @@
 <button onclick="matchPayments()" style="width:100%;background:#00ffcc;color:#000;border:none;padding:6px;border-radius:4px;font-weight:bold;">🔍 Match Karo</button>
 <div id="payPendingBox" style="margin-top:8px;"></div><div id="paySuspectBox" style="margin-top:8px;"></div></div>
 <div style="background:rgba(255,170,0,0.1);border:1px solid #ffaa00;padding:8px;border-radius:6px;margin-bottom:10px;"><label style="color:#ffaa00;font-weight:bold;">🗂️ Categories (Buttons) Manager:</label><div style="font-size:10px;color:#ccc;margin:4px 0;">Naya category jodo:</div><input type="text" id="adminCatEn" placeholder="Naam (Hinglish) - jaise Phool / Flower"><input type="text" id="adminCatHi" placeholder="Naam (Hindi) - जैसे फूल / फ्लावर"><input type="text" id="adminCatEmoji" placeholder="Emoji - jaise 🌸" maxlength="4"><input type="text" id="adminCatKeys" placeholder="Kin shabdon se milega (comma se) - phool, flower, gulab"><button onclick="addCategory()" style="width:100%;background:#ffaa00;color:#000;border:none;padding:6px;border-radius:4px;font-weight:bold;">+ Category Jodein</button><div id="adminCatList" style="margin-top:8px;"></div><button onclick="resetCats()" style="width:100%;background:#444;color:#fff;border:none;padding:5px;border-radius:4px;font-size:11px;margin-top:6px;">↩️ Default List Wapas</button></div>
-            <div style="background:rgba(123,47,247,0.12);border:1px solid #7b2ff7;padding:8px;border-radius:6px;margin-bottom:10px;"><label style="color:#c9a8ff;font-weight:bold;">🤖 KaamDhandha AI Settings:</label><div style="font-size:10px;color:#ccc;margin:4px 0;">AI Switch</div><select id="adminFeatAI"><option value="off">❌ OFF</option><option value="on">✅ ON</option></select><div style="font-size:10px;color:#ccc;margin:4px 0;">Gemini API Key</div><input type="password" id="adminAiKey" autocomplete="off" placeholder="Gemini API Key yahan paste karo"><div style="font-size:10px;color:#ccc;margin:4px 0;">Model ka naam</div><input type="text" id="adminAiModel"><div style="font-size:10px;color:#ccc;margin:4px 0;">Ek phone se roz kitne sawal</div><input type="number" id="adminAiLimit"><button onclick="saveAiSettings()" style="width:100%;background:#7b2ff7;color:#fff;border:none;padding:6px;border-radius:4px;font-weight:bold;">💾 Save AI Settings</button></div>
+            <div style="background:rgba(123,47,247,0.12);border:1px solid #7b2ff7;padding:8px;border-radius:6px;margin-bottom:10px;"><label style="color:#c9a8ff;font-weight:bold;">🤖 KaamDhandha AI Settings:</label><div style="font-size:10px;color:#ccc;margin:4px 0;">AI Switch</div><select id="adminFeatAI"><option value="off">❌ OFF</option><option value="on">✅ ON</option></select><div style="font-size:10px;color:#ccc;margin:4px 0;">Gemini API Key</div><input type="password" id="adminAiKey" autocomplete="off" placeholder="Gemini API Key yahan paste karo"><div style="font-size:10px;color:#ccc;margin:4px 0;">Model ka naam</div><input type="text" id="adminAiModel"><div style="font-size:10px;color:#ccc;margin:4px 0;">Ek phone se roz kitne sawal</div><input type="number" id="adminAiLimit"><div style="font-size:10px;color:#ccc;margin:4px 0;">Live Google Search (taaza jaankari + source)</div><select id="adminAiSearch"><option value="on">✅ ON</option><option value="off">❌ OFF</option></select><button onclick="saveAiSettings()" style="width:100%;background:#7b2ff7;color:#fff;border:none;padding:6px;border-radius:4px;font-weight:bold;">💾 Save AI Settings</button></div>
             <div style="background:rgba(0,255,102,0.08);border:1px solid #00ff66;padding:8px;border-radius:6px;margin-bottom:10px;"><label style="color:#00ff66;font-weight:bold;">💰 Plan Keemat (30 din) aur ⏱️ Rotation Speed:</label><div style="font-size:10px;color:#ccc;margin:4px 0;">Pinned ki keemat (₹)</div><input type="number" id="adminPricePinned"><div style="font-size:10px;color:#ccc;margin:4px 0;">VIP ki keemat (₹)</div><input type="number" id="adminPriceVip"><div style="font-size:10px;color:#ccc;margin:4px 0;">Normal Renew ki keemat (₹)</div><input type="number" id="adminPriceRenew"><div style="font-size:10px;color:#ccc;margin:4px 0;">Pinned kitne second dikhe</div><input type="number" id="adminRotPinSec"><div style="font-size:10px;color:#ccc;margin:4px 0;">Pinned ek round me kitni baar</div><input type="number" id="adminRotPinTimes"><div style="font-size:10px;color:#ccc;margin:4px 0;">VIP kitne second dikhe</div><input type="number" id="adminRotVipSec"><button onclick="savePricesSpeeds()" style="width:100%;background:#00ff66;color:#000;border:none;padding:6px;border-radius:4px;font-weight:bold;">💾 Save Keemat & Speed</button></div>
             <div style="background:rgba(255,215,0,0.08);border:1px solid #ffd700;padding:8px;border-radius:6px;margin-bottom:10px;"><label style="color:#ffd700;font-weight:bold;">🚀 Hidden Features (Launch Switch):</label><div style="font-size:10px;color:#ccc;margin:4px 0;">💬 Public Chat</div><select id="adminFeatChat"><option value="off">❌ OFF</option><option value="on">✅ ON</option></select><div style="font-size:10px;color:#ccc;margin:4px 0;">🚨 Emergency SOS</div><select id="adminFeatSOS"><option value="off">❌ OFF</option><option value="on">✅ ON</option></select><div style="font-size:10px;color:#ccc;margin:4px 0;">🎁 Scratch Coupons</div><select id="adminFeatCoupon"><option value="off">❌ OFF</option><option value="on">✅ ON</option></select><div style="font-size:10px;color:#ccc;margin:4px 0;">📸 Instagram Option (24-Hr, Dukandar, Sponsor)</div><select id="adminFeatInsta"><option value="off">❌ OFF</option><option value="on">✅ ON</option></select><button onclick="saveFeatureSwitches()" style="width:100%;background:#ffd700;color:#000;border:none;padding:6px;border-radius:4px;font-weight:bold;">💾 Save Switches</button><div style="margin-top:8px;border-top:1px dashed #ffd700;padding-top:6px;"><label style="color:#ffd700;">🎁 Coupon Add Karein:</label><input type="text" id="adminCpShop" placeholder="Dukaan (Verma General Store)"><input type="text" id="adminCpOffer" placeholder="Offer (Rs 500 par 10% chhoot)"><input type="text" id="adminCpCode" placeholder="Coupon Code (VERMA10)"><input type="tel" id="adminCpPhone" placeholder="Dukandar ka WhatsApp No."><button onclick="addCoupon()" style="width:100%;background:#00ffcc;color:#000;border:none;padding:6px;border-radius:4px;font-weight:bold;">+ Coupon Jodein</button><div id="adminCouponList" style="margin-top:6px;"></div></div></div>
                         <div style="background:rgba(225,48,108,0.1);border:1px solid #e1306c;padding:8px;border-radius:6px;margin-bottom:10px;"><label style="color:#e1306c;font-weight:bold;">📸 Instagram Reel/Post (App me dikhega):</label><input type="text" id="adminInstaLink" placeholder="https://www.instagram.com/reel/xxxx/" style="margin-top:4px;"><div style="display:flex;gap:6px;margin-top:6px;"><select id="adminInstaVisibility" style="flex:1;"><option value="hide">❌ OFF</option><option value="show">✅ ON</option></select><button onclick="saveInstaSettings()" style="background:#e1306c;color:#fff;border:none;padding:6px 12px;border-radius:4px;font-weight:bold;">Save</button></div></div>
@@ -558,7 +558,7 @@
 
     <div id="imgModal" class="img-modal">
         <span class="close-img-modal" onclick="closeImageModal()">&times;</span>
-        <img id="modalFullImg" src="" alt="Zoomable Photo" onclick="toggleZoom(event)">
+        <img referrerpolicy="no-referrer" id="modalFullImg" src="" alt="Zoomable Photo" onclick="toggleZoom(event)">
     </div>
 
     <div id="profileList"></div>
@@ -610,9 +610,9 @@
     @keyframes pulseGlow { 0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,215,0,0.4); } 100% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,215,0,0.8); } }
   .card-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 10; }
   .edit-card-btn { background: #00aa88; color: #000; border: none; padding: 3px 7px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
-      .delete-btn { background: #ef4444; color: #fff; border: none; padding: 3px 7px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+  .delete-btn { background: #ef4444; color: #fff; border: none; padding: 3px 7px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
   .no-result { text-align: center; color: #6b7280; margin-top: 25px; font-size: 14px; }
-  .img-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 4000; }
+      .img-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 4000; }
   .img-modal img { max-width: 90%; max-height: 90%; object-fit: contain; transition: transform 0.25s ease; cursor: zoom-in; }
   .close-img-modal { position: fixed; top: 15px; right: 20px; background: #ff0055; color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: bold; cursor: pointer; z-index: 4100; }
   .plan-option-box { background: rgba(0,255,204,0.05); border: 1px dashed var(--neon-color); padding: 10px; border-radius: 8px; margin: 8px 0; text-align: left; }
@@ -907,12 +907,12 @@ function isFakeOrSpamNumber(phone) {
             } else {
                 status = `⏳ ${remaining} din bache (Total ${limit} din)`;
                 color = "#00ffcc";
-                }
+            }
         }
         html += `<div style="background:rgba(0,0,0,0.6); border:1px solid ${color}; padding:6px; border-radius:6px; margin-bottom:6px;">`;
         html += `${i+1}. <b>${escHtml(ad.name)}</b><br><span style="color:${color}; font-size:11px; font-weight:bold;">${status}</span><br>`;
         html += `<span style="font-size:10px; color:#888;">📍 ${ad.location} | ${ad.mandiCity||'Bodla'} | ${new Date(created).toLocaleDateString('hi-IN')}</span>`;
-        if(showPayBtn){
+            if(showPayBtn){
             html += `<br><button onclick="openPayForSpecificAd('${ad.id}')" style="background:linear-gradient(135deg,#ffd700,#ffaa00); color:#000; border:none; padding:5px 10px; border-radius:12px; font-weight:bold; font-size:10px; margin-top:4px; cursor:pointer;">💰 Isi Ad Ko Renew Karo - Pay Karo</button>`;
         }
         html += `</div>`;
@@ -1033,7 +1033,10 @@ function isFakeOrSpamNumber(phone) {
         return u;
     }
     function parseImageUrls(text){
-        return (text || "").split(/[\s,|]+/).map(normalizeImageUrl).filter(Boolean).slice(0, 3);
+        var t = String(text || "");
+        var found = t.match(/(?:https?:\/\/)?(?:[a-z0-9-]+\.)+[a-z]{2,}\/[^\s"'<>\[\]()]+?\.(?:jpe?g|png|gif|webp|avif|bmp)(?:\?[^\s"'<>\[\]()]*)?/gi);
+        if(found && found.length){ var u = []; found.forEach(function(x){ x = normalizeImageUrl(x); if(x && u.indexOf(x) < 0) u.push(x); }); return u.slice(0, 3); }
+        return t.split(/[\s,|]+/).map(normalizeImageUrl).filter(Boolean).slice(0, 3);
     }
 
     async function uploadImageToFirebase(fileInputId) {
@@ -1223,9 +1226,9 @@ function startVoiceSearch(){
 
                 if(data.gallerySystem === "on"){
                     if(document.getElementById('custImageUrlWrapper')) document.getElementById('custImageUrlWrapper').style.display = 'none';
-                        if(document.getElementById('custImageFileWrapper')) document.getElementById('custImageFileWrapper').style.display = 'block';
+                    if(document.getElementById('custImageFileWrapper')) document.getElementById('custImageFileWrapper').style.display = 'block';
                     if(document.getElementById('newImageUrlWrapper')) document.getElementById('newImageUrlWrapper').style.display = 'none';
-                    if(document.getElementById('newImageFileWrapper')) document.getElementById('newImageFileWrapper').style.display = 'block';
+                        if(document.getElementById('newImageFileWrapper')) document.getElementById('newImageFileWrapper').style.display = 'block';
                 } else {
                     if(document.getElementById('custImageUrlWrapper')) document.getElementById('custImageUrlWrapper').style.display = 'block';
                     if(document.getElementById('custImageFileWrapper')) document.getElementById('custImageFileWrapper').style.display = 'none';
@@ -1539,14 +1542,14 @@ function startVoiceSearch(){
         function build(){
             var q = [];
             pinAds.forEach(function(a){ for(var i=0;i<ROT.pinTimes;i++) q.push({ad:a, ms:ROT.pinSec*1000}); });
-                vipAds.forEach(function(a){ q.push({ad:a, ms:ROT.vipSec*1000}); });
+            vipAds.forEach(function(a){ q.push({ad:a, ms:ROT.vipSec*1000}); });
             for(var i=q.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=q[i]; q[i]=q[j]; q[j]=t; }
             for(var k=1;k<q.length;k++){ if(q[k].ad===q[k-1].ad){ for(var m=k+1;m<q.length;m++){ if(q[m].ad!==q[k-1].ad){ var t2=q[k]; q[k]=q[m]; q[m]=t2; break; } } } }
             return q;
         }
         function step(){
             if(rotationPaused){ rotationTimer = setTimeout(step, 500); return; }
-            if(!queue.length) queue = build();
+                if(!queue.length) queue = build();
             if(!queue.length){ box.innerHTML = "⭐ VIP & Pinned Ads yahan tezi se rotate honge"; rotationTimer = setTimeout(step, 4000); return; }
             var it = queue.shift();
             box.innerHTML = rotHtml(it.ad);
@@ -1727,7 +1730,7 @@ function startVoiceSearch(){
             return;
         }
         let uploadedImageUrl = "";
-        let imageLinkVal = document.getElementById('custImage')? normalizeImageUrl(document.getElementById('custImage').value) : "";
+        let imageLinkVal = document.getElementById('custImage')? (parseImageUrls(document.getElementById('custImage').value)[0] || '') : "";
         if(document.getElementById('custImageFile') && document.getElementById('custImageFile').files.length > 0){
             try{ 
                 let compUrl = await compressImageToLimit(document.getElementById('custImageFile').files[0]);
@@ -1736,7 +1739,7 @@ function startVoiceSearch(){
                 await ref.putString(compUrl, 'data_url');
                 uploadedImageUrl = await ref.getDownloadURL();
             }catch(e){ console.log(e); }
-        } else { uploadedImageUrl = imageLinkVal; }
+        } else { uploadedImageUrl = imageLinkVal; if(imageLinkVal && !(await checkImageUrls([imageLinkVal]))) return; }
 
         let pinVal = (document.getElementById('custPin')||{}).value || '';
         if(!/^\d{4}$/.test(pinVal)){ alert('🔐 4 number ka Secret PIN daalo (jaise 4821) - isse hi Bik Gaya laga paoge!'); return; }
@@ -1863,7 +1866,7 @@ function startVoiceSearch(){
             },
             modal: { ondismiss: function(){} }
         };
-            let rzp = new Razorpay(options);
+        let rzp = new Razorpay(options);
         rzp.on('payment.failed', function(response){
             alert("❌ Payment fail ho gaya: " + response.error.description);
         });
@@ -1881,7 +1884,7 @@ function startVoiceSearch(){
                     data.pinned = false;
                 }
                 adsData.push(data);
-            });
+                });
             renderAds();
             startRotation();
             updateAdminTotalCount();
@@ -2149,7 +2152,7 @@ function startVoiceSearch(){
                 }
             } else {
                 if (ad.video && ad.video.trim()!== '') {
-                            displayMedia = `<div class="card-media-container"${instaEmbed(ad.video)?' style="height:480px;"':''}><div class="media-badge">▶ HD VIDEO</div>${getEmbedVideoHtml(ad.video)}</div>`;
+                    displayMedia = `<div class="card-media-container"${instaEmbed(ad.video)?' style="height:480px;"':''}><div class="media-badge">▶ HD VIDEO</div>${getEmbedVideoHtml(ad.video)}</div>`;
                 } else {
                     let images = [];
                     if(Array.isArray(ad.images) && ad.images.length > 0) {
@@ -2160,9 +2163,9 @@ function startVoiceSearch(){
 
                     if(images.length>0){
                         if(images.length===1){
-                            displayMedia = `<div class="card-media-container" onclick="openImageModal('${images[0]}')"><div class="media-badge">📷 PHOTO 1/1</div><img loading="lazy" src="${images[0]}" alt="${ad.name}" onerror="this.style.display='none'"><div class="zoom-hint">🔍 Tap to Zoom</div></div>`;
-                        } else {
-                            let imgsHtml = images.map((img,i)=> `<div class="gallery-slide" style="min-width:100%; height:100%; position:relative;"><img loading="lazy" src="${img}" style="width:100%; height:100%; object-fit:cover;" onclick="openImageModal('${img}')" onerror="this.style.display='none'"><div style="position:absolute; top:8px; left:8px; background:rgba(0,0,0,0.8); color:#00ffcc; font-size:10px; padding:3px 6px; border-radius:4px;">📷 ${i+1}/${images.length}</div></div>`).join('');
+                            displayMedia = `<div class="card-media-container" onclick="openImageModal('${images[0]}')"><div class="media-badge">📷 PHOTO 1/1</div><img referrerpolicy="no-referrer" loading="lazy" src="${images[0]}" alt="${ad.name}" onerror="imgFail(this)"><div class="zoom-hint">🔍 Tap to Zoom</div></div>`;
+                                } else {
+                            let imgsHtml = images.map((img,i)=> `<div class="gallery-slide" style="min-width:100%; height:100%; position:relative;"><img referrerpolicy="no-referrer" loading="lazy" src="${img}" style="width:100%; height:100%; object-fit:cover;" onclick="openImageModal('${img}')" onerror="imgFail(this)"><div style="position:absolute; top:8px; left:8px; background:rgba(0,0,0,0.8); color:#00ffcc; font-size:10px; padding:3px 6px; border-radius:4px;">📷 ${i+1}/${images.length}</div></div>`).join('');
                             displayMedia = `<div class="card-media-container" style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;"><div style="display:flex; width:100%;">${imgsHtml}</div></div><div style="font-size:10px; color:#00ffcc; text-align:center; margin-top:2px;">👉 Swipe karo - ${images.length} Photos</div>`;
                         }
                     }
@@ -2321,6 +2324,7 @@ function startVoiceSearch(){
         if(uploadedImagesArray.length === 0 && imageUrlField){
             let urlList = parseImageUrls(imageUrlField);
             if(urlList.length > 0){
+                if(!(await checkImageUrls(urlList))) return;
                 uploadedImagesArray = urlList;
                 uploadedImageUrl = urlList[0];
             }
@@ -2388,7 +2392,7 @@ function startVoiceSearch(){
         document.getElementById('newPrice').value = "";
         document.getElementById('newCategory').value = "";
         document.getElementById('newWork').value = "";
-                document.getElementById('newLocation').value = "";
+        document.getElementById('newLocation').value = "";
         document.getElementById('newPhone').value = "";
         if(document.getElementById('newVideo')) document.getElementById('newVideo').value = "";
         if(document.getElementById('newImage')) document.getElementById('newImage').value = "";
@@ -2400,7 +2404,7 @@ function startVoiceSearch(){
         if(document.getElementById('vipTierSelect')) document.getElementById('vipTierSelect').value = "0";
         if(document.getElementById('pinToTopCheck')) document.getElementById('pinToTopCheck').checked = false;
         if(document.getElementById('customTrialDaysInput')) document.getElementById('customTrialDaysInput').value = "";
-        if(document.getElementById('safetyTermsCheckDev')) document.getElementById('safetyTermsCheckDev').checked = false;
+                if(document.getElementById('safetyTermsCheckDev')) document.getElementById('safetyTermsCheckDev').checked = false;
         if(document.getElementById('newAdType')) document.getElementById('newAdType').value = '';
         if(document.getElementById('newCatKey')) document.getElementById('newCatKey').value = '';
         if(document.getElementById('newInsta')) document.getElementById('newInsta').value = '';
@@ -2614,11 +2618,11 @@ var D=[
 ['Aap pehle hi is ad ko report kar chuke hain!','आप पहले ही इस विज्ञापन को रिपोर्ट कर चुके हैं!'],['Kya aap is ad ko fraudulent ya galat report karna chahte hain?','क्या आप इस विज्ञापन को धोखाधड़ी या गलत बताकर रिपोर्ट करना चाहते हैं?'],['Report darj ho gayi','रिपोर्ट दर्ज हो गई'],['Shukriya!','शुक्रिया!'],
 ['🔐 Apna 4 number ka Secret PIN daalo:','🔐 अपना 4 अंकों का सीक्रेट PIN डालो:'],['Galat PIN! Sirf ad daalne wala hi Bik Gaya laga sakta hai.','गलत PIN! सिर्फ़ विज्ञापन डालने वाला ही बिक गया लगा सकता है।'],['Ad par SOLD lag gaya!','विज्ञापन पर बिक गया लग गया!'],['Ye purana ad hai (PIN nahi hai). Admin se WhatsApp karke SOLD lagwao.','ये पुराना विज्ञापन है (PIN नहीं है)। एडमिन को WhatsApp करके बिक गया लगवाओ।'],['Aap rating de chuke ho','आप रेटिंग दे चुके हो'],['Shukriya!','शुक्रिया!'],
 ['Sahi 10 digit number daalo bhai!','सही 10 अंकों का नंबर डालो भाई!'],['Check kar raha hu...','चेक कर रहा हूँ...'],['se koi Dukandar Ad nahi mila.','से कोई दुकानदार विज्ञापन नहीं मिला।'],['Naya ad banane ke liye upar form bharo.','नया विज्ञापन बनाने के लिए ऊपर फॉर्म भरो।'],['Isi Ad Ko Renew Karo - Pay Karo','इसी विज्ञापन को रिन्यू करो - पे करो'],['Payment Safal!','पेमेंट सफल!'],['Payment fail ho gaya:','पेमेंट फेल हो गया:'],['Razorpay load nahi hua! Internet check karein.','Razorpay लोड नहीं हुआ! इंटरनेट चेक करें।'],['Neeche dropdown se kaunsa Ad renew karna hai wo select karo!','नीचे से चुनो कि कौन सा विज्ञापन रिन्यू करना है!'],
-['Voice support nahi hai, Chrome browser use karo bhai!','वॉइस सपोर्ट नहीं है, भाई Chrome ब्राउज़र इस्तेमाल करो!'],['Sun raha hu... boliye!','सुन रहा हूँ... बोलिए!'],['Awaz saaf nahi aayi, dobara boliye...','आवाज़ साफ़ नहीं आई, दोबारा बोलिए...'],['Suna:','सुना:'],['⚠️ Is ad ko 30 reports milne par automatic hata diya gaya hai!','⚠️ इस विज्ञापन को 30 रिपोर्ट मिलने पर अपने आप हटा दिया गया है!'],['✅ Report darj ho gayi. Is VIP ad ko admin jaanchega. Shukriya!','✅ रिपोर्ट दर्ज हो गई। इस VIP विज्ञापन की एडमिन जाँच करेगा। शुक्रिया!'],['✅ Report darj ho gayi. Shukriya!','✅ रिपोर्ट दर्ज हो गई। शुक्रिया!'],['Report darj ho gayi (','रिपोर्ट दर्ज हो गई ('],['📸 Instagram par dekho / Follow karo','📸 इंस्टाग्राम पर देखो / फ़ॉलो करो'],['📸 Instagram Username ya Link (optional):','📸 इंस्टाग्राम यूज़रनेम या लिंक (वैकल्पिक):'],['jaise: raju_flowers ya https://instagram.com/raju_flowers','जैसे: raju_flowers या https://instagram.com/raju_flowers'],['Sahi Instagram username ya link daalo (jaise raju_flowers)','सही इंस्टाग्राम यूज़रनेम या लिंक डालो (जैसे raju_flowers)'],['📸 Instagram','📸 इंस्टाग्राम'],['🚫 Mic ki permission do (browser settings me Mic allow karo)','🚫 माइक की इजाज़त दो (ब्राउज़र सेटिंग में Mic Allow करो)'],['🚫 Is browser me voice nahi chalti, Chrome me kholo','🚫 इस ब्राउज़र में वॉइस नहीं चलती, Chrome में खोलो'],['❌ Awaz nahi aayi, dobara boliye','❌ आवाज़ नहीं आई, दोबारा बोलिए'],['❌ Mic nahi mila','❌ माइक नहीं मिला'],['❌ Internet check karo, voice ko net chahiye','❌ इंटरनेट चेक करो, वॉइस को नेट चाहिए'],['❌ Kuch suna nahi, dobara boliye','❌ कुछ सुना नहीं, दोबारा बोलिए'],['❌ Awaz saaf nahi aayi, dobara boliye','❌ आवाज़ साफ़ नहीं आई, दोबारा बोलिए'],['⚠️ Voice shuru nahi hui. Is browser me voice nahi chalti ho sakti, Chrome me kholo','⚠️ वॉइस शुरू नहीं हुई। इस ब्राउज़र में वॉइस न चलती हो, Chrome में खोलो'],['❌ Voice shuru nahi ho paayi, dobara dabao','❌ वॉइस शुरू नहीं हो पाई, दोबारा दबाओ'],['🤖 KaamDhandha AI Se Kuch Bhi Poochho','🤖 कामधंधा AI से कुछ भी पूछें'],['Aapka apna sahayak','आपका अपना सहायक'],['Zaroori baat ki jaanch zaroor kar lein.','ज़रूरी बात की जाँच ज़रूर कर लें।'],['Apna sawal likho...','अपना सवाल लिखें...'],['VIP Plan (₹','VIP प्लान (₹'],[' / 30 Din) - Rotation me ayega',' / 30 दिन) - रोटेशन में आएगा'],['Pinned Ad Plan (₹','पिन्ड विज्ञापन प्लान (₹'],[' / 30 Din) - Top Rotation',' / 30 दिन) - टॉप रोटेशन'],['Normal Renew (₹','नॉर्मल रिन्यू (₹'],[' / 30 Din) - Trial Renew',' / 30 दिन) - ट्रायल रिन्यू'],['Plan Lein / Renew (VIP ₹','प्लान लें / रिन्यू (VIP ₹'],[' / Pinned ₹',' / पिन्ड ₹'],[' - 30 Din)',' - 30 दिन)'],['▶ Video Dekhein','▶ वीडियो देखें'],['💬 Bodla Public Chat','💬 बोड़ला पब्लिक चैट'],
+['Voice support nahi hai, Chrome browser use karo bhai!','वॉइस सपोर्ट नहीं है, भाई Chrome ब्राउज़र इस्तेमाल करो!'],['Sun raha hu... boliye!','सुन रहा हूँ... बोलिए!'],['Awaz saaf nahi aayi, dobara boliye...','आवाज़ साफ़ नहीं आई, दोबारा बोलिए...'],['Suna:','सुना:'],['⚠️ Photo load nahi hui','⚠️ फोटो लोड नहीं हुई'],['(link seedha photo ka nahi hai)','(लिंक सीधे फोटो का नहीं है)'],['⚠️ Is ad ko 30 reports milne par automatic hata diya gaya hai!','⚠️ इस विज्ञापन को 30 रिपोर्ट मिलने पर अपने आप हटा दिया गया है!'],['✅ Report darj ho gayi. Is VIP ad ko admin jaanchega. Shukriya!','✅ रिपोर्ट दर्ज हो गई। इस VIP विज्ञापन की एडमिन जाँच करेगा। शुक्रिया!'],['✅ Report darj ho gayi. Shukriya!','✅ रिपोर्ट दर्ज हो गई। शुक्रिया!'],['Report darj ho gayi (','रिपोर्ट दर्ज हो गई ('],['📸 Instagram par dekho / Follow karo','📸 इंस्टाग्राम पर देखो / फ़ॉलो करो'],['📸 Instagram Username ya Link (optional):','📸 इंस्टाग्राम यूज़रनेम या लिंक (वैकल्पिक):'],['jaise: raju_flowers ya https://instagram.com/raju_flowers','जैसे: raju_flowers या https://instagram.com/raju_flowers'],['Sahi Instagram username ya link daalo (jaise raju_flowers)','सही इंस्टाग्राम यूज़रनेम या लिंक डालो (जैसे raju_flowers)'],['📸 Instagram','📸 इंस्टाग्राम'],['🚫 Mic ki permission do (browser settings me Mic allow karo)','🚫 माइक की इजाज़त दो (ब्राउज़र सेटिंग में Mic Allow करो)'],['🚫 Is browser me voice nahi chalti, Chrome me kholo','🚫 इस ब्राउज़र में वॉइस नहीं चलती, Chrome में खोलो'],['❌ Awaz nahi aayi, dobara boliye','❌ आवाज़ नहीं आई, दोबारा बोलिए'],['❌ Mic nahi mila','❌ माइक नहीं मिला'],['❌ Internet check karo, voice ko net chahiye','❌ इंटरनेट चेक करो, वॉइस को नेट चाहिए'],['❌ Kuch suna nahi, dobara boliye','❌ कुछ सुना नहीं, दोबारा बोलिए'],['❌ Awaz saaf nahi aayi, dobara boliye','❌ आवाज़ साफ़ नहीं आई, दोबारा बोलिए'],['⚠️ Voice shuru nahi hui. Is browser me voice nahi chalti ho sakti, Chrome me kholo','⚠️ वॉइस शुरू नहीं हुई। इस ब्राउज़र में वॉइस न चलती हो, Chrome में खोलो'],['❌ Voice shuru nahi ho paayi, dobara dabao','❌ वॉइस शुरू नहीं हो पाई, दोबारा दबाओ'],['🤖 KaamDhandha AI Se Kuch Bhi Poochho','🤖 कामधंधा AI से कुछ भी पूछें'],['Aapka apna sahayak','आपका अपना सहायक'],['Zaroori baat ki jaanch zaroor kar lein.','ज़रूरी बात की जाँच ज़रूर कर लें।'],['Apna sawal likho...','अपना सवाल लिखें...'],['VIP Plan (₹','VIP प्लान (₹'],[' / 30 Din) - Rotation me ayega',' / 30 दिन) - रोटेशन में आएगा'],['Pinned Ad Plan (₹','पिन्ड विज्ञापन प्लान (₹'],[' / 30 Din) - Top Rotation',' / 30 दिन) - टॉप रोटेशन'],['Normal Renew (₹','नॉर्मल रिन्यू (₹'],[' / 30 Din) - Trial Renew',' / 30 दिन) - ट्रायल रिन्यू'],['Plan Lein / Renew (VIP ₹','प्लान लें / रिन्यू (VIP ₹'],[' / Pinned ₹',' / पिन्ड ₹'],[' - 30 Din)',' - 30 दिन)'],['▶ Video Dekhein','▶ वीडियो देखें'],['💬 Bodla Public Chat','💬 बोड़ला पब्लिक चैट'],
 ['🚨 EMERGENCY MADAD (Click Here)','🚨 इमरजेंसी मदद (यहाँ क्लिक करें)'],['🚨 Emergency / Urgent Madad','🚨 इमरजेंसी / जरूरी मदद'],['LIVE EMERGENCY:','लाइव इमरजेंसी:'],['Madad Karo','मदद करो'],['Aapka Naam','आपका नाम'],['Gaadi Breakdown / Raste me fassna','गाड़ी खराब / रास्ते में फँसना'],['Hospital / Khoon chahiye','अस्पताल / खून चाहिए'],['Mazdoor / Mistri chahiye','मज़दूर / मिस्त्री चाहिए'],['Gaadi Rent par chahiye','गाड़ी किराये पर चाहिए'],['Anya Madad','अन्य मदद'],['Apni problem likhein (jaise: Raat ko tractor kharab ho gaya, mechanic chahiye)','अपनी समस्या लिखें (जैसे: रात को ट्रैक्टर खराब हो गया, मैकेनिक चाहिए)'],['Jagah (jaise: Taregaon Chowk)','जगह (जैसे: तरेगांव चौक)'],['WhatsApp / Mobile No.','WhatsApp / मोबाइल नंबर'],['Ye sach me zaroori hai. Jhoota alert daalunga to Admin hata dega.','ये सच में ज़रूरी है। झूठा अलर्ट डालूँगा तो एडमिन हटा देगा।'],['🚨 Alert Bhejein','🚨 अलर्ट भेजें'],['⚠️ Savdhan: Raat ke samay akele anjaan jagah na jayein. Pehle phone par pakki baat kar lein. Admin zimmedar nahi hai.','⚠️ सावधान: रात के समय अकेले अनजान जगह न जाएं। पहले फोन पर पक्की बात कर लें। एडमिन ज़िम्मेदार नहीं है।'],['Main samajh gaya hu','मैं समझ गया हूँ'],['Band Karein','बंद करें'],['Direct Call Now','अभी सीधे कॉल करें'],
-  ['💬 Bodla Public Chat Kholein','💬 बोड़ला पब्लिक चैट खोलें'],['💬 बोड़ला Public Chat','💬 बोड़ला पब्लिक चैट'],['Sirf pichle 24 ghante ke messages. Link/gaali allowed nahi.','सिर्फ़ पिछले 24 घंटे के मैसेज। लिंक/गाली मना है।'],['Aapka Naam (jaise Rahul Bodla)','आपका नाम (जैसे राहुल बोड़ला)'],['Message likho...','मैसेज लिखो...'],['Bhejein 🚀','भेजें 🚀'],['Abhi koi message nahi. Pehle aap likho!','अभी कोई मैसेज नहीं। पहले आप लिखो!'],
+['💬 Bodla Public Chat Kholein','💬 बोड़ला पब्लिक चैट खोलें'],['💬 बोड़ला Public Chat','💬 बोड़ला पब्लिक चैट'],['Sirf pichle 24 ghante ke messages. Link/gaali allowed nahi.','सिर्फ़ पिछले 24 घंटे के मैसेज। लिंक/गाली मना है।'],['Aapka Naam (jaise Rahul Bodla)','आपका नाम (जैसे राहुल बोड़ला)'],['Message likho...','मैसेज लिखो...'],['Bhejein 🚀','भेजें 🚀'],['Abhi koi message nahi. Pehle aap likho!','अभी कोई मैसेज नहीं। पहले आप लिखो!'],
 ['🎁 Bodla Local Offers & Lucky Scratch','🎁 बोड़ला लोकल ऑफर और लकी स्क्रैच'],['🎁 बोड़ला Local Offers & Lucky Scratch','🎁 बोड़ला लोकल ऑफर और लकी स्क्रैच'],['🎁 Ungli se scratch karo 👆','🎁 उंगली से स्क्रैच करो 👆'],['Coupon Code:','कूपन कोड:'],['❌ Chat me link allowed nahi hai','❌ चैट में लिंक मना है'],['Apna naam likho','अपना नाम लिखो'],['Thoda ruko, 5 second baad bhejo','थोड़ा रुको, 5 सेकंड बाद भेजो'],['Sahi 10 digit Mobile Number daalo','सही 10 अंकों का मोबाइल नंबर डालो'],['Neeche tick karo','नीचे टिक करो'],['Aap 30 minute me sirf ek alert bhej sakte ho','आप 30 मिनट में सिर्फ़ एक अलर्ट भेज सकते हो'],['✅ Alert live ho gaya! 24 ghante me apne aap hat jayega.','✅ अलर्ट लाइव हो गया! 24 घंटे में अपने आप हट जाएगा।'],['Admin ko bhi WhatsApp par bhejein?','एडमिन को भी WhatsApp पर भेजें?'],['Naam, jagah aur problem (kam se kam 10 akshar) likho','नाम, जगह और समस्या (कम से कम 10 अक्षर) लिखो']
-];
+  ];
 var M={},K=[];D.forEach(function(p){if(!(p[0] in M)){M[p[0]]=p[1];K.push(p[0])}});
 K.sort(function(a,b){return b.length-a.length});
 var RX=new RegExp(K.map(function(k){return k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}).join('|'),'g');
@@ -2646,7 +2650,7 @@ paint();walk(document.body);
 function kd$(i){return document.getElementById(i)}
 var FEAT={chat:false,sos:false,coupon:false},chatUnsub=null,sosUnsub=null,chatList=[],sosList=[],couponList=[],couponLoaded=false,curCoupon=null,sosCur=null;
 function rotHtml(ad){var t=(ad.vipTier==2||ad.pinned),img=(Array.isArray(ad.images)&&ad.images[0])||(typeof ad.image==='string'&&ad.image)||'',ph=String(ad.phone||'').replace(/\D/g,'').slice(-10);
-var m='';if(/^https?:\/\//i.test(img))m+='<img loading="lazy" src="'+escHtml(img)+'" style="width:100%;max-height:110px;object-fit:cover;border-radius:8px;margin-top:4px;" onerror="this.style.display=\'none\'">';
+var m='';if(/^https?:\/\//i.test(img))m+='<img referrerpolicy="no-referrer" loading="lazy" src="'+escHtml(img)+'" style="width:100%;max-height:110px;object-fit:cover;border-radius:8px;margin-top:4px;" onerror="this.style.display=\'none\'">';
 var vb='';if(ad.video&&String(ad.video).trim())vb='<button onclick="openRotVideo(\''+ad.id+'\')" style="background:#ff0055;color:#fff;border:none;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:bold;margin-left:6px;">▶ Video Dekhein</button>';
 return '<div style="font-weight:bold;color:'+(t?'#ffaa00':'gold')+';">'+(t?'🌟 SUPER FAST PINNED (₹'+PRICE.pinned+'/mo)':'👑 VIP (₹'+PRICE.vip+'/mo)')+'</div>'+m+'<div style="font-size:13px;color:#fff;font-weight:bold;margin-top:2px;">'+escHtml(ad.name)+' - <span style="color:#00ffcc;">'+escHtml(ad.price)+'</span></div><div style="font-size:11px;color:#ccc;">'+escHtml(ad.work)+' | 📍 '+escHtml(ad.location)+'</div><div style="margin-top:6px;"><a href="https://wa.me/91'+ph+'" style="background:#25D366;color:#fff;padding:4px 12px;border-radius:12px;text-decoration:none;font-size:11px;font-weight:bold;">💬 WhatsApp Par Baat Karein</a>'+vb+'</div>'}
 function applyFeatures(d){FEAT.chat=d.featChat==='on';FEAT.sos=d.featSOS==='on';FEAT.coupon=d.featCoupon==='on';FEAT.insta=d.featInsta==='on';applyInstaFields();
@@ -2685,14 +2689,14 @@ function renderCoupon(){var b=kd$('couponBox');if(!FEAT.coupon||!couponList.leng
 var st={};try{st=JSON.parse(localStorage.getItem('kdScratch')||'{}')}catch(e){}var c=(st.d===new Date().toDateString())?couponList.find(function(x){return x.id===st.id}):null,done=!!c;if(!c)c=couponList[Math.floor(Math.random()*couponList.length)];curCoupon=c;var p=String(c.phone||'').replace(/\D/g,'').slice(-10);
 kd$('couponInner').innerHTML='<div style="position:relative;height:150px;"><div style="height:150px;box-sizing:border-box;background:#1a1300;border-radius:10px;padding:8px;text-align:center;overflow:hidden;"><div style="color:#ffd700;font-weight:bold;font-size:13px;">🎉 '+escHtml(c.shop)+'</div><div style="color:#fff;font-size:12px;margin:3px 0;">'+escHtml(c.offer)+'</div><div style="color:#00ffcc;font-size:12px;">Coupon Code: <b>'+escHtml(c.code||'-')+'</b></div><div style="display:flex;gap:6px;margin-top:8px;"><a href="tel:+91'+p+'" style="flex:1;background:#00ff66;color:#000;padding:7px;border-radius:6px;font-weight:bold;font-size:12px;text-decoration:none;">📞 Direct Call Now</a><a href="https://wa.me/91'+p+'?text='+encodeURIComponent('Hi, main KaamDhandha app se aa raha hu, '+c.offer+' ka offer chahiye')+'" target="_blank" style="flex:1;background:#25D366;color:#fff;padding:7px;border-radius:6px;font-weight:bold;font-size:12px;text-decoration:none;">💬 WhatsApp</a></div></div>'+(done?'':'<canvas id="cpCanvas" width="300" height="150" style="position:absolute;left:0;top:0;width:100%;height:100%;border-radius:10px;touch-action:none;"></canvas>')+'</div>';if(!done)initScratch()}
 function initScratch(){var cv=kd$('cpCanvas');if(!cv)return;var x=cv.getContext('2d');x.fillStyle='#d4a017';x.fillRect(0,0,300,150);x.fillStyle='#fff';x.font='bold 16px sans-serif';x.textAlign='center';x.fillText('🎁 Ungli se scratch karo 👆',150,80);var down=false,n=0;
- function pos(e){var r=cv.getBoundingClientRect(),t=e.touches?e.touches[0]:e;return[(t.clientX-r.left)*300/r.width,(t.clientY-r.top)*150/r.height]}
+function pos(e){var r=cv.getBoundingClientRect(),t=e.touches?e.touches[0]:e;return[(t.clientX-r.left)*300/r.width,(t.clientY-r.top)*150/r.height]}
 function chk(){var d=x.getImageData(0,0,300,150).data,c=0,tot=0;for(var i=3;i<d.length;i+=64){tot++;if(d[i]===0)c++}if(c/tot>0.4){cv.remove();localStorage.setItem('kdScratch',JSON.stringify({d:new Date().toDateString(),id:curCoupon.id}))}}
 function sc(e){if(!down)return;e.preventDefault();var p=pos(e);x.globalCompositeOperation='destination-out';x.beginPath();x.arc(p[0],p[1],18,0,7);x.fill();if(++n%8===0)chk()}
 ['mousedown','touchstart'].forEach(function(ev){cv.addEventListener(ev,function(e){down=true;sc(e)},{passive:false})});['mousemove','touchmove'].forEach(function(ev){cv.addEventListener(ev,sc,{passive:false})});['mouseup','touchend','mouseleave'].forEach(function(ev){cv.addEventListener(ev,function(){down=false})})}
 async function addCoupon(){var s=kd$('adminCpShop').value.trim(),o=kd$('adminCpOffer').value.trim(),c=kd$('adminCpCode').value.trim(),p=kd$('adminCpPhone').value.replace(/\D/g,'').slice(-10);if(!s||!o||p.length<10){alert('Dukaan, offer aur 10 digit number zaroori hai');return}
 await db.collection('coupons').add({shop:s,offer:o,code:c,phone:p,active:true,createdAt:Date.now()});['adminCpShop','adminCpOffer','adminCpCode','adminCpPhone'].forEach(function(i){kd$(i).value=''});couponLoaded=false;loadAdminCoupons();if(FEAT.coupon)initCoupon()}
 async function loadAdminCoupons(){if(!isAdminLoggedIn)return;var el=kd$('adminCouponList');if(!el)return;var s=await db.collection('coupons').get(),h='';s.forEach(function(d){var x=d.data();h+='<div style="display:flex;justify-content:space-between;font-size:11px;border-bottom:1px dashed #555;padding:3px 0;"><span>'+escHtml(x.shop)+' - '+escHtml(x.offer)+'</span><span onclick="delCoupon(\''+d.id+'\')" style="cursor:pointer;">🗑️</span></div>'});el.innerHTML=h||'<i>Koi coupon nahi</i>'}
-async function delCoupon(id){if(isAdminLoggedIn&&confirm('Coupon hatayein?')){await db.collection('coupons').doc(id).delete();couponLoaded=false;loadAdminCoupons();if(FEAT.coupon)initCoupon()}}
+ async function delCoupon(id){if(isAdminLoggedIn&&confirm('Coupon hatayein?')){await db.collection('coupons').doc(id).delete();couponLoaded=false;loadAdminCoupons();if(FEAT.coupon)initCoupon()}}
 async function adminCleanup(){if(!isAdminLoggedIn)return;var cut=Date.now()-864e5;['chat_messages','sos_alerts'].forEach(async function(c){try{var s=await db.collection(c).where('createdAt','<',cut).limit(100).get();s.forEach(function(d){d.ref.delete()})}catch(e){}})}
 auth.onAuthStateChanged(function(u){setTimeout(function(){drawSos();drawChat();if(u){loadAdminCoupons();adminCleanup()}},700)});
 </script>
@@ -2725,7 +2729,7 @@ var AI_HARM=/(kisi\s*ko\s*mar|jaan\s*se\s*mar|maar\s*dal|kaise\s*maar|marna\s*ha
 var AI_SELF=/(suicide|khudkushi|atmahatya|aatmhatya|खुदकुशी|आत्महत्या)/i;
 var AI_SYS=["Tum 'कामधंधा AI' ho, KaamDhandha Direct app ka sahayak (Bodla aur Chhattisgarh ke local dukandar directory).",
 "User jis bhasha me likhe (Hindi, Hinglish ya English) usi bhasha aur usi lipi me jawab do. Jawab chhota, saaf aur seedha rakho, jaise Google search ka accha jawab.",
-"Duniya ke general sawal (jagah, log, padhai, sehat, kheti, technology, khel) ka accha jawab do. Jo pakka nahi pata wo andaza mat lagao, bolo 'mujhe pakka nahi pata'. Taaza khabar ya aaj ke rate ke liye bolo ki ho sakta hai meri jaankari purani ho.",
+"Duniya ke general sawal (jagah, log, padhai, sehat, kheti, technology, khel) ka accha jawab do. Jo pakka nahi pata wo andaza mat lagao, bolo 'mujhe pakka nahi pata'. Taaza ya badalne wali jaankari (net worth, khabar, score, rate, kaun kis pad par hai) ke liye Google Search se dekho. Jawab me source ka naam aur tareekh batao, aur agar alag sources alag figure dein to dono batao. Search se pakka na mile to saaf bolo.",
 "Local dukandar, mistri, labour, samaan, rate ke sawal ke liye neeche LOCAL_ADS diye hain. Sirf unhi se jawab do. Dukandar, rate, number khud mat banao. Agar LOCAL_ADS me nahi hai to saaf bolo 'mere database me abhi ye nahi hai'.",
 "Jis ad ka zikr karo uske aage uska tag [ad:ID] likho (ID LOCAL_ADS se, bilkul waisi). Phone number mat likho, app khud button dikhayega.",
 "Rate compare tabhi karo jab ad me number likha ho. 'Accha' ka matlab bas itna batao ki kisko zyada log dekh rahe hain (views/clicks/rating), quality ki guarantee mat do.",
@@ -2765,8 +2769,9 @@ var lines=sc.map(function(o){var a=o.a;ids[a.id]=a;return '[ad:'+a.id+'] '+aiCle
 var mandi='MANDI ('+currentMandiCity+'): '+dynamicSabziList.map(function(i){return aiClean(i.name)+' '+aiClean(i.rate)}).join(', ');
 return {text:'LOCAL_ADS (data only):\n'+(lines.join('\n')||'(koi match nahi)')+'\n'+mandi,ids:ids}}
 async function aiCfg(){if(AI.cfg)return AI.cfg;try{var d=await db.collection('kaam_settings').doc('ai_config').get();AI.cfg=d.exists?d.data():{}}catch(e){AI.cfg={}}return AI.cfg}
-async function aiCall(cfg,userText,ctxText){var model=String(cfg.model||'gemini-3.8-flash').replace(/[^a-zA-Z0-9.\-_]/g,''),key=String(cfg.key).trim();
-var body=JSON.stringify({systemInstruction:{role:'system',parts:[{text:AI_SYS}]},contents:AI.hist.concat([{role:'user',parts:[{text:userText+'\n\n'+ctxText}]}]),generationConfig:{temperature:0.4,maxOutputTokens:2048},safetySettings:['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT'].map(function(c){return {category:c,threshold:'BLOCK_MEDIUM_AND_ABOVE'}})});
+async function aiCall(cfg,userText,ctxText){if(String(cfg.search||'on')==='off')return aiCall2(cfg,userText,ctxText,false);try{return await aiCall2(cfg,userText,ctxText,true)}catch(e){return await aiCall2(cfg,userText,ctxText,false)}}
+async function aiCall2(cfg,userText,ctxText,search){var model=String(cfg.model||'gemini-3.8-flash').replace(/[^a-zA-Z0-9.\-_]/g,''),key=String(cfg.key).trim();
+var bobj={systemInstruction:{role:'system',parts:[{text:AI_SYS}]},contents:AI.hist.concat([{role:'user',parts:[{text:userText+'\n\n'+ctxText}]}]),generationConfig:{temperature:0.4,maxOutputTokens:2048},safetySettings:['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT'].map(function(c){return {category:c,threshold:'BLOCK_MEDIUM_AND_ABOVE'}})};if(search)bobj.tools=[{google_search:{}}];var body=JSON.stringify(bobj);
 var gl='https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent',vx='https://aiplatform.googleapis.com/v1/publishers/google/models/'+model+':generateContent',eps=key.indexOf('AQ.')===0?[vx,gl]:[gl,vx],errs=[],last=0,stop=false;
 outer: for(var i=0;i<eps.length;i++){for(var mode=0;mode<2;mode++){var url=mode?eps[i]+'?key='+encodeURIComponent(key):eps[i],hd={'Content-Type':'application/json'};if(!mode)hd['x-goog-api-key']=key;
 var host=(eps[i].indexOf('aiplatform')>-1?'vertex':'gemini')+(mode?'?key':'+hdr');
@@ -2784,20 +2789,20 @@ if(!cfg.key){aiBubble('a','🔧 AI abhi taiyar nahi hai. Thodi der baad try karo
 AI.busy=true;var wait=aiBubble('a','<i>soch raha hu... ⏳</i>');
 try{var ex=await aiPlaceAds(text),cx=aiContext(text,ex),j=await aiCall(cfg,text,cx.text),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts)?c.content.parts.map(function(p){return p.text||''}).join(''):'';
 if((j.promptFeedback&&j.promptFeedback.blockReason)||(c&&c.finishReason==='SAFETY')||!t.trim()){wait.innerHTML='⚠️ Is sawal ka jawab main nahi de sakta. Koi aur achha sawal poochho.';AI.busy=false;return}
-st.n++;localStorage.setItem('kdAiDay',JSON.stringify(st));
+  st.n++;localStorage.setItem('kdAiDay',JSON.stringify(st));
 var tags=[],m,re=/\[ad:([A-Za-z0-9]+)\]/g;while((m=re.exec(t))){if(cx.ids[m[1]]&&tags.indexOf(m[1])<0)tags.push(m[1])}
 var clean=t.replace(/\s*\[ad:[^\]]*\]/g,'').trim(),cards='';
 tags.slice(0,4).forEach(function(id){var a=cx.ids[id],p=String(a.phone||'').replace(/\D/g,'').slice(-10),btn=(a.showPhone===false||p.length<10)?'<div style="font-size:11px;color:#aaa;">🔒 Number private hai</div>':'<a href="tel:+91'+p+'" onclick="trackClick(\''+a.id+'\')" style="flex:1;text-align:center;background:#00ff66;color:#000;padding:6px;border-radius:6px;font-weight:bold;font-size:12px;text-decoration:none;">📞 Call</a><a href="https://wa.me/91'+p+'" target="_blank" onclick="trackClick(\''+a.id+'\')" style="flex:1;text-align:center;background:#25D366;color:#fff;padding:6px;border-radius:6px;font-weight:bold;font-size:12px;text-decoration:none;">💬 WhatsApp</a>';
 cards+='<div style="background:#0b0f19;border:1px dashed #00ffcc;border-radius:8px;padding:8px;margin-top:8px;"><div style="font-weight:bold;color:#ffd700;font-size:13px;">'+escHtml(a.name)+' <span style="color:#00ffcc;">'+escHtml(a.price||'')+'</span></div><div style="font-size:11px;color:#ccc;margin-bottom:6px;">📍 '+escHtml(a.location||'')+'</div><div style="display:flex;gap:6px;">'+btn+'</div></div>'});
-wait.innerHTML='<div class="aiTxt">'+aiFmt(clean)+'</div>'+cards+'<div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center;"><button onclick="aiSpeak(this)" style="background:none;border:1px solid #00ffcc;color:#00ffcc;border-radius:12px;padding:2px 10px;font-size:11px;">🔊 Sunao</button><span style="font-size:10px;color:#888;">This is AI and can make mistakes.</span></div>';
+wait.innerHTML='<div class="aiTxt">'+aiFmt(clean)+'</div>'+cards+aiSrcHtml(c)+'<div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center;"><button onclick="aiSpeak(this)" style="background:none;border:1px solid #00ffcc;color:#00ffcc;border-radius:12px;padding:2px 10px;font-size:11px;">🔊 Sunao</button><span style="font-size:10px;color:#888;">This is AI and can make mistakes.</span></div>';
 AI.hist.push({role:'user',parts:[{text:text}]});AI.hist.push({role:'model',parts:[{text:clean}]});if(AI.hist.length>8)AI.hist=AI.hist.slice(-8);kd$('aiMsgs').scrollTop=kd$('aiMsgs').scrollHeight
 }catch(e){var s=String(e.message||''),dt=String(e.detail||s);wait.innerHTML=(s==='AI_429'?'⏳ AI abhi bahut vyast hai, thodi der baad try karo.':'🔧 AI abhi jawab nahi de pa raha. Thodi der baad try karo.')+((isAdminLoggedIn||/aidebug/.test(location.search))?'<div style="font-size:10px;color:#ffd700;margin-top:6px;word-break:break-all;">Debug: '+escHtml(dt)+'</div>':'');console.log('AI error',dt)}
 AI.busy=false}
 function aiSpeak(b){if(!('speechSynthesis' in window)){alert('Is phone me awaaz support nahi hai');return}var t=b.parentNode.parentNode.querySelector('.aiTxt').innerText;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang=/[\u0900-\u097F]/.test(t)?'hi-IN':'en-IN';u.rate=0.95;speechSynthesis.speak(u)}
 function aiMic(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Mic ke liye Chrome browser use karo');return}try{if(AI.rec)AI.rec.abort()}catch(e){}var r=new SR();AI.rec=r;r.lang='hi-IN';r.interimResults=false;kd$('aiMicBtn').style.background='#ff0055';r.onresult=function(e){var t=e.results[0][0].transcript;kd$('aiInput').value=t;aiAsk(t)};r.onend=function(){kd$('aiMicBtn').style.background='#0b0f19'};r.onerror=function(ev){kd$('aiMicBtn').style.background='#0b0f19';var m={'not-allowed':'Mic ki permission do (browser settings me Mic allow karo)','service-not-allowed':'Is browser me voice nahi chalti, Chrome me kholo','no-speech':'Awaz nahi aayi, dobara boliye','network':'Internet check karo'}[ev.error];if(m)aiBubble('a','🎤 '+m)};r.start()}
-async function saveAiSettings(){var on=kd$('adminFeatAI').value,key=kd$('adminAiKey').value.trim(),model=kd$('adminAiModel').value.trim(),lim=parseInt(kd$('adminAiLimit').value),cfg={};if(key)cfg.key=key;if(model)cfg.model=model;if(!isNaN(lim)&&lim>0)cfg.limit=lim;
+async function saveAiSettings(){var on=kd$('adminFeatAI').value,key=kd$('adminAiKey').value.trim(),model=kd$('adminAiModel').value.trim(),lim=parseInt(kd$('adminAiLimit').value),cfg={};if(key)cfg.key=key;if(model)cfg.model=model;if(!isNaN(lim)&&lim>0)cfg.limit=lim;cfg.search=kd$('adminAiSearch').value;
 if(Object.keys(cfg).length)await db.collection('kaam_settings').doc('ai_config').set(cfg,{merge:true});await SETTINGS_DOC.set({featAI:on},{merge:true});kd$('adminAiKey').value='';AI.cfg=null;alert('✅ AI Settings Save Ho Gayi!');loadAllBannersAndWeatherSettings();loadAiAdmin()}
-async function loadAiAdmin(){if(!isAdminLoggedIn)return;try{var d=await db.collection('kaam_settings').doc('ai_config').get(),c=d.exists?d.data():{};kd$('adminAiModel').value=c.model||'gemini-3.8-flash';kd$('adminAiLimit').value=c.limit||10;kd$('adminAiKey').placeholder=c.key?'✅ Key saved hai (badalni ho to naya paste karo)':'Gemini API Key yahan paste karo'}catch(e){}}
+async function loadAiAdmin(){if(!isAdminLoggedIn)return;try{var d=await db.collection('kaam_settings').doc('ai_config').get(),c=d.exists?d.data():{};kd$('adminAiModel').value=c.model||'gemini-3.8-flash';kd$('adminAiLimit').value=c.limit||10;kd$('adminAiSearch').value=c.search||'on';kd$('adminAiKey').placeholder=c.key?'✅ Key saved hai (badalni ho to naya paste karo)':'Gemini API Key yahan paste karo'}catch(e){}}
 auth.onAuthStateChanged(function(u){if(u)setTimeout(loadAiAdmin,900)});
 </script>
 <script>
@@ -2849,5 +2854,12 @@ var __repAlerted=false;
 function checkReportAlert(){if(__repAlerted||!isAdminLoggedIn)return;var n=adsData.filter(function(a){return (a.reportCount||0)>=20&&(a.vipTier==1||a.vipTier==2||a.pinned)}).length;if(n>0){__repAlerted=true;alert('⚠️ '+n+' VIP/Pinned ad par 20+ reports hain. Admin panel me "🚨 Reported Ads" dekho.')}}
 auth.onAuthStateChanged(function(u){if(u)setTimeout(checkReportAlert,3000)});
 </script>
+<script>
+function aiSrcHtml(c){var gm=c&&c.groundingMetadata,out=[];if(gm&&gm.groundingChunks)gm.groundingChunks.forEach(function(ch){var w=ch.web;if(w&&/^https:\/\//.test(w.uri||'')&&out.length<4&&!out.some(function(o){return o.u===w.uri}))out.push({u:w.uri,t:w.title||'source'})});
+return out.length?'<div style="font-size:10px;color:#9ad;margin-top:8px;">🔎 Google Search se: '+out.map(function(o){return '<a href="'+escHtml(o.u)+'" target="_blank" rel="noopener" style="color:#6cf;">'+escHtml(o.t)+'</a>'}).join(' • ')+'</div>':''}
+function imgFail(el){el.style.display='none';var p=el.parentNode;if(p&&!p.querySelector('.imgfail'))p.insertAdjacentHTML('beforeend','<div class="imgfail" style="position:absolute;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;text-align:center;color:#ff8888;font-size:12px;padding:10px;">⚠️ Photo load nahi hui<br>(link seedha photo ka nahi hai)</div>')}
+function testImg(u){return new Promise(function(res){var i=new Image(),t=setTimeout(function(){res(false)},8000);i.referrerPolicy='no-referrer';i.onload=function(){clearTimeout(t);res(true)};i.onerror=function(){clearTimeout(t);res(false)};i.src=u})}
+async function checkImageUrls(urls){for(var k=0;k<urls.length;k++){if(!(await testImg(urls[k]))){var pg=/(^https?:\/\/(www\.)?(ibb\.co|postimg\.cc|imgur\.com|kommodo\.ai|photos\.google|photos\.app\.goo|pin\.it|pinterest|instagram|facebook|drive\.google))/i.test(urls[k]);return confirm('⚠️ Ye photo link khul nahi raha:\n'+urls[k].slice(0,80)+(pg?'\n\nYe photo ke PAGE ka link lagta hai.':'')+'\n\nSeedha photo ka (direct) link chahiye, jaise https://i.ibb.co/xxxx/photo.png\nPhir bhi publish karein?')}}return true}
+</script>
 </body>
-</html>    
+</html>  
