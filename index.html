@@ -3102,19 +3102,10 @@ AI_SYS+='\n'+"Agar koi poochhe ki kisi ad ko kitne log ne dekha ya kitne click h
 })();
 </script>
 <script>
-/* AI: app ka mausam batao + "ad nahi mila" par pakka-kar-lein wali line mat bolo */
+/* AI: mausam ke sawal par Google dekhne ko bolo + "ad nahi mila" par pakka-kar-lein wali line mat bolo */
 (function(){
-var oldW=aiContext;
-aiContext=function(q,extra){
-var r=oldW(q,extra);
-try{
-function T(i){var e=document.getElementById(i);return e?String(e.innerText||'').trim():''}
-var t=T('weatherTemp'),c=T('weatherCity'),d=T('weatherDesc'),a=T('weatherAdvisoryText');
-if(t&&t.indexOf('--')<0)r.text+='\nMAUSAM (app me abhi, '+(c||'Bodla')+'): '+t+', '+d+(a&&!/load ho raha/i.test(a)?'. Salah: '+a.slice(0,200):'');
-}catch(e){}
-return r};
 AI_SYS+='\n'+[
-"Mausam poochhe to MAUSAM line se batao (ye app ka apna mausam hai), Google Search ki zarurat nahi. MAUSAM line na ho to bolo ki abhi mausam load nahi hua, app ke upar wale mausam box me dekh lein.",
+"Mausam, baarish, garmi-sardi ya tapman ke baare me poochhe to apni taraf se mausam mat batao. Bolo: 'Mujhe Bodla ya kisi bhi jagah ka sahi mausam pakka nahi pata. Aap Google par ya phone ke weather app me dekh lein.' Is sawal par Google Search ka istemal mat karo.",
 "Agar koi matching ad mila hi nahi, to 'jaankari ad me likhi hai, dukaan par jaakar pakka kar lein' wali line mat bolo. Sirf itna bolo ki abhi is cheez ka ad nahi hai, aur ye ki dukandar apna ad app me daal sakte hain."
 ].join('\n');
 })();
