@@ -3110,5 +3110,62 @@ AI_SYS+='\n'+[
 ].join('\n');
 })();
 </script>
+<script>
+/* Awaaz: ank aur khaas shabd Devanagari me (saaf uchcharan), kg = kilo, hamesha Hindi voice */
+(function(){
+var U=['शून्य','एक','दो','तीन','चार','पाँच','छह','सात','आठ','नौ','दस','ग्यारह','बारह','तेरह','चौदह','पंद्रह','सोलह','सत्रह','अठारह','उन्नीस','बीस','इक्कीस','बाईस','तेईस','चौबीस','पच्चीस','छब्बीस','सत्ताईस','अट्ठाईस','उनतीस','तीस','इकतीस','बत्तीस','तैंतीस','चौंतीस','पैंतीस','छत्तीस','सैंतीस','अड़तीस','उनतालीस','चालीस','इकतालीस','बयालीस','तैंतालीस','चौवालीस','पैंतालीस','छियालीस','सैंतालीस','अड़तालीस','उनचास','पचास','इक्यावन','बावन','तिरपन','चौवन','पचपन','छप्पन','सत्तावन','अट्ठावन','उनसठ','साठ','इकसठ','बासठ','तिरसठ','चौंसठ','पैंसठ','छियासठ','सड़सठ','अड़सठ','उनहत्तर','सत्तर','इकहत्तर','बहत्तर','तिहत्तर','चौहत्तर','पचहत्तर','छिहत्तर','सतहत्तर','अठहत्तर','उन्यासी','अस्सी','इक्यासी','बयासी','तिरासी','चौरासी','पचासी','छियासी','सत्तासी','अट्ठासी','नवासी','नब्बे','इक्यानवे','बानवे','तिरानवे','चौरानवे','पंचानवे','छियानवे','सत्तानवे','अट्ठानवे','निन्यानवे'];
+function W(n){
+if(n<100)return U[n];
+var o=[],cr=Math.floor(n/1e7);n%=1e7;
+var lk=Math.floor(n/1e5);n%=1e5;
+var hz=Math.floor(n/1e3);n%=1e3;
+var sa=Math.floor(n/100),re=n%100;
+if(cr)o.push(W(cr)+' करोड़');
+if(lk)o.push(W(lk)+' लाख');
+if(hz)o.push(W(hz)+' हज़ार');
+if(sa)o.push(U[sa]+' सौ');
+if(re)o.push(U[re]);
+return o.join(' ')}
+convertNumbersToHindiWords=function(text){
+return String(text).replace(/\d+(?:\.\d+)?/g,function(m){
+var p=m.split('.'),n=parseInt(p[0],10);
+if(isNaN(n)||n>999999999)return m;
+var s=W(n);
+if(p[1])s+=' दशमलव '+p[1].split('').map(function(d){return U[+d]}).join(' ');
+return s})};
+var D=[['dukandaar|dukandar|dukaandar','दुकानदार'],['dukaan|dukan','दुकान'],['mistri','मिस्त्री'],['mandi','मंडी'],['bhaav|bhav','भाव'],['rupaye|rupay|rupaiya','रुपये'],['kilo','किलो'],['quintal','क्विंटल'],['chowk','चौक'],['jaankari','जानकारी'],['pakka','पक्का'],['bodla','बोड़ला'],['kawardha','कवर्धा'],['kaamdhandha','कामधंधा'],['whatsapp','व्हाट्सऐप'],['medical','मेडिकल'],['photo','फोटो'],['video','वीडियो'],['kirana','किराना'],['rate','रेट'],['ret gitti|ret-gitti','रेत गिट्टी'],['ad','ऐड'],['ads','ऐड्स'],['app','ऐप'],['call','कॉल'],['number','नंबर'],['category','कैटेगरी'],['database','डेटाबेस'],['rice mill','राइस मिल'],['store','स्टोर']];
+var DR=D.map(function(x){return [new RegExp('(^|[^A-Za-z])('+x[0]+')(?![A-Za-z])','gi'),x[1]]});
+var oldC=aiSpeakClean;
+aiSpeakClean=function(t){
+t=String(t).replace(/\b(kgs?|kilogram)\b/gi,'kilo').replace(/\bqtl\b/gi,'quintal').replace(/\brs\.?\b/gi,'rupaye');
+t=oldC(t);
+DR.forEach(function(r){t=t.replace(r[0],'$1'+r[1])});
+return t};
+var oldV=aiVoice;
+aiVoice=function(hi){return oldV(true)};
+})(); 
+</script>
+<script>
+/* AI: jawab seedhi bolchaal me, aakhri line ad ke naam/category ke hisaab se */
+(function(){
+AI_SYS=AI_SYS.split('\n').filter(function(l){return l.indexOf('Jaankari ad me likhi hai, dukaan par jaakar pakka kar lein ya ek baar call')<0}).join('\n');
+AI_SYS+='\n'+[
+"Dukan ya service ke baare me jawab seedhi aam bolchaal me likho, jaise koi dost bata raha ho: naam, kya milta hai, rate (agar likha ho), aur jagah ya chowk. Ad ki kachchi line mat chhaapo: '|' ka istemal mat karo, 'views', 'clicks', 'photo nahi', 'video nahi' jaise shabd tabhi likho jab user ne khud poochha ho.",
+"Dukan ya service ka ad batane ke baad jawab ke end me ek line bolo ki jaakar ya call karke pakka kar lein, aur usme ad ka asli naam ya category lo, 'dukaan' shabd har baar mat do. Jaise: rice mill ho to 'Suraj rice mill par jaakar ya ek baar call karke pakka kar lein.' medical ho to 'Is medical store par jaakar ya call karke pakka kar lein.' mistri ho to 'Mistri ko call karke pakka kar lein.' Agar ad me photo ho to saath me 'photo bhi dekh lein' jodo, na ho to mat jodo. Ye line sirf tab bolo jab koi matching ad mila ho."
+].join('\n');
+})();
+</script>
+<script>
+/* Awaaz: mahine aur din ke naam Hindi me (8 October 2026 = aath अक्टूबर दो हज़ार छब्बीस) */
+(function(){
+var M=[['january|jan','जनवरी'],['february|feb','फ़रवरी'],['march','मार्च'],['april','अप्रैल'],['may','मई'],['june','जून'],['july','जुलाई'],['august|aug','अगस्त'],['september|sept|sep','सितंबर'],['october|oct','अक्टूबर'],['november|nov','नवंबर'],['december|dec','दिसंबर'],['monday','सोमवार'],['tuesday','मंगलवार'],['wednesday','बुधवार'],['thursday','गुरुवार'],['friday','शुक्रवार'],['saturday','शनिवार'],['sunday','रविवार'],['tarikh|tareekh|date','तारीख'],['aaj','आज'],['kal','कल']];
+var MR=M.map(function(x){return [new RegExp('(^|[^A-Za-z])('+x[0]+')(?![A-Za-z])','gi'),x[1]]});
+var oldC2=aiSpeakClean;
+aiSpeakClean=function(t){
+t=oldC2(t);
+MR.forEach(function(r){t=t.replace(r[0],'$1'+r[1])});
+return t};
+})();
+</script>
 </body>
 </html>  
